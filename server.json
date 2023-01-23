@@ -1,0 +1,50 @@
+{
+  "equipments": [
+    {
+      "id": 1,
+      "category": "printer",
+      "department": "qualidade",
+      "name": "konica minolta bizhub c284",
+      "isColorful": true
+    },
+    {
+      "id": 2,
+      "category": "printer",
+      "department": "pcp",
+      "name": "oki 4172",
+      "isColorful": false
+    },
+    {
+      "id": 3,
+      "category": "printer",
+      "department": "rh",
+      "name": "epson wf-c5790",
+      "isColorful": true
+    },
+    {
+      "id": 4,
+      "category": "printer",
+      "department": "custos",
+      "name": "ricoh mp 305+",
+      "isColorful": false
+    }
+  ],
+  "ink-stock": [
+    {
+      "id": 1,
+      "printer_id": 1,
+      "color": "black",
+      "amount": 1
+    }
+  ],
+  "ink-transactions": [
+    {
+      "id": 1,
+      "printer_id": 1,
+      "color": "blue",
+      "amount": 1,
+      "type": "income",
+      "date": "2023-01-23T08:00:00.000Z"
+    }
+  ]
+}
