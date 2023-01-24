@@ -5,36 +5,76 @@
       "category": "printer",
       "department": "qualidade",
       "name": "konica minolta bizhub c284",
-      "isColorful": true
+      "isColorful": true,
+      "stock": [
+        {
+          "color": "black",
+          "amount": 1
+        },
+        {
+          "color": "blue",
+          "amount": 1
+        },
+        {
+          "color": "red",
+          "amount": 1
+        },
+        {
+          "color": "yellow",
+          "amount": 1
+        }
+      ]
     },
     {
       "id": 2,
       "category": "printer",
       "department": "pcp",
       "name": "oki 4172",
-      "isColorful": false
+      "isColorful": false,
+      "stock": [
+        {
+          "color": "black",
+          "amount": 1
+        }
+      ]
     },
     {
       "id": 3,
       "category": "printer",
       "department": "rh",
       "name": "epson wf-c5790",
-      "isColorful": true
+      "isColorful": true,
+      "stock": [
+        {
+          "color": "black",
+          "amount": 1
+        },
+        {
+          "color": "blue",
+          "amount": 1
+        },
+        {
+          "color": "red",
+          "amount": 1
+        },
+        {
+          "color": "yellow",
+          "amount": 1
+        }
+      ]
     },
     {
       "id": 4,
       "category": "printer",
       "department": "custos",
       "name": "ricoh mp 305+",
-      "isColorful": false
-    }
-  ],
-  "ink-stock": [
-    {
-      "id": 1,
-      "printer_id": 1,
-      "color": "black",
-      "amount": 1
+      "isColorful": false,
+      "stock": [
+        {
+          "color": "black",
+          "amount": 1
+        }
+      ]
     }
   ],
   "ink-transactions": [
