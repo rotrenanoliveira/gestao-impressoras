@@ -1,7 +1,7 @@
 import { ContentContainer, HomeContainer, PrintersContainer } from "./styles";
 
 import pmeLogo from "../../assets/logo.png";
-import { Printer } from "../../components/Printer";
+import { Printer } from "./components/Printer";
 
 export function Home() {
   return (
