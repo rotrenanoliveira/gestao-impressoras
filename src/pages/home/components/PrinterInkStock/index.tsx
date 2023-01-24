@@ -1,12 +1,10 @@
 import { Printer as PrinterIcon } from "phosphor-react";
+import { InkCounter } from "../InkCounter";
 
 import {
   PrinterInkStockContainer,
   PrinterInfoContainer,
   PrinterTitle,
-  InkCounter,
-  CounterContainer,
-  LeftBar,
   PrinterInkStockContent,
   InkStockContainer,
   Actions,
@@ -30,37 +28,10 @@ export function PrinterInkStock() {
         </section>
 
         <PrinterInkStockContent>
-          <InkCounter>
-            <CounterContainer>
-              <strong>cartucho preto</strong>
-              <span>2</span>
-            </CounterContainer>
-            <LeftBar inkColor="black" />
-          </InkCounter>
-
-          <InkCounter>
-            <CounterContainer>
-              <strong>cartucho azul</strong>
-              <span>2</span>
-            </CounterContainer>
-            <LeftBar inkColor="blue" />
-          </InkCounter>
-
-          <InkCounter>
-            <CounterContainer>
-              <strong>cartucho amarelo</strong>
-              <span>2</span>
-            </CounterContainer>
-            <LeftBar inkColor="yellow" />
-          </InkCounter>
-
-          <InkCounter>
-            <CounterContainer>
-              <strong>cartucho vermelho</strong>
-              <span>2</span>
-            </CounterContainer>
-            <LeftBar inkColor="red" />
-          </InkCounter>
+          <InkCounter />
+          <InkCounter />
+          <InkCounter />
+          <InkCounter />
         </PrinterInkStockContent>
       </PrinterInfoContainer>
 
@@ -68,7 +39,6 @@ export function PrinterInkStock() {
         <Actions>
           <ActionButton action="income">Entradas</ActionButton>
           <ActionButton action="outcome">Saidas</ActionButton>
-          <ActionButton action="register">Novo registro</ActionButton>
         </Actions>
 
         <table>

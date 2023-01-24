@@ -1,16 +1,5 @@
 import styled, { css } from "styled-components";
 
-const INK_COLORS = {
-  black: "black",
-  yellow: "yellow-500",
-  red: "red-500",
-  blue: "blue-700",
-} as const;
-
-interface LeftBarProps {
-  inkColor: keyof typeof INK_COLORS;
-}
-
 const ACTIONS_TYPE = {
   income: "green-500",
   outcome: "red-500",
@@ -55,34 +44,6 @@ export const PrinterInkStockContent = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
-`;
-
-export const InkCounter = styled.div`
-  gap: 1rem;
-  display: flex;
-  justify-content: flex-end;
-`;
-
-export const LeftBar = styled.div<LeftBarProps>`
-  width: 8px;
-  height: 100%;
-  border-radius: 8px;
-  background-color: ${(props) => props.theme[INK_COLORS[props.inkColor]]};
-`;
-
-export const CounterContainer = styled.div`
-  strong {
-    display: block;
-    text-transform: uppercase;
-    font-size: 0.875rem;
-    opacity: 0.85;
-  }
-
-  span {
-    display: block;
-    font-size: 1.5rem;
-    text-align: right;
-  }
 `;
 
 export const InkStockContainer = styled.div`
