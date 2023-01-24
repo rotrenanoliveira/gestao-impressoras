@@ -1,5 +1,7 @@
 import { Printer as PrinterIcon } from "phosphor-react";
+
 import { InkCounter } from "../InkCounter";
+import { Printer } from "../../../../contexts/PrinterContext";
 
 import {
   PrinterInkStockContainer,
@@ -7,41 +9,46 @@ import {
   PrinterTitle,
   PrinterInkStockContent,
   InkStockContainer,
-  Actions,
-  ActionButton,
 } from "./styles";
 
-export function PrinterInkStock() {
+interface PrinterInkStockProps {
+  printer: Printer;
+}
+
+export function PrinterInkStock({ printer }: PrinterInkStockProps) {
+  const emptyInks = printer.stock.filter((ink) => ink.amount === 0);
+
+  const hasAlert = !!emptyInks.length;
+
   return (
     <PrinterInkStockContainer>
       <PrinterInfoContainer>
         <section>
           <PrinterTitle>
             <PrinterIcon size={32} weight={"thin"} />
-            <h3>konica minolta bizhub c284</h3>
-            <span>Qualidade</span>
+            <h3>{printer.name}</h3>
+            <span>{printer.department}</span>
           </PrinterTitle>
 
           <div>
-            <span>Status do estoque:</span> <strong>OK</strong>
+            <span>Status do estoque:</span> <strong>{hasAlert ? "EM FALTA" : "OK"}</strong>
           </div>
         </section>
 
         <PrinterInkStockContent>
-          <InkCounter />
-          <InkCounter />
-          <InkCounter />
-          <InkCounter />
+          {printer.stock.map((ink) => (
+            <InkCounter key={ink.color} printerId={printer.id} color={ink.color} amount={ink.amount} />
+          ))}
         </PrinterInkStockContent>
       </PrinterInfoContainer>
 
       <InkStockContainer>
-        <Actions>
+        {/* <Actions>
           <ActionButton action="income">Entradas</ActionButton>
           <ActionButton action="outcome">Saidas</ActionButton>
-        </Actions>
+        </Actions> */}
 
-        <table>
+        {/* <table>
           <thead>
             <tr>
               <th>cartucho</th>
@@ -58,22 +65,8 @@ export function PrinterInkStock() {
               <td>1</td>
               <td>Entrada</td>
             </tr>
-
-            <tr>
-              <td>azul</td>
-              <td>23/01/20223</td>
-              <td>1</td>
-              <td>Entrada</td>
-            </tr>
-
-            <tr>
-              <td>preto</td>
-              <td>23/01/20223</td>
-              <td>1</td>
-              <td>Saída</td>
-            </tr>
           </tbody>
-        </table>
+        </table> */}
       </InkStockContainer>
     </PrinterInkStockContainer>
   );

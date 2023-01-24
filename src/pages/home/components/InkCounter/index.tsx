@@ -1,30 +1,44 @@
-import { useState } from "react";
 import { MinusCircle, PlusCircle } from "phosphor-react";
+import { useContext } from "react";
+import { PrinterContext } from "../../../../contexts/PrinterContext";
 
 import { InkCounterContainer, CounterContainer, LeftBar, Counter, AddInk, RemoveInk } from "./styles";
 
-export function InkCounter() {
-  const [counter, setCounter] = useState(0);
+interface InkCounterProps {
+  amount: number;
+  printerId: number;
+  color: "black" | "blue" | "red" | "yellow";
+}
+
+const INKS = {
+  blue: "azul",
+  black: "preto",
+  red: "vermelho",
+  yellow: "amarelo",
+} as const;
+
+export function InkCounter({ printerId, color, amount }: InkCounterProps) {
+  const { addInk, removeInk } = useContext(PrinterContext);
 
   return (
     <InkCounterContainer>
       <CounterContainer>
-        <strong>cartucho amarelo</strong>
+        <strong>cartucho {INKS[color]}</strong>
         <Counter>
           <div>
-            <AddInk onClick={() => setCounter((state) => state + 1)}>
+            <AddInk onClick={() => addInk(printerId, { color, amount })}>
               <PlusCircle size={24} weight="thin" />
             </AddInk>
 
-            <RemoveInk onClick={() => setCounter((state) => state - 1)}>
+            <RemoveInk onClick={() => removeInk(printerId, { color, amount })}>
               <MinusCircle size={24} weight="thin" />
             </RemoveInk>
           </div>
 
-          <span>{counter}</span>
+          <span>{amount}</span>
         </Counter>
       </CounterContainer>
-      <LeftBar inkColor="yellow" />
+      <LeftBar inkColor={color} />
     </InkCounterContainer>
   );
 }

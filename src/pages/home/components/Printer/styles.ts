@@ -44,13 +44,16 @@ export const InkStatus = styled.div<InkStatusProps>`
   }
 `;
 
-export const RequestInkButton = styled.button`
+export const RequestInkButton = styled.a`
   border: 0;
   border-radius: 8px;
   background: transparent;
 
+  text-decoration: none;
+  color: ${(props) => props.theme.black};
+
   flex: 1;
-  margin-left: 2rem;
+  margin-left: 1rem;
   height: 100%;
 
   gap: 0.5rem;
