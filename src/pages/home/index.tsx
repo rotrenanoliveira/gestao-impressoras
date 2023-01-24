@@ -1,20 +1,9 @@
-import { Envelope, Printer, XCircle } from "phosphor-react";
-
-import {
-  ContentContainer,
-  HomeContainer,
-  InkStatus,
-  PrinterContainer,
-  PrinterInfo,
-  PrintersContainer,
-  RequestInkButton,
-} from "./styles";
+import { ContentContainer, HomeContainer, PrintersContainer } from "./styles";
 
 import pmeLogo from "../../assets/logo.png";
+import { Printer } from "../../components/Printer";
 
 export function Home() {
-  const hasAlert = false;
-
   return (
     <HomeContainer>
       <header>
@@ -23,30 +12,10 @@ export function Home() {
 
       <ContentContainer>
         <PrintersContainer>
-          <PrinterContainer hasAlert={hasAlert}>
-            <div className="icon">
-              <Printer size={32} weight={"thin"} />
-            </div>
-
-            <PrinterInfo>
-              <strong>konica minolta bizhub c284</strong>
-              <span>setor</span>
-              <InkStatus hasAlert={hasAlert}>
-                <span>Status do estoque:</span>
-                <strong>
-                  em falta
-                  <XCircle size={32} weight="thin" />
-                </strong>
-              </InkStatus>
-            </PrinterInfo>
-
-            {hasAlert && (
-              <RequestInkButton>
-                <Envelope size={32} weight="thin" />
-                <strong>Solicitar tinta!</strong>
-              </RequestInkButton>
-            )}
-          </PrinterContainer>
+          <Printer />
+          <Printer />
+          <Printer />
+          <Printer />
         </PrintersContainer>
       </ContentContainer>
     </HomeContainer>
