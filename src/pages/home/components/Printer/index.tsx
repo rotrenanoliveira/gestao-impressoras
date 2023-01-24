@@ -1,4 +1,4 @@
-import { XCircle, Envelope, Printer as PrinterIcon } from "phosphor-react";
+import { Envelope, Printer as PrinterIcon } from "phosphor-react";
 
 import { PrinterContainer, PrinterInfo, InkStatus, RequestInkButton } from "./styles";
 
@@ -16,10 +16,7 @@ export function Printer() {
         <span>setor</span>
         <InkStatus hasAlert={hasAlert}>
           <span>Status do estoque:</span>
-          <strong>
-            em falta
-            <XCircle size={32} weight="thin" />
-          </strong>
+          <strong>{hasAlert ? `em falta` : `ok `} </strong>
         </InkStatus>
       </PrinterInfo>
 

@@ -1,7 +1,9 @@
-import { ContentContainer, HomeContainer, PrintersContainer } from "./styles";
-
 import pmeLogo from "../../assets/logo.png";
+
 import { Printer } from "./components/Printer";
+import { PrinterInkStock } from "./components/PrinterInkStock";
+
+import { ContentContainer, HomeContainer, PrintersContainer } from "./styles";
 
 export function Home() {
   return (
@@ -17,6 +19,8 @@ export function Home() {
           <Printer />
           <Printer />
         </PrintersContainer>
+
+        <PrinterInkStock />
       </ContentContainer>
     </HomeContainer>
   );
