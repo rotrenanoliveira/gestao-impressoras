@@ -1,4 +1,6 @@
-import React, { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
+import { api } from "../lib/axios";
+
 import { InkColors } from "../utils/inks";
 
 export interface InkStock {
@@ -20,38 +22,39 @@ interface InkStockHistory {
   date: Date;
   amount: number;
   color: InkColors;
-  deliveryTo?: string;
+  deliveryTo: string;
   type: "income" | "outcome";
   printer_id: number | string;
 }
 
 interface PrinterContextProps {
   printers: Printer[];
-  hasInkStockAlert: boolean;
-  printerEmptyInkStock: InkStock[];
+  selectedPrinter: Printer;
+  hasSelectedPrinter: boolean;
   inkStockHistory: InkStockHistory[];
-  selectedPrinter: Printer | undefined;
-  loadInStockHistory: () => void;
+
+  insertInk: (inkColor: InkColors) => void;
+  removeInk: (inkColor: InkColors, deliveryTo: string) => void;
   selectPrinter: (printerId: number) => void;
-  addInk: (printerId: number, ink: InkStock) => void;
-  removeInk: (printerId: number, ink: InkStock) => void;
+}
+
+interface PrinterContextProviderProps {
+  children: ReactNode;
 }
 
 export const PrinterContext = createContext({} as PrinterContextProps);
 
-interface PrinterContextProviderProps {
-  children: React.ReactNode;
-}
-
 export function PrinterContextProvider({ children }: PrinterContextProviderProps) {
   const [printers, setPrinters] = useState<Printer[]>([]);
-  const [selectedPrinter, setSelectedPrinter] = useState<Printer | undefined>(undefined);
+  const [hasSelectedPrinter, setHasSelectedPrinter] = useState(false);
+  const [inkStockHistory, setInkStoryHistory] = useState<InkStockHistory[]>([]);
+  const [selectedPrinter, setSelectedPrinter] = useState<Printer>({} as Printer);
 
   async function loadPrinters() {
-    const response = await fetch("http://localhost:3333/printers");
-    const data = await response.json();
+    const response = await api.get<Printer[]>("/printers");
+    const printers = response.data;
 
-    setPrinters(data);
+    setPrinters(printers);
   }
 
   function selectPrinter(printerId: number) {
@@ -62,13 +65,22 @@ export function PrinterContextProvider({ children }: PrinterContextProviderProps
     }
 
     setSelectedPrinter(printer);
+    setHasSelectedPrinter(true);
   }
 
-  async function addInk(printerId: number, ink: InkStock) {
-    const updatedInkStock = selectedPrinter!.stock.map((state) => {
-      if (state.color !== ink.color) {
-        return state;
-      }
+  const loadInkStockHistory = useCallback(async () => {
+    const response = await api.get<InkStockHistory[]>("/ink-stock-history", {
+      params: { printer_id: selectedPrinter.id },
+    });
+
+    const inkStockHistory = response.data;
+
+    setInkStoryHistory(inkStockHistory);
+  }, [selectedPrinter]);
+
+  async function insertInk(inkColor: InkColors) {
+    const updatedInkStock = selectedPrinter.stock.map((state) => {
+      if (state.color !== inkColor) return state;
 
       return {
         ...state,
@@ -77,15 +89,25 @@ export function PrinterContextProvider({ children }: PrinterContextProviderProps
     });
 
     const printer = {
-      ...selectedPrinter!,
+      ...selectedPrinter,
       stock: updatedInkStock,
     };
 
-    const response = await fetch(`http://localhost:3333/printers/${printerId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(printer),
-    });
+    const response = await api.put(`/printers/${selectedPrinter.id}`, printer);
+
+    /**
+     * O bloco abaixo será executado apenas no backend quando estiver em produção
+     */
+    const stockLog = {
+      date: new Date().toISOString(),
+      amount: 1,
+      color: inkColor,
+      deliveryTo: "-",
+      type: "income",
+      printer_id: selectedPrinter.id,
+    };
+
+    await api.post("/ink-stock-history", stockLog);
 
     if (response.status === 200) {
       setSelectedPrinter(printer);
@@ -93,11 +115,9 @@ export function PrinterContextProvider({ children }: PrinterContextProviderProps
     }
   }
 
-  async function removeInk(printerId: number, ink: InkStock) {
-    const updatedInkStock = selectedPrinter!.stock.map((state) => {
-      if (state.color !== ink.color) {
-        return state;
-      }
+  async function removeInk(inkColor: InkColors, deliveryTo: string) {
+    const updatedInkStock = selectedPrinter.stock.map((state) => {
+      if (state.color !== inkColor) return state;
 
       if (state.amount === 0) return state;
 
@@ -108,15 +128,26 @@ export function PrinterContextProvider({ children }: PrinterContextProviderProps
     });
 
     const printer = {
-      ...selectedPrinter!,
+      ...selectedPrinter,
       stock: updatedInkStock,
     };
 
-    const response = await fetch(`http://localhost:3333/printers/${printerId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(printer),
-    });
+    const response = await api.put(`/printers/${selectedPrinter.id}`, printer);
+
+    /**
+     * O bloco abaixo será executado apenas no backend quando estiver em produção
+     */
+
+    const stockLog = {
+      date: new Date().toISOString(),
+      amount: 1,
+      color: inkColor,
+      deliveryTo,
+      type: "outcome",
+      printer_id: selectedPrinter.id,
+    };
+
+    await api.post("/ink-stock-history", stockLog);
 
     if (response.status === 200) {
       setSelectedPrinter(printer);
@@ -128,31 +159,11 @@ export function PrinterContextProvider({ children }: PrinterContextProviderProps
     loadPrinters();
   }, []);
 
-  const [inkStockHistory, setInkStoryHistory] = useState<InkStockHistory[]>([]);
-
-  const loadInStockHistory = useCallback(async () => {
-    const response = await fetch(`http://localhost:3333/ink-stock-history?printer_id=${selectedPrinter!.id}`);
-    const data: InkStockHistory[] = await response.json();
-    setInkStoryHistory(data);
-  }, [selectedPrinter]);
-
   useEffect(() => {
-    if (selectedPrinter) {
-      loadInStockHistory();
+    if (hasSelectedPrinter) {
+      loadInkStockHistory();
     }
-  }, [selectedPrinter, loadInStockHistory]);
-
-  const [printerEmptyInkStock, setPrinterEmptyInkStock] = useState<InkStock[]>([]);
-  const [hasInkStockAlert, setHasInkStockAlert] = useState(false);
-
-  useEffect(() => {
-    if (selectedPrinter) {
-      const emptyInks = selectedPrinter.stock.filter((ink) => ink.amount === 0);
-
-      setPrinterEmptyInkStock(emptyInks);
-      setHasInkStockAlert(!!emptyInks.length);
-    }
-  }, [selectedPrinter]);
+  }, [hasSelectedPrinter, loadInkStockHistory]);
 
   return (
     <PrinterContext.Provider
@@ -160,12 +171,10 @@ export function PrinterContextProvider({ children }: PrinterContextProviderProps
         printers,
         selectedPrinter,
         inkStockHistory,
-        hasInkStockAlert,
-        printerEmptyInkStock,
-        addInk,
+        hasSelectedPrinter,
+        insertInk,
         removeInk,
         selectPrinter,
-        loadInStockHistory,
       }}
     >
       {children}

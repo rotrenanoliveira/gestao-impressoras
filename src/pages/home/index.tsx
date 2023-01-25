@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { PrinterCard } from "./components/Printer";
+import { PrinterCard } from "./components/PrinterCard";
 import { PrinterInkStock } from "./components/PrinterInkStock";
 import { PrinterContext } from "../../contexts/PrinterContext";
 
@@ -9,7 +9,7 @@ import { ContentContainer, HomeContainer, PrintersContainer } from "./styles";
 import pmeLogo from "../../assets/logo.png";
 
 export function Home() {
-  const { printers, selectedPrinter, selectPrinter } = useContext(PrinterContext);
+  const { printers, hasSelectedPrinter } = useContext(PrinterContext);
 
   return (
     <HomeContainer>
@@ -20,11 +20,12 @@ export function Home() {
       <ContentContainer>
         <PrintersContainer>
           {printers.map((printer) => (
-            <PrinterCard key={printer.id} printer={printer} setPrinter={selectPrinter} />
+            <PrinterCard key={printer.id} printer={printer} />
           ))}
         </PrintersContainer>
 
-        {selectedPrinter && <PrinterInkStock printer={selectedPrinter} />}
+        {/* Quando houver uma impressora selecionada carregará as informações sobre as tintas e estoque */}
+        {hasSelectedPrinter && <PrinterInkStock />}
       </ContentContainer>
     </HomeContainer>
   );

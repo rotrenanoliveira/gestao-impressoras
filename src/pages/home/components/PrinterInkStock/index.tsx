@@ -1,7 +1,7 @@
 import { Printer as PrinterIcon } from "phosphor-react";
 
 import { InkCounter } from "../InkCounter";
-import { Printer, PrinterContext } from "../../../../contexts/PrinterContext";
+import { PrinterContext } from "../../../../contexts/PrinterContext";
 
 import {
   PrinterInkStockContainer,
@@ -15,12 +15,11 @@ import {
 import { useContext } from "react";
 import { INKS_TRANSLATE } from "../../../../utils/inks";
 
-interface PrinterInkStockProps {
-  printer: Printer;
-}
+export function PrinterInkStock() {
+  const { inkStockHistory, selectedPrinter: printer } = useContext(PrinterContext);
 
-export function PrinterInkStock({ printer }: PrinterInkStockProps) {
-  const { inkStockHistory, hasInkStockAlert } = useContext(PrinterContext);
+  const printerEmptyInkStock = printer.stock.filter((ink) => ink.amount === 0);
+  const hasInkStockAlert = !!printerEmptyInkStock.length;
 
   return (
     <PrinterInkStockContainer>
@@ -39,7 +38,7 @@ export function PrinterInkStock({ printer }: PrinterInkStockProps) {
 
         <PrinterInkStockContent>
           {printer.stock.map((ink) => (
-            <InkCounter key={ink.color} printerId={printer.id} color={ink.color} amount={ink.amount} />
+            <InkCounter key={ink.color} color={ink.color} amount={ink.amount} />
           ))}
         </PrinterInkStockContent>
       </PrinterInfoContainer>
@@ -66,7 +65,7 @@ export function PrinterInkStock({ printer }: PrinterInkStockProps) {
               <tr key={stockHistory.id}>
                 <td>{INKS_TRANSLATE[stockHistory.color]}</td>
                 <td>{stockHistory.amount}</td>
-                <td>{stockHistory.deliveryTo || `-`}</td>
+                <td>{stockHistory.deliveryTo}</td>
                 <td>{new Date(stockHistory.date).toLocaleDateString("pt-BR")}</td>
                 <td>
                   <TransactionColor type={stockHistory.type}>
