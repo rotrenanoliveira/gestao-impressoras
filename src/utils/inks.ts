@@ -4,3 +4,5 @@ export const INKS_TRANSLATE = {
   red: "vermelho",
   yellow: "amarelo",
 } as const;
+
+export type InkColors = keyof typeof INKS_TRANSLATE;
