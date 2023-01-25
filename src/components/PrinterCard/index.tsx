@@ -1,8 +1,8 @@
 import { useCallback, useContext } from "react";
 import { Envelope, Printer as PrinterIcon } from "phosphor-react";
 
-import { Printer, PrinterContext } from "../../../../contexts/PrinterContext";
-import { INKS_TRANSLATE } from "../../../../utils/inks";
+import { Printer, PrinterContext } from "../../contexts/PrinterContext";
+import { INKS_TRANSLATE } from "../../utils/inks";
 
 import { PrinterContainer, PrinterInfo, InkStatus, RequestInkButton } from "./styles";
 

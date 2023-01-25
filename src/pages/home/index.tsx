@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
-import { PrinterCard } from "./components/PrinterCard";
-import { PrinterInkStock } from "./components/PrinterInkStock";
+import { PrinterCard } from "../../components/PrinterCard";
+import { PrinterInkStock } from "../../components/PrinterInkStock";
 import { PrinterContext } from "../../contexts/PrinterContext";
 
 import { ContentContainer, HomeContainer, PrintersContainer } from "./styles";

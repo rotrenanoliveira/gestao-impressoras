@@ -2,8 +2,8 @@ import { useContext, useState } from "react";
 import { MinusCircle, PlusCircle } from "phosphor-react";
 import * as Dialog from "@radix-ui/react-dialog";
 
-import { InkColors, INKS_TRANSLATE } from "../../../../utils/inks";
-import { PrinterContext } from "../../../../contexts/PrinterContext";
+import { InkColors, INKS_TRANSLATE } from "../../utils/inks";
+import { PrinterContext } from "../../contexts/PrinterContext";
 
 import { InkCounterContainer, CounterContainer, LeftBar, Counter, AddInk, RemoveInk } from "./styles";
 import { RemoveInkModal } from "../RemoveInkModal";

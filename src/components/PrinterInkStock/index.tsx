@@ -1,7 +1,7 @@
 import { Printer as PrinterIcon } from "phosphor-react";
 
 import { InkCounter } from "../InkCounter";
-import { PrinterContext } from "../../../../contexts/PrinterContext";
+import { PrinterContext } from "../../contexts/PrinterContext";
 
 import {
   PrinterInkStockContainer,
@@ -13,7 +13,7 @@ import {
 } from "./styles";
 
 import { useContext } from "react";
-import { INKS_TRANSLATE } from "../../../../utils/inks";
+import { INKS_TRANSLATE } from "../../utils/inks";
 
 export function PrinterInkStock() {
   const { inkStockHistory, selectedPrinter: printer } = useContext(PrinterContext);
