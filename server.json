@@ -72,18 +72,64 @@
       "stock": [
         {
           "color": "black",
-          "amount": 1
+          "amount": 0
         }
       ]
     }
   ],
-  "ink-transactions": [
+  "ink-stock-history": [
     {
       "id": 1,
       "printer_id": 1,
       "color": "blue",
       "amount": 1,
       "type": "income",
+      "deliveryTo": "",
+      "date": "2023-01-23T08:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "printer_id": 2,
+      "color": "'black",
+      "amount": 1,
+      "type": "outcome",
+      "deliveryTo": "Julio - PCP",
+      "date": "2023-01-23T08:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "printer_id": 2,
+      "color": "'black",
+      "amount": 1,
+      "type": "income",
+      "deliveryTo": "",
+      "date": "2023-01-23T08:00:00.000Z"
+    },
+    {
+      "id": 4,
+      "printer_id": 3,
+      "color": "black",
+      "amount": 1,
+      "type": "income",
+      "deliveryTo": "",
+      "date": "2023-01-23T08:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "printer_id": 4,
+      "color": "black",
+      "amount": 1,
+      "type": "income",
+      "deliveryTo": "",
+      "date": "2023-01-23T08:00:00.000Z"
+    },
+    {
+      "id": 6,
+      "printer_id": 1,
+      "color": "black",
+      "amount": 1,
+      "type": "outcome",
+      "deliveryTo": "Renan - TI",
       "date": "2023-01-23T08:00:00.000Z"
     }
   ]
