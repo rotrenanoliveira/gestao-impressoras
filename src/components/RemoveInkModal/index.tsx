@@ -46,16 +46,16 @@ export function RemoveInkModal({ inkColor, closeModal }: RemoveInkModalProps) {
       <Overlay />
 
       <Content>
-        <Dialog.Title>Retirada de Tinta</Dialog.Title>
+        <Dialog.Title>Ink removal</Dialog.Title>
         <CloseButton>
           <X size={24} />
         </CloseButton>
 
         <form onSubmit={handleSubmit(handleRemoveInk)}>
-          <input type="text" placeholder="Colaborador que retirou a tinta" {...register("deliveryTo")} required />
+          <input type="text" placeholder="Employee who removed the paint" {...register("deliveryTo")} required />
 
           <button type="submit" disabled={isSubmitting}>
-            Salvar
+            Save
           </button>
         </form>
       </Content>

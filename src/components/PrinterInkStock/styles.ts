@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
 
 const ACTIONS_TYPE = {
-  income: "green-500",
-  outcome: "red-500",
+  input: "green-500",
+  output: "red-500",
   register: "blue-700",
 } as const;
 
@@ -11,12 +11,12 @@ interface ActionsProps {
 }
 
 interface TransactionColorProps {
-  type: "income" | "outcome";
+  type: "input" | "output";
 }
 
 export const TransactionColor = styled.span<TransactionColorProps>`
   font-weight: 600;
-  color: ${(props) => (props.type === "income" ? props.theme["green-500"] : props.theme["red-500"])};
+  color: ${(props) => (props.type === "input" ? props.theme["green-500"] : props.theme["red-500"])};
 `;
 
 export const PrinterInkStockContainer = styled.section`

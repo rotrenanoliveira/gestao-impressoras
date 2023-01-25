@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { MinusCircle, PlusCircle } from "phosphor-react";
 import * as Dialog from "@radix-ui/react-dialog";
 
-import { InkColors, INKS_TRANSLATE } from "../../utils/inks";
+import { InkColors } from "../../utils/inks";
 import { PrinterContext } from "../../contexts/PrinterContext";
 
 import { InkCounterContainer, CounterContainer, LeftBar, Counter, AddInk, RemoveInk } from "./styles";
@@ -28,7 +28,7 @@ export function InkCounter({ color, amount }: InkCounterProps) {
   return (
     <InkCounterContainer>
       <CounterContainer>
-        <strong>cartucho {INKS_TRANSLATE[color]}</strong>
+        <strong>Toner - {color}</strong>
         <Counter>
           <div>
             <AddInk onClick={handleInsertInk}>

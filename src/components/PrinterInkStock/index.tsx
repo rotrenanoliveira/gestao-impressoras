@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Printer as PrinterIcon } from "phosphor-react";
 
 import { InkCounter } from "../InkCounter";
@@ -11,9 +12,6 @@ import {
   InkStockContainer,
   TransactionColor,
 } from "./styles";
-
-import { useContext } from "react";
-import { INKS_TRANSLATE } from "../../utils/inks";
 
 export function PrinterInkStock() {
   const { inkStockHistory, selectedPrinter: printer } = useContext(PrinterContext);
@@ -32,7 +30,7 @@ export function PrinterInkStock() {
           </PrinterTitle>
 
           <div>
-            <span>Status do estoque:</span> <strong>{hasInkStockAlert ? "EM FALTA" : "OK"}</strong>
+            <span>Stock status:</span> <strong>{hasInkStockAlert ? "NOT OK" : "OK"}</strong>
           </div>
         </section>
 
@@ -45,31 +43,31 @@ export function PrinterInkStock() {
 
       <InkStockContainer>
         {/* <Actions>
-          <ActionButton action="income">Entradas</ActionButton>
-          <ActionButton action="outcome">Saidas</ActionButton>
+          <ActionButton action="input">inputs</ActionButton>
+          <ActionButton action="output">outputs</ActionButton>
         </Actions> */}
 
         <table>
           <thead>
             <tr>
-              <th>cartucho</th>
-              <th>quantidade</th>
-              <th>retirado por:</th>
-              <th>data</th>
-              <th>operação</th>
+              <th>tonner</th>
+              <th>amount</th>
+              <th>delivery to:</th>
+              <th>date</th>
+              <th>transaction</th>
             </tr>
           </thead>
 
           <tbody>
             {inkStockHistory.map((stockHistory) => (
               <tr key={stockHistory.id}>
-                <td>{INKS_TRANSLATE[stockHistory.color]}</td>
+                <td>{stockHistory.color}</td>
                 <td>{stockHistory.amount}</td>
                 <td>{stockHistory.deliveryTo}</td>
                 <td>{new Date(stockHistory.date).toLocaleDateString("pt-BR")}</td>
                 <td>
                   <TransactionColor type={stockHistory.type}>
-                    {stockHistory.type === "income" ? "Entrada" : "Saída"}
+                    {stockHistory.type === "input" ? "input" : "output"}
                   </TransactionColor>
                 </td>
               </tr>

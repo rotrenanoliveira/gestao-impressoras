@@ -23,7 +23,7 @@ interface InkStockHistory {
   amount: number;
   color: InkColors;
   deliveryTo: string;
-  type: "income" | "outcome";
+  type: "input" | "output";
   printer_id: number | string;
 }
 
@@ -103,7 +103,7 @@ export function PrinterContextProvider({ children }: PrinterContextProviderProps
       amount: 1,
       color: inkColor,
       deliveryTo: "-",
-      type: "income",
+      type: "input",
       printer_id: selectedPrinter.id,
     };
 
@@ -143,7 +143,7 @@ export function PrinterContextProvider({ children }: PrinterContextProviderProps
       amount: 1,
       color: inkColor,
       deliveryTo,
-      type: "outcome",
+      type: "output",
       printer_id: selectedPrinter.id,
     };
 

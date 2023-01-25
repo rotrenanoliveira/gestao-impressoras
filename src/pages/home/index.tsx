@@ -6,7 +6,7 @@ import { PrinterContext } from "../../contexts/PrinterContext";
 
 import { ContentContainer, HomeContainer, PrintersContainer } from "./styles";
 
-import pmeLogo from "../../assets/logo.png";
+import logoImg from "../../assets/logo.png";
 
 export function Home() {
   const { printers, hasSelectedPrinter } = useContext(PrinterContext);
@@ -14,7 +14,7 @@ export function Home() {
   return (
     <HomeContainer>
       <header>
-        <img src={pmeLogo} alt="" />
+        <img src={logoImg} alt="" />
       </header>
 
       <ContentContainer>
@@ -24,7 +24,7 @@ export function Home() {
           ))}
         </PrintersContainer>
 
-        {/* Quando houver uma impressora selecionada carregará as informações sobre as tintas e estoque */}
+        {/* Load ink stock when has printer selected */}
         {hasSelectedPrinter && <PrinterInkStock />}
       </ContentContainer>
     </HomeContainer>

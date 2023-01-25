@@ -2,7 +2,6 @@ import { useCallback, useContext } from "react";
 import { Envelope, Printer as PrinterIcon } from "phosphor-react";
 
 import { Printer, PrinterContext } from "../../contexts/PrinterContext";
-import { INKS_TRANSLATE } from "../../utils/inks";
 
 import { PrinterContainer, PrinterInfo, InkStatus, RequestInkButton } from "./styles";
 
@@ -20,21 +19,15 @@ export function PrinterCard({ printer }: PrinterProps) {
     if (!hasInkStockAlert) return;
 
     const mail = {
-      to: "anapaula@ngr.com.br",
-      subject: `Requisição de tinta para impressora - ${printer.name}`,
-      cc: "almoxarifado.plaxtex@grupopiatex.com.br, almoxarifadopme@grupopiatex.com.br, renantarifa@grupopiatex.com.br",
-      bcc: "ti@grupopiatex.com.br",
-      body: `
-      Olá! %0D%0A %0D%0A
-      Venho requisitar tonner para a impressora ${printer.name} na cor: %0D%0A
-      - ${printerEmptyInkStock.map((ink) => {
-        return `${INKS_TRANSLATE[ink.color].toUpperCase()}`;
-      })}
-      `,
+      to: "",
+      subject: ``,
+      cc: "",
+      bcc: "",
+      body: ``,
     };
 
     return `mailto:${mail.to},?subject=${mail.subject}&cc=${mail.cc}&bcc=${mail.bcc}&body=${mail.body}`;
-  }, [hasInkStockAlert, printer.name, printerEmptyInkStock]);
+  }, [hasInkStockAlert]);
 
   function handleSelectPrinter() {
     selectPrinter(printer.id);
@@ -50,15 +43,15 @@ export function PrinterCard({ printer }: PrinterProps) {
         <strong>{printer.name}</strong>
         <span>{printer.department}</span>
         <InkStatus hasInkAlert={hasInkStockAlert}>
-          <span>Status do estoque:</span>
-          <strong>{hasInkStockAlert ? `em falta` : `ok `} </strong>
+          <span>Stock status:</span>
+          <strong>{hasInkStockAlert ? `not ok` : `ok `} </strong>
         </InkStatus>
       </PrinterInfo>
 
       {hasInkStockAlert && (
         <RequestInkButton href={generateMail()} target={"_blank"}>
           <Envelope size={32} weight="thin" />
-          <strong>Solicitar tinta!</strong>
+          <strong>Request tonner!</strong>
         </RequestInkButton>
       )}
     </PrinterContainer>
