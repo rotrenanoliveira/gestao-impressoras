@@ -72,7 +72,7 @@
       "stock": [
         {
           "color": "black",
-          "amount": 0
+          "amount": 1
         }
       ]
     }
@@ -81,56 +81,38 @@
     {
       "id": 1,
       "printer_id": 1,
-      "color": "blue",
+      "color": "black",
       "amount": 1,
       "type": "income",
-      "deliveryTo": "",
-      "date": "2023-01-23T08:00:00.000Z"
+      "deliveryTo": "-",
+      "date": "2023-01-24T08:00:00.000Z"
     },
     {
       "id": 2,
       "printer_id": 2,
       "color": "black",
       "amount": 1,
-      "type": "outcome",
-      "deliveryTo": "Julio - PCP",
-      "date": "2023-01-23T08:00:00.000Z"
+      "type": "income",
+      "deliveryTo": "-",
+      "date": "2023-01-24T08:00:00.000Z"
     },
     {
       "id": 3,
-      "printer_id": 2,
-      "color": "black",
-      "amount": 1,
-      "type": "income",
-      "deliveryTo": "",
-      "date": "2023-01-23T08:00:00.000Z"
-    },
-    {
-      "id": 4,
       "printer_id": 3,
       "color": "black",
       "amount": 1,
       "type": "income",
-      "deliveryTo": "",
-      "date": "2023-01-23T08:00:00.000Z"
+      "deliveryTo": "-",
+      "date": "2023-01-24T08:00:00.000Z"
     },
     {
-      "id": 5,
+      "id": 4,
       "printer_id": 4,
       "color": "black",
       "amount": 1,
       "type": "income",
-      "deliveryTo": "",
-      "date": "2023-01-23T08:00:00.000Z"
-    },
-    {
-      "id": 6,
-      "printer_id": 1,
-      "color": "black",
-      "amount": 1,
-      "type": "outcome",
-      "deliveryTo": "Renan - TI",
-      "date": "2023-01-23T08:00:00.000Z"
+      "deliveryTo": "-",
+      "date": "2023-01-24T08:00:00.000Z"
     }
   ]
 }
