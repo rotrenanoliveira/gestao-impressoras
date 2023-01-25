@@ -1,7 +1,7 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { Envelope, Printer as PrinterIcon } from "phosphor-react";
 
-import { Printer } from "../../../../contexts/PrinterContext";
+import { Printer, PrinterContext } from "../../../../contexts/PrinterContext";
 import { INKS_TRANSLATE } from "../../../../utils/inks";
 
 import { PrinterContainer, PrinterInfo, InkStatus, RequestInkButton } from "./styles";
@@ -12,11 +12,10 @@ interface PrinterProps {
 }
 
 export function PrinterCard({ printer, setPrinter }: PrinterProps) {
-  const emptyInks = printer.stock.filter((ink) => ink.amount === 0);
-  const hasInkAlert = !!emptyInks.length;
+  const { hasInkStockAlert, printerEmptyInkStock } = useContext(PrinterContext);
 
   const generateMail = useCallback(() => {
-    if (!hasInkAlert) return;
+    if (!hasInkStockAlert) return;
 
     const mail = {
       to: "anapaula@ngr.com.br",
@@ -26,21 +25,21 @@ export function PrinterCard({ printer, setPrinter }: PrinterProps) {
       body: `
       Olá! %0D%0A %0D%0A
       Venho requisitar tonner para a impressora ${printer.name} na cor: %0D%0A
-      - ${emptyInks.map((ink) => {
+      - ${printerEmptyInkStock.map((ink) => {
         return `${INKS_TRANSLATE[ink.color].toUpperCase()}`;
       })}
       `,
     };
 
     return `mailto:${mail.to},?subject=${mail.subject}&cc=${mail.cc}&bcc=${mail.bcc}&body=${mail.body}`;
-  }, [hasInkAlert, printer.name, emptyInks]);
+  }, [hasInkStockAlert, printer.name, printerEmptyInkStock]);
 
   function handleSelectPrinter() {
     setPrinter(printer.id);
   }
 
   return (
-    <PrinterContainer hasInkAlert={hasInkAlert} onClick={handleSelectPrinter}>
+    <PrinterContainer hasInkAlert={hasInkStockAlert} onClick={handleSelectPrinter}>
       <div className="icon">
         <PrinterIcon size={32} weight={"thin"} />
       </div>
@@ -48,13 +47,13 @@ export function PrinterCard({ printer, setPrinter }: PrinterProps) {
       <PrinterInfo>
         <strong>{printer.name}</strong>
         <span>{printer.department}</span>
-        <InkStatus hasInkAlert={hasInkAlert}>
+        <InkStatus hasInkAlert={hasInkStockAlert}>
           <span>Status do estoque:</span>
-          <strong>{hasInkAlert ? `em falta` : `ok `} </strong>
+          <strong>{hasInkStockAlert ? `em falta` : `ok `} </strong>
         </InkStatus>
       </PrinterInfo>
 
-      {hasInkAlert && (
+      {hasInkStockAlert && (
         <RequestInkButton href={generateMail()}>
           <Envelope size={32} weight="thin" />
           <strong>Solicitar tinta!</strong>

@@ -1,8 +1,9 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
+import { InkColors } from "../utils/inks";
 
 export interface InkStock {
-  color: "black" | "blue" | "red" | "yellow";
   amount: number;
+  color: InkColors;
 }
 
 export interface Printer {
@@ -14,9 +15,23 @@ export interface Printer {
   department: "qualidade" | "pcp" | "custos" | "rh";
 }
 
+interface InkStockHistory {
+  id: number;
+  date: Date;
+  amount: number;
+  color: InkColors;
+  deliveryTo?: string;
+  type: "income" | "outcome";
+  printer_id: number | string;
+}
+
 interface PrinterContextProps {
   printers: Printer[];
+  hasInkStockAlert: boolean;
+  printerEmptyInkStock: InkStock[];
+  inkStockHistory: InkStockHistory[];
   selectedPrinter: Printer | undefined;
+  loadInStockHistory: () => void;
   selectPrinter: (printerId: number) => void;
   addInk: (printerId: number, ink: InkStock) => void;
   removeInk: (printerId: number, ink: InkStock) => void;
@@ -113,8 +128,46 @@ export function PrinterContextProvider({ children }: PrinterContextProviderProps
     loadPrinters();
   }, []);
 
+  const [inkStockHistory, setInkStoryHistory] = useState<InkStockHistory[]>([]);
+
+  const loadInStockHistory = useCallback(async () => {
+    const response = await fetch(`http://localhost:3333/ink-stock-history?printer_id=${selectedPrinter!.id}`);
+    const data: InkStockHistory[] = await response.json();
+    setInkStoryHistory(data);
+  }, [selectedPrinter]);
+
+  useEffect(() => {
+    if (selectedPrinter) {
+      loadInStockHistory();
+    }
+  }, [selectedPrinter, loadInStockHistory]);
+
+  const [printerEmptyInkStock, setPrinterEmptyInkStock] = useState<InkStock[]>([]);
+  const [hasInkStockAlert, setHasInkStockAlert] = useState(false);
+
+  useEffect(() => {
+    if (selectedPrinter) {
+      const emptyInks = selectedPrinter.stock.filter((ink) => ink.amount === 0);
+
+      setPrinterEmptyInkStock(emptyInks);
+      setHasInkStockAlert(!!emptyInks.length);
+    }
+  }, [selectedPrinter]);
+
   return (
-    <PrinterContext.Provider value={{ printers, selectedPrinter, selectPrinter, addInk, removeInk }}>
+    <PrinterContext.Provider
+      value={{
+        printers,
+        selectedPrinter,
+        inkStockHistory,
+        hasInkStockAlert,
+        printerEmptyInkStock,
+        addInk,
+        removeInk,
+        selectPrinter,
+        loadInStockHistory,
+      }}
+    >
       {children}
     </PrinterContext.Provider>
   );

@@ -1,7 +1,7 @@
 import { Printer as PrinterIcon } from "phosphor-react";
 
 import { InkCounter } from "../InkCounter";
-import { Printer } from "../../../../contexts/PrinterContext";
+import { Printer, PrinterContext } from "../../../../contexts/PrinterContext";
 
 import {
   PrinterInkStockContainer,
@@ -9,16 +9,18 @@ import {
   PrinterTitle,
   PrinterInkStockContent,
   InkStockContainer,
+  TransactionColor,
 } from "./styles";
+
+import { useContext } from "react";
+import { INKS_TRANSLATE } from "../../../../utils/inks";
 
 interface PrinterInkStockProps {
   printer: Printer;
 }
 
 export function PrinterInkStock({ printer }: PrinterInkStockProps) {
-  const emptyInks = printer.stock.filter((ink) => ink.amount === 0);
-
-  const hasAlert = !!emptyInks.length;
+  const { inkStockHistory, hasInkStockAlert } = useContext(PrinterContext);
 
   return (
     <PrinterInkStockContainer>
@@ -31,7 +33,7 @@ export function PrinterInkStock({ printer }: PrinterInkStockProps) {
           </PrinterTitle>
 
           <div>
-            <span>Status do estoque:</span> <strong>{hasAlert ? "EM FALTA" : "OK"}</strong>
+            <span>Status do estoque:</span> <strong>{hasInkStockAlert ? "EM FALTA" : "OK"}</strong>
           </div>
         </section>
 
@@ -48,25 +50,33 @@ export function PrinterInkStock({ printer }: PrinterInkStockProps) {
           <ActionButton action="outcome">Saidas</ActionButton>
         </Actions> */}
 
-        {/* <table>
+        <table>
           <thead>
             <tr>
               <th>cartucho</th>
-              <th>data</th>
               <th>quantidade</th>
+              <th>retirado por:</th>
+              <th>data</th>
               <th>operação</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr>
-              <td>preto</td>
-              <td>23/01/20223</td>
-              <td>1</td>
-              <td>Entrada</td>
-            </tr>
+            {inkStockHistory.map((stockHistory) => (
+              <tr key={stockHistory.id}>
+                <td>{INKS_TRANSLATE[stockHistory.color]}</td>
+                <td>{stockHistory.amount}</td>
+                <td>{stockHistory.deliveryTo || `-`}</td>
+                <td>{new Date(stockHistory.date).toLocaleDateString("pt-BR")}</td>
+                <td>
+                  <TransactionColor type={stockHistory.type}>
+                    {stockHistory.type === "income" ? "Entrada" : "Saída"}
+                  </TransactionColor>
+                </td>
+              </tr>
+            ))}
           </tbody>
-        </table> */}
+        </table>
       </InkStockContainer>
     </PrinterInkStockContainer>
   );

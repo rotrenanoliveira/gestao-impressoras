@@ -10,6 +10,15 @@ interface ActionsProps {
   action: keyof typeof ACTIONS_TYPE;
 }
 
+interface TransactionColorProps {
+  type: "income" | "outcome";
+}
+
+export const TransactionColor = styled.span<TransactionColorProps>`
+  font-weight: 600;
+  color: ${(props) => (props.type === "income" ? props.theme["green-500"] : props.theme["red-500"])};
+`;
+
 export const PrinterInkStockContainer = styled.section`
   width: 100%;
   margin-top: 2rem;
