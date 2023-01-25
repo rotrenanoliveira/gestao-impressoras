@@ -90,7 +90,7 @@
     {
       "id": 2,
       "printer_id": 2,
-      "color": "'black",
+      "color": "black",
       "amount": 1,
       "type": "outcome",
       "deliveryTo": "Julio - PCP",
@@ -99,7 +99,7 @@
     {
       "id": 3,
       "printer_id": 2,
-      "color": "'black",
+      "color": "black",
       "amount": 1,
       "type": "income",
       "deliveryTo": "",
