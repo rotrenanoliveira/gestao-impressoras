@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface InkStatusProps {
-  hasAlert: boolean;
+  hasInkAlert: boolean;
 }
 
 export const PrinterContainer = styled.div<InkStatusProps>`
@@ -11,7 +11,7 @@ export const PrinterContainer = styled.div<InkStatusProps>`
 
   padding: 1.5rem;
   border-radius: 8px;
-  background-color: ${(props) => (props.hasAlert ? props.theme["red-100"] : props.theme["blue-100"])};
+  background-color: ${(props) => (props.hasInkAlert ? props.theme["red-100"] : props.theme["blue-100"])};
 `;
 
 export const PrinterInfo = styled.div`
@@ -40,7 +40,7 @@ export const InkStatus = styled.div<InkStatusProps>`
     justify-content: center;
     gap: 0.25rem;
 
-    color: ${(props) => (props.hasAlert ? props.theme["red-500"] : props.theme["green-300"])};
+    color: ${(props) => (props.hasInkAlert ? props.theme["red-500"] : props.theme["green-300"])};
   }
 `;
 

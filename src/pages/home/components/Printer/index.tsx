@@ -1,11 +1,11 @@
 import { Envelope, Printer as PrinterIcon } from "phosphor-react";
 
-import { Printer as PrinterData } from "../../../../contexts/PrinterContext";
+import { Printer } from "../../../../contexts/PrinterContext";
 
 import { PrinterContainer, PrinterInfo, InkStatus, RequestInkButton } from "./styles";
 
 interface PrinterProps {
-  printer: PrinterData;
+  printer: Printer;
   setPrinter: (printerId: number) => void;
 }
 
@@ -16,27 +16,28 @@ const INKS = {
   yellow: "amarelo",
 } as const;
 
-export function Printer({ printer, setPrinter }: PrinterProps) {
+export function PrinterCard({ printer, setPrinter }: PrinterProps) {
   const emptyInks = printer.stock.filter((ink) => ink.amount === 0);
+  const hasInkAlert = !!emptyInks.length;
 
-  const hasAlert = !!emptyInks.length;
+  const mail = {
+    to: "anapaula@ngr.com.br",
+    subject: `Requisição de tinta para impressora - ${printer.name}`,
+    cc: "almoxarifado.plaxtex@grupopiatex.com.br, almoxarifadopme@grupopiatex.com.br, renantarifa@grupopiatex.com.br",
+    bcc: "ti@grupopiatex.com.br",
+    body: `
+    Olá! %0D%0A %0D%0A
+    Venho requisitar tonner para a impressora ${printer.name} na cor: %0D%0A
+    - ${emptyInks.map((ink) => {
+      return `${INKS[ink.color].toUpperCase()}`;
+    })}
+    `,
+  };
 
-  const mailTo = "anapaula@ngr.com.br";
-  const mailSubject = `Requisição de tinta para impressora - ${printer.name.toUpperCase()}`;
-  const mailCc =
-    "almoxarifado.plaxtex@grupopiatex.com.br, almoxarifadopme@grupopiatex.com.br, renantarifa@grupopiatex.com.br";
-  const mailBcc = "ti@grupopiatex.com.br";
-  const mailBody = `
-    Olá!
-
-    Venho requisitar tonner para a impressora ${printer.name} na cor ${INKS[emptyInks[0]?.color]}.
-
-  `;
-
-  const mailHref = `mailto:${mailTo},?subject=${mailSubject}&cc=${mailCc}&bcc=${mailBcc}&body=${mailBody}`;
+  const mailHref = `mailto:${mail.to},?subject=${mail.subject}&cc=${mail.cc}&bcc=${mail.bcc}&body=${mail.body}`;
 
   return (
-    <PrinterContainer hasAlert={hasAlert} onClick={() => setPrinter(printer.id)}>
+    <PrinterContainer hasInkAlert={hasInkAlert} onClick={() => setPrinter(printer.id)}>
       <div className="icon">
         <PrinterIcon size={32} weight={"thin"} />
       </div>
@@ -44,13 +45,13 @@ export function Printer({ printer, setPrinter }: PrinterProps) {
       <PrinterInfo>
         <strong>{printer.name}</strong>
         <span>{printer.department}</span>
-        <InkStatus hasAlert={hasAlert}>
+        <InkStatus hasInkAlert={hasInkAlert}>
           <span>Status do estoque:</span>
-          <strong>{hasAlert ? `em falta` : `ok `} </strong>
+          <strong>{hasInkAlert ? `em falta` : `ok `} </strong>
         </InkStatus>
       </PrinterInfo>
 
-      {hasAlert && (
+      {hasInkAlert && (
         <RequestInkButton href={mailHref}>
           <Envelope size={32} weight="thin" />
           <strong>Solicitar tinta!</strong>
