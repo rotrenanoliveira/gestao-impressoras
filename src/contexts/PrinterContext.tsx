@@ -27,15 +27,19 @@ interface InkStockHistory {
   printer_id: number | string;
 }
 
+type InsertTransactionStatus = {
+  success: boolean;
+};
+
 interface PrinterContextProps {
   printers: Printer[];
   selectedPrinter: Printer;
   hasSelectedPrinter: boolean;
   inkStockHistory: InkStockHistory[];
 
-  insertInk: (inkColor: InkColors) => void;
-  removeInk: (inkColor: InkColors, deliveryTo: string) => void;
   selectPrinter: (printerId: number) => void;
+  removeInk: (inkColor: InkColors, deliveryTo: string) => void;
+  insertInk: (inkColor: InkColors) => Promise<InsertTransactionStatus>;
 }
 
 interface PrinterContextProviderProps {
@@ -112,7 +116,15 @@ export function PrinterContextProvider({ children }: PrinterContextProviderProps
     if (response.status === 200) {
       setSelectedPrinter(printer);
       loadPrinters();
+
+      return {
+        success: true,
+      };
     }
+
+    return {
+      success: false,
+    };
   }
 
   async function removeInk(inkColor: InkColors, deliveryTo: string) {

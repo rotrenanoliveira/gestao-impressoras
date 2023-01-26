@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { X } from "phosphor-react";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as z from "zod";
@@ -8,7 +9,6 @@ import { InkColors } from "../../utils/inks";
 import { PrinterContext } from "../../contexts/PrinterContext";
 
 import { CloseButton, Content, Overlay } from "./styles";
-import { useForm } from "react-hook-form";
 
 const newTransactionFormSchema = z.object({
   deliveryTo: z.string(),

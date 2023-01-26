@@ -56,8 +56,13 @@ const CounterButton = styled.button`
   transition: all 0.3s;
 `;
 
-export const AddInk = styled(CounterButton)`
+export const InsertInkButton = styled(CounterButton)`
   color: ${(props) => props.theme["green-500"]};
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 
   &:hover {
     color: ${(props) => props.theme.white};
@@ -65,7 +70,7 @@ export const AddInk = styled(CounterButton)`
   }
 `;
 
-export const RemoveInk = styled(CounterButton)`
+export const RemoveInkButton = styled(CounterButton)`
   color: ${(props) => props.theme["red-500"]};
 
   &:hover {

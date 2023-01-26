@@ -3,10 +3,10 @@ import { MinusCircle, PlusCircle } from "phosphor-react";
 import * as Dialog from "@radix-ui/react-dialog";
 
 import { InkColors } from "../../utils/inks";
+import { RemoveInkModal } from "../RemoveInkModal";
 import { PrinterContext } from "../../contexts/PrinterContext";
 
-import { InkCounterContainer, CounterContainer, LeftBar, Counter, AddInk, RemoveInk } from "./styles";
-import { RemoveInkModal } from "../RemoveInkModal";
+import { InkCounterContainer, CounterContainer, LeftBar, Counter, InsertInkButton, RemoveInkButton } from "./styles";
 
 interface InkCounterProps {
   amount: number;
@@ -15,10 +15,16 @@ interface InkCounterProps {
 
 export function InkCounter({ color, amount }: InkCounterProps) {
   const [open, setOpen] = useState(false);
+  const [isSubmited, setIsSubmited] = useState(false);
   const { insertInk } = useContext(PrinterContext);
 
-  function handleInsertInk() {
-    insertInk(color);
+  async function handleInsertInk() {
+    setIsSubmited(true);
+    const response = await insertInk(color);
+
+    if (response.success) {
+      setIsSubmited(false);
+    }
   }
 
   function closeModal() {
@@ -31,15 +37,15 @@ export function InkCounter({ color, amount }: InkCounterProps) {
         <strong>Toner - {color}</strong>
         <Counter>
           <div>
-            <AddInk onClick={handleInsertInk}>
+            <InsertInkButton onClick={handleInsertInk} disabled={isSubmited}>
               <PlusCircle size={24} weight="thin" />
-            </AddInk>
+            </InsertInkButton>
 
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
-                <RemoveInk>
+                <RemoveInkButton>
                   <MinusCircle size={24} weight="thin" />
-                </RemoveInk>
+                </RemoveInkButton>
               </Dialog.Trigger>
 
               <RemoveInkModal inkColor={color} closeModal={closeModal} />
