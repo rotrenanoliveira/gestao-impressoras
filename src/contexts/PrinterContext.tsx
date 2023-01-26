@@ -146,16 +146,10 @@ export function PrinterContextProvider({ children }: PrinterContextProviderProps
 
     const response = await api.put(`/printers/${selectedPrinter.id}`, printer);
 
-    /**
-     * O bloco abaixo será executado apenas no backend quando estiver em produção
-     */
-
     const stockLog = {
-      date: new Date().toISOString(),
-      amount: 1,
-      color: inkColor,
       deliveryTo,
       type: "output",
+      color: inkColor,
       printer_id: selectedPrinter.id,
     };
 
