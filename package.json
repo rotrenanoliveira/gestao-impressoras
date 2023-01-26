@@ -10,7 +10,8 @@
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "preview": "vite preview",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "start": "node server/server.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.10",

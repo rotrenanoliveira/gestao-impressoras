@@ -25,5 +25,9 @@ app.get("*", (req, res) => {
 });
 
 app.listen(SERVER_PORT, () => {
-  console.log(`Server is running`);
+  console.log(`
+- PRINTER ink_ v1.0.0
+
+  APP: http://localhost
+  `);
 });
