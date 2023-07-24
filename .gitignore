@@ -3,3 +3,12 @@
 !.vscode/extensions.json
 .idea
 .DS_Store
+
+# Dev
+node_modules
+
+# Database
+*.db
+
+# Env
+.env
