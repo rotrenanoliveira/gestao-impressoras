@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ACQUISITION_TYPE {
+  BOUGHT
+  RENTED
+}
+
+enum DEVICE_STATUS {
+  OK
+  WARNING
+  DANGER
+}
+
+enum TRANSACTION_TYPE {
+  INSERT
+  REMOVE
+}
+
+model Device {
+  id               String           @id @default(uuid())
+  name             String
+  type             String
+  status           DEVICE_STATUS
+  acquisition_type ACQUISITION_TYPE
+  created_at       DateTime         @default(now())
+  description      String?
+  RentedDevice     RentedDevice[]
+  Inventory        Inventory[]
+
+  @@map("devices")
+}
+
+model RentedDevice {
+  id                  String   @id @default(uuid())
+  supplier            String
+  rented_in           DateTime
+  contract_expiration DateTime
+  created_at          DateTime @default(now())
+  obs                 String?
+
+  device    Device @relation(fields: [device_id], references: [id])
+  device_id String
+
+  @@map("rented_devices")
+}
+
+model Inventory {
+  id          String   @id @default(uuid())
+  title       String
+  quantity    Int
+  location    String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
+  description String?
+
+  device               Device?                @relation(fields: [device_id], references: [id])
+  device_id            String?
+  InventoryTransaction InventoryTransaction[]
+
+  @@map("inventory")
+}
+
+model InventoryTransaction {
+  id               String           @id @default(uuid())
+  operator         String
+  quantity         Int
+  transaction_type TRANSACTION_TYPE
+  created_at       DateTime         @default(now())
+
+  item    Inventory @relation(fields: [item_id], references: [id])
+  item_id String
+
+  @@map("inventory_transactions")
+}
