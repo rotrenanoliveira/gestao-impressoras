@@ -9,17 +9,19 @@ export class RegisterItemInInventoryUseCase {
   ) {}
 
   async execute({ device_id, title, location, quantity, description }: ItemCreateInput): Promise<void> {
-    const device = await this.devicesRepository.findById(device_id)
+    if (device_id) {
+      const device = await this.devicesRepository.findById(device_id)
 
-    if (!device) {
-      throw new ResourceNotFound('device')
+      if (!device) {
+        throw new ResourceNotFound('device')
+      }
     }
 
     await this.inventoryRepository.create({
-      device_id,
       title,
       quantity,
       location,
+      device_id,
       description,
     })
   }

@@ -12,7 +12,7 @@ Num futuro deve ser implementao algo semelhante ou até mesmo um Cron-Job para a
  - [ ] Deve ser possível cadastrar insumos para dispositivos no estoque
  - [ ] Deve ser possível consumir um item do estoque
  - [ ] Deve ser possível vizualizar a quantidade movimentada no estoque por item
- - [ ] Deve ser possível vizualizar a quantidade movimentada no estoque por dispositivo.
+
 
 ### Devices
   - nome
@@ -22,11 +22,11 @@ Num futuro deve ser implementao algo semelhante ou até mesmo um Cron-Job para a
   - status (ok, warning, danger)
 
 ### Inventory
-  - title
-  - description
-  - device
-  - quantity
-  - location
+  - title -> String
+  - location -> String
+  - quantity -> Number
+  - description -> String | null
+  - device (device_id) -> String | null
 
 ### Rented Devices
   - device

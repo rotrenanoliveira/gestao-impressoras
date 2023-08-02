@@ -14,7 +14,13 @@ export class InMemoryInventoryRepository implements InventoryRepository {
     return item
   }
 
-  async create(data: ItemCreateInput & { id: string }): Promise<Item> {
+  async findManyByDeviceId(device_id: string): Promise<Item[]> {
+    const items = this.items.filter((item) => item.device_id === device_id)
+
+    return items
+  }
+
+  async create(data: ItemCreateInput & { id?: string }): Promise<Item> {
     const item = {
       id: data.id ?? randomUUID(),
       device_id: data.device_id,

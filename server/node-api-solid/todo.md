@@ -5,4 +5,4 @@
  - [x] Deve ser possível cadastrar insumos para dispositivos no estoque
  - [x] Deve ser possível consumir um item do estoque
  - [x] Deve ser possível vizualizar a quantidade movimentada no estoque por item
- - [ ] Deve ser possível vizualizar a quantidade movimentada no estoque por dispositivo.
+

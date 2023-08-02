@@ -25,10 +25,10 @@ declare type RentedDevice = {
 } & RentedDeviceCreateInput
 
 declare type ItemCreateInput = {
-  device_id: string
   title: string
   quantity: number
   location: string
+  device_id: string | null
   description: string | null
 }
 
