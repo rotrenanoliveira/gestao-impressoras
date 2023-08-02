@@ -30,7 +30,7 @@ describe('Fetch inventory transactions by item id', () => {
         item_id: 'item-id',
         operator: 'operator-name',
         quantity: 1,
-        transaction_type: 'insert',
+        transaction_type: 'INSERT',
       })
     }
 

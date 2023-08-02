@@ -31,7 +31,7 @@ describe('Consume item in inventory', () => {
       item_id: item.id,
       quantity: QUANTITY_TO_INSERT,
       operator: 'operator-name',
-      transaction_type: 'insert',
+      transaction_type: 'INSERT',
     })
 
     expect(inventoryRepository.items[0].quantity).toEqual(item.quantity + QUANTITY_TO_INSERT)
@@ -52,7 +52,7 @@ describe('Consume item in inventory', () => {
       item_id: item.id,
       operator: 'operator-name',
       quantity: QUANTITY_TO_CONSUME,
-      transaction_type: 'remove',
+      transaction_type: 'REMOVE',
     })
 
     expect(inventoryRepository.items[0].quantity).toEqual(item.quantity - QUANTITY_TO_CONSUME)
@@ -71,8 +71,29 @@ describe('Consume item in inventory', () => {
         item_id: 'non-existent-item',
         operator: 'operator-name',
         quantity: 1,
-        transaction_type: 'insert',
+        transaction_type: 'INSERT',
       }),
     ).rejects.toBeInstanceOf(ResourceNotFound)
+  })
+
+  it('should not be able to register a inventory transaction if the quantity consumed is more than quantity in inventory', async () => {
+    const item = await inventoryRepository.create({
+      device_id: 'device-id',
+      title: 'tinta',
+      location: 'almoxarifado',
+      quantity: 10,
+      description: null,
+    })
+
+    const QUANTITY_TO_CONSUME = 11
+
+    await expect(() =>
+      sut.execute({
+        item_id: item.id,
+        operator: 'operator-name',
+        quantity: QUANTITY_TO_CONSUME,
+        transaction_type: 'REMOVE',
+      }),
+    ).rejects.toBeInstanceOf(Error)
   })
 })

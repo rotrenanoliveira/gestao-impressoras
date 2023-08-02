@@ -19,9 +19,9 @@ describe('Register item in inventory', () => {
   it('should be able to register item in inventory', async () => {
     const createdDevice = await devicesRepository.create({
       name: 'OKI 4172',
-      status: 'ok',
+      status: 'OK',
       type: 'printer',
-      acquisition_type: 'bought',
+      acquisition_type: 'BOUGHT',
       description: 'Impressora localizado no PCP',
     })
 

@@ -19,9 +19,9 @@ describe('Register Rented Device Use Case', () => {
   it('should be able to register rented device', async () => {
     const createdDevice = await devicesRepository.create({
       name: 'OKI 4172',
-      status: 'ok',
+      status: 'OK',
       type: 'printer',
-      acquisition_type: 'bought',
+      acquisition_type: 'BOUGHT',
       description: 'Impressora localizado no PCP',
     })
 

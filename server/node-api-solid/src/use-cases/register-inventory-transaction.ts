@@ -15,6 +15,10 @@ export class RegisterInventoryTransactionUseCase {
       throw new ResourceNotFound('item')
     }
 
+    if (quantity > item.quantity) {
+      throw new Error('The quantity to be consumed must not be greater than the quantity available.')
+    }
+
     await this.inventoryTransactionsRepository.create({
       item_id,
       operator,
@@ -22,7 +26,7 @@ export class RegisterInventoryTransactionUseCase {
       transaction_type,
     })
 
-    if (transaction_type === 'insert') {
+    if (transaction_type === 'INSERT') {
       await this.inventoryRepository.insert({
         item_id,
         quantity,

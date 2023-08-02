@@ -15,9 +15,9 @@ describe('Register Device Use Case', () => {
   it('should be able to register device', async () => {
     const { device } = await sut.execute({
       name: 'OKI 4172',
-      status: 'ok',
+      status: 'OK',
       type: 'printer',
-      acquisition_type: 'bought',
+      acquisition_type: 'BOUGHT',
       description: 'Impressora localizado no PCP',
     })
 
@@ -26,9 +26,9 @@ describe('Register Device Use Case', () => {
     expect(device).toEqual(
       expect.objectContaining({
         name: 'OKI 4172',
-        status: 'ok',
+        status: 'OK',
         type: 'printer',
-        acquisition_type: 'bought',
+        acquisition_type: 'BOUGHT',
         description: 'Impressora localizado no PCP',
       }),
     )
