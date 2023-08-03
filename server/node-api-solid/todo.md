@@ -9,6 +9,7 @@
  - [x] fazer as factories
  - [x] fazer as rotas da aplicação
  - [x] testar as principais rotas
+ - [ ] adicionar busca de dispositivo por fornecedor
  - [ ] commitar features
  - [ ] fazer os restante dos cruds do app
  - [ ] buildar e testar o app em produção
