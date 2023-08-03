@@ -2,9 +2,19 @@ import { randomUUID } from 'node:crypto'
 import { InventoryRepository, InventoryTransaction } from '../inventory-repository'
 
 export class InMemoryInventoryRepository implements InventoryRepository {
-  public items: Item[] = []
+  public items: InventoryItem[] = []
 
-  async findById(item_id: string): Promise<Item | null> {
+  async findMany(): Promise<InventoryItem[]> {
+    return this.items
+  }
+
+  async findManyByDeviceId(deviceId: string): Promise<InventoryItem[]> {
+    const items = this.items.filter((item) => item.deviceId === deviceId)
+
+    return items
+  }
+
+  async findById(item_id: string): Promise<InventoryItem | null> {
     const item = this.items.find((item) => item.id === item_id)
 
     if (!item) {
@@ -14,16 +24,10 @@ export class InMemoryInventoryRepository implements InventoryRepository {
     return item
   }
 
-  async findManyByDeviceId(device_id: string): Promise<Item[]> {
-    const items = this.items.filter((item) => item.device_id === device_id)
-
-    return items
-  }
-
-  async create(data: ItemCreateInput & { id?: string }): Promise<Item> {
+  async create(data: InventoryItemCreateInput & { id?: string }): Promise<InventoryItem> {
     const item = {
       id: data.id ?? randomUUID(),
-      device_id: data.device_id,
+      deviceId: data.deviceId,
       title: data.title,
       quantity: data.quantity,
       location: data.location,
@@ -37,8 +41,8 @@ export class InMemoryInventoryRepository implements InventoryRepository {
     return item
   }
 
-  async insert({ item_id, quantity }: InventoryTransaction): Promise<Item | null> {
-    const itemIndex = this.items.findIndex((item) => item.id === item_id)
+  async insert({ itemId, quantity }: InventoryTransaction): Promise<InventoryItem | null> {
+    const itemIndex = this.items.findIndex((item) => item.id === itemId)
 
     if (itemIndex < 0) {
       return null
@@ -52,8 +56,8 @@ export class InMemoryInventoryRepository implements InventoryRepository {
     return this.items[itemIndex]
   }
 
-  async consume({ item_id, quantity }: InventoryTransaction): Promise<Item | null> {
-    const itemIndex = this.items.findIndex((item) => item.id === item_id)
+  async consume({ itemId, quantity }: InventoryTransaction): Promise<InventoryItem | null> {
+    const itemIndex = this.items.findIndex((item) => item.id === itemId)
 
     if (itemIndex < 0) {
       return null
@@ -65,5 +69,36 @@ export class InMemoryInventoryRepository implements InventoryRepository {
     }
 
     return this.items[itemIndex]
+  }
+
+  async save(itemId: string, data: Omit<Partial<InventoryItem>, 'quantity'>): Promise<InventoryItem | null> {
+    const itemIndex = this.items.findIndex((item) => item.id === itemId)
+
+    if (itemIndex < 0) {
+      return null
+    }
+
+    const currentItem = this.items[itemIndex]
+    const item = {
+      ...currentItem,
+      ...data,
+    }
+
+    this.items[itemIndex] = { ...item }
+
+    return item
+  }
+
+  async remove(itemId: string): Promise<InventoryItem | null> {
+    const itemIndex = this.items.findIndex((item) => item.id === itemId)
+
+    if (itemIndex < 0) {
+      return null
+    }
+
+    const item = this.items[itemIndex]
+    this.items.splice(itemIndex, 1)
+
+    return item
   }
 }

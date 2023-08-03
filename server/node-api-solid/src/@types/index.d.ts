@@ -37,19 +37,19 @@ declare type Device = {
   created_at: Date
 } & DeviceCreateInput
 
-declare type ItemCreateInput = {
+declare type InventoryItemCreateInput = {
   title: string
   quantity: number
   location: string
-  device_id: string | null
+  deviceId: string | null
   description: string | null
 }
 
-declare type Item = {
+declare type InventoryItem = {
   id: string
   created_at: Date
   updated_at: Date
-} & ItemCreateInput
+} & InventoryItemCreateInput
 
 declare type InventoryTransactionCreateInput = {
   item_id: string
@@ -64,5 +64,7 @@ declare type InventoryTransactionData = {
 } & InventoryTransactionCreateInput
 
 declare type InventoryTransaction = {
-  title: string
+  item: {
+    title: string
+  }
 } & InventoryTransactionData

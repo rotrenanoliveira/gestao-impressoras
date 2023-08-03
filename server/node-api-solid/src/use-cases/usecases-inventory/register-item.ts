@@ -1,10 +1,6 @@
 import { DevicesRepository } from '@/repositories/devices-repository'
 import { InventoryRepository } from '@/repositories/inventory-repository'
-import { ResourceNotFound } from './errors/resource-not-found'
-
-interface UseCaseResponse {
-  item: Item
-}
+import { ResourceNotFound } from '../errors/resource-not-found'
 
 export class RegisterItemInInventoryUseCase {
   constructor(
@@ -12,9 +8,15 @@ export class RegisterItemInInventoryUseCase {
     private devicesRepository: DevicesRepository,
   ) {}
 
-  async execute({ device_id, title, location, quantity, description }: ItemCreateInput): Promise<UseCaseResponse> {
-    if (device_id) {
-      const device = await this.devicesRepository.findById(device_id)
+  async execute({
+    deviceId,
+    title,
+    location,
+    quantity,
+    description,
+  }: InventoryItemCreateInput): Promise<{ item: InventoryItem }> {
+    if (deviceId) {
+      const device = await this.devicesRepository.findById(deviceId)
 
       if (!device) {
         throw new ResourceNotFound('device')
@@ -25,7 +27,7 @@ export class RegisterItemInInventoryUseCase {
       title,
       quantity,
       location,
-      device_id,
+      deviceId,
       description,
     })
 

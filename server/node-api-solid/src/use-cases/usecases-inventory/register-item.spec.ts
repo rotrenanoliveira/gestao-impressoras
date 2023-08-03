@@ -2,8 +2,8 @@ import { beforeEach, describe, expect, it } from 'vitest'
 
 import { InMemoryDevicesRepository } from '@/repositories/in-memory/in-memory-devices-repository'
 import { InMemoryInventoryRepository } from '@/repositories/in-memory/in-memory-inventory-repository'
-import { RegisterItemInInventoryUseCase } from './register-item-in-inventory'
-import { ResourceNotFound } from './errors/resource-not-found'
+import { RegisterItemInInventoryUseCase } from './register-item'
+import { ResourceNotFound } from '../errors/resource-not-found'
 
 let devicesRepository: InMemoryDevicesRepository
 let inventoryRepository: InMemoryInventoryRepository
@@ -17,26 +17,18 @@ describe('Register item in inventory', () => {
   })
 
   it('should be able to register item in inventory', async () => {
-    const createdDevice = await devicesRepository.create({
-      name: 'OKI 4172',
-      status: 'OK',
-      type: 'printer',
-      acquisition_type: 'BOUGHT',
-      description: 'Impressora localizado no PCP',
-    })
-
     const { item } = await sut.execute({
-      device_id: createdDevice.id,
-      title: 'Tinta Preta',
-      location: 'almoxarifado',
+      deviceId: null,
+      title: 'teclado',
+      location: 'ti',
       quantity: 1,
       description: null,
     })
 
     expect(item).toEqual(
       expect.objectContaining({
-        title: 'Tinta Preta',
-        location: 'almoxarifado',
+        title: 'teclado',
+        location: 'ti',
         quantity: 1,
         description: null,
       }),
@@ -46,7 +38,7 @@ describe('Register item in inventory', () => {
   it('should not be able to register item in inventory with invalid device ID', async () => {
     await expect(() =>
       sut.execute({
-        device_id: 'non-existent-device',
+        deviceId: 'non-existent-device',
         title: 'Tinta Preta',
         location: 'almoxarifado',
         quantity: 1,

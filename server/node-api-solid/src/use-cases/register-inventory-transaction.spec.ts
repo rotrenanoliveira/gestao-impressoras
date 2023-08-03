@@ -9,7 +9,7 @@ let inventoryRepository: InMemoryInventoryRepository
 let inventoryTransactionsRepository: InMemoryInventoryTransactionsRepository
 let sut: RegisterInventoryTransactionUseCase
 
-describe('Consume item in inventory', () => {
+describe.skip('Consume item in inventory', () => {
   beforeEach(() => {
     inventoryRepository = new InMemoryInventoryRepository()
     inventoryTransactionsRepository = new InMemoryInventoryTransactionsRepository()

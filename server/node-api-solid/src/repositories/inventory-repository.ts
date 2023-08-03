@@ -1,14 +1,19 @@
 export type InventoryTransaction = {
-  item_id: string
+  itemId: string
   quantity: number
 }
 
 export interface InventoryRepository {
-  create(data: ItemCreateInput): Promise<Item>
+  create(data: InventoryItemCreateInput): Promise<InventoryItem>
 
-  findById(item_id: string): Promise<Item | null>
-  findManyByDeviceId(device_id: string): Promise<Item[]>
+  findMany(): Promise<InventoryItem[]>
+  findById(itemId: string): Promise<InventoryItem | null>
+  findManyByDeviceId(deviceId: string): Promise<InventoryItem[]>
 
-  insert({ item_id, quantity }: InventoryTransaction): Promise<Item | null>
-  consume({ item_id, quantity }: InventoryTransaction): Promise<Item | null>
+  insert({ itemId, quantity }: InventoryTransaction): Promise<InventoryItem | null>
+  consume({ itemId, quantity }: InventoryTransaction): Promise<InventoryItem | null>
+
+  save(itemId: string, data: Omit<Partial<InventoryItem>, 'quantity'>): Promise<InventoryItem | null>
+
+  remove(itemId: string): Promise<InventoryItem | null>
 }

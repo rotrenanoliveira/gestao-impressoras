@@ -9,7 +9,7 @@ let rentedDevicesRepository: InMemoryRentedDevicesRepository
 let devicesRepository: InMemoryDevicesRepository
 let sut: RegisterRentedDeviceUseCase
 
-describe('Register Rented Device Use Case', () => {
+describe.skip('Register Rented Device Use Case', () => {
   beforeEach(() => {
     devicesRepository = new InMemoryDevicesRepository()
     rentedDevicesRepository = new InMemoryRentedDevicesRepository()

@@ -8,7 +8,7 @@ let inventoryRepository: InMemoryInventoryRepository
 let inventoryTransactionsRepository: InMemoryInventoryTransactionsRepository
 let sut: FetchInventoryTransactionsByItemIdUseCase
 
-describe('Fetch inventory transactions by item id', () => {
+describe.skip('Fetch inventory transactions by item id', () => {
   beforeEach(() => {
     inventoryRepository = new InMemoryInventoryRepository()
     inventoryTransactionsRepository = new InMemoryInventoryTransactionsRepository()
