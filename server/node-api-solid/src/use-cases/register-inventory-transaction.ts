@@ -1,6 +1,7 @@
 import { InventoryTransactionsRepository } from '@/repositories/inventory-transactions-repository'
 import { InventoryRepository } from '@/repositories/inventory-repository'
 import { ResourceNotFound } from './errors/resource-not-found'
+import { InvalidTransactionQuantityError } from './errors/invalid-transaction-quantity'
 
 export class RegisterInventoryTransactionUseCase {
   constructor(
@@ -16,7 +17,7 @@ export class RegisterInventoryTransactionUseCase {
     }
 
     if (quantity > item.quantity) {
-      throw new Error('The quantity to be consumed must not be greater than the quantity available.')
+      throw new InvalidTransactionQuantityError()
     }
 
     await this.inventoryTransactionsRepository.create({

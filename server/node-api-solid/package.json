@@ -7,8 +7,10 @@
     "start:dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
     "build": "tsup src --out-dir build",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run --dir src/use-cases",
+    "test:watch": "vitest --dir src/use-cases",
+    "test:e2e": "vitest run --dir src/http",
+    "test:e2e:watch": "vitest --dir src/http"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +23,7 @@
   },
   "devDependencies": {
     "@types/node": "20.4.5",
+    "@types/supertest": "2.0.12",
     "@typescript-eslint/eslint-plugin": "6.2.1",
     "@typescript-eslint/parser": "6.2.1",
     "eslint": "8.46.0",
@@ -28,6 +31,7 @@
     "eslint-plugin-prettier": "5.0.0",
     "prettier": "3.0.0",
     "prisma": "5.0.0",
+    "supertest": "6.3.3",
     "tsup": "7.1.0",
     "tsx": "3.12.7",
     "typescript": "5.1.6",

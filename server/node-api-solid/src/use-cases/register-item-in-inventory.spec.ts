@@ -25,7 +25,7 @@ describe('Register item in inventory', () => {
       description: 'Impressora localizado no PCP',
     })
 
-    await sut.execute({
+    const { item } = await sut.execute({
       device_id: createdDevice.id,
       title: 'Tinta Preta',
       location: 'almoxarifado',
@@ -33,7 +33,7 @@ describe('Register item in inventory', () => {
       description: null,
     })
 
-    expect(inventoryRepository.items[0]).toEqual(
+    expect(item).toEqual(
       expect.objectContaining({
         title: 'Tinta Preta',
         location: 'almoxarifado',
