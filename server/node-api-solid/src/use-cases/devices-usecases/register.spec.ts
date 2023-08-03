@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { InMemoryDevicesRepository } from '@/repositories/in-memory/in-memory-devices-repository'
-import { RegisterDeviceUseCase } from './register-device'
+import { RegisterDeviceUseCase } from './register'
 
 let devicesRepository: InMemoryDevicesRepository
 let sut: RegisterDeviceUseCase
@@ -17,8 +17,12 @@ describe('Register Device Use Case', () => {
       name: 'OKI 4172',
       status: 'OK',
       type: 'printer',
+      supplier: 'OEF',
       acquisition_type: 'BOUGHT',
       description: 'Impressora localizado no PCP',
+      contract_expiration: null,
+      rented_in: null,
+      obs: null,
     })
 
     expect(device.id).toEqual(expect.any(String))
@@ -30,6 +34,7 @@ describe('Register Device Use Case', () => {
         type: 'printer',
         acquisition_type: 'BOUGHT',
         description: 'Impressora localizado no PCP',
+        supplier: 'OEF',
       }),
     )
   })

@@ -1,15 +1,15 @@
-declare const ACQUISITION_TYPE: { [x: string]: 'BOUGHT' | 'RENTED' } = {
+const ACQUISITION_TYPE: { [x: string]: 'BOUGHT' | 'RENTED' } = {
   BOUGHT: 'BOUGHT',
   RENTED: 'RENTED',
 }
 
-declare const DEVICE_STATUS: { [x: string]: 'OK' | 'WARNING' | 'DANGER' } = {
+const DEVICE_STATUS: { [x: string]: 'OK' | 'WARNING' | 'DANGER' } = {
   OK: 'OK',
   WARNING: 'WARNING',
   DANGER: 'DANGER',
 }
 
-declare const TRANSACTION_TYPE: { [x: string]: 'INSERT' | 'REMOVE' } = {
+const TRANSACTION_TYPE: { [x: string]: 'INSERT' | 'REMOVE' } = {
   INSERT: 'INSERT',
   REMOVE: 'REMOVE',
 }
@@ -21,28 +21,21 @@ declare type TRANSACTION_TYPE = (typeof TRANSACTION_TYPE)[keyof typeof TRANSACTI
 declare type DeviceCreateInput = {
   name: string
   type: string
-  description: string | null
-  acquisition_type: ACQUISITION_TYPE
+  supplier: string
   status: DEVICE_STATUS
+
+  acquisition_type: ACQUISITION_TYPE
+  rented_in: Date | null
+  contract_expiration: Date | null
+
+  obs: string | null
+  description: string | null
 }
 
 declare type Device = {
   id: string
   created_at: Date
 } & DeviceCreateInput
-
-declare type RentedDeviceCreateInput = {
-  device_id: string
-  supplier: string
-  rented_in: Date
-  contract_expiration: Date
-  obs: string | null
-}
-
-declare type RentedDevice = {
-  id: string
-  created_at: Date
-} & RentedDeviceCreateInput
 
 declare type ItemCreateInput = {
   title: string

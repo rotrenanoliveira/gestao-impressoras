@@ -1,25 +1,29 @@
 import { DevicesRepository } from '@/repositories/devices-repository'
 
-interface RegisterDevicesUseCaseResponse {
-  device: Device
-}
-
 export class RegisterDeviceUseCase {
   constructor(private devicesRepository: DevicesRepository) {}
 
   async execute({
     name,
     type,
-    description,
     status,
+    supplier,
     acquisition_type,
-  }: DeviceCreateInput): Promise<RegisterDevicesUseCaseResponse> {
+    contract_expiration,
+    description,
+    rented_in,
+    obs,
+  }: DeviceCreateInput): Promise<{ device: Device }> {
     const device = await this.devicesRepository.create({
       name,
       type,
       status,
-      description,
+      supplier,
       acquisition_type,
+      contract_expiration,
+      description,
+      rented_in,
+      obs,
     })
 
     return { device }
