@@ -27,31 +27,21 @@ enum TRANSACTION_TYPE {
 }
 
 model Device {
-  id               String           @id @default(uuid())
-  name             String
-  type             String
-  supplier         String
-  status           DEVICE_STATUS
-  acquisition_type ACQUISITION_TYPE
-  created_at       DateTime         @default(now())
-  description      String?
-  obs              String?
+  id                  String           @id @default(uuid())
+  name                String
+  type                String
+  supplier            String
+  status              DEVICE_STATUS
+  acquisition_type    ACQUISITION_TYPE
+  created_at          DateTime         @default(now())
+  rented_in           DateTime?
+  contract_expiration DateTime?
+  description         String?
+  obs                 String?
 
-  RentedDevice RentedDevice[]
-  Inventory    Inventory[]
+  Inventory Inventory[]
 
   @@map("devices")
-}
-
-model RentedDevice {
-  id                  String   @id @default(uuid())
-  rented_in           DateTime
-  contract_expiration DateTime
-
-  device    Device @relation(fields: [device_id], references: [id])
-  device_id String @unique
-
-  @@map("rented-devices")
 }
 
 model Inventory {

@@ -62,15 +62,17 @@ export class InMemoryDevicesRepository implements DevicesRepository {
     return updatedDevice
   }
 
-  async remove(deviceId: string): Promise<void | null> {
+  async remove(deviceId: string): Promise<Device | null> {
     const deviceIndex = this.items.findIndex((item) => item.id === deviceId)
 
     if (deviceIndex < 0) {
       return null
     }
 
+    const device = this.items[deviceIndex]
+
     this.items.splice(deviceIndex, 1)
 
-    return
+    return device
   }
 }

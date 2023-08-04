@@ -7,5 +7,5 @@ export interface DevicesRepository {
 
   save(deviceId: string, data: Partial<Device>): Promise<Device | null>
 
-  remove(deviceId: string): Promise<void | null>
+  remove(deviceId: string): Promise<Device | null>
 }

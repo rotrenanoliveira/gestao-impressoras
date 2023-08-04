@@ -1,11 +1,17 @@
 import { FastifyInstance } from 'fastify'
+import { fetchMany } from './fetch-many'
+import { getOne } from './get-one'
 import { register } from './register'
-import { registerRentedDevice } from './register-rented-device'
+import { remove } from './remove'
+import { save } from './save'
 
 export async function deviceRoutes(app: FastifyInstance) {
-  // Devices General
+  app.get('/devices', fetchMany)
+  app.get('/devices/:deviceId', getOne)
+
   app.post('/devices', register)
 
-  // Rented Devices
-  app.post('/devices/rented', registerRentedDevice)
+  app.put('/devices/:deviceId', save)
+
+  app.delete('/devices/:deviceId', remove)
 }
