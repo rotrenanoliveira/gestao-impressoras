@@ -32,7 +32,7 @@ describe('Fetch many items by device', () => {
       await inventoryRepository.create({
         title: `item-${i}`,
         description: null,
-        deviceId: device.id,
+        device_id: device.id,
         location: 'it storage',
         quantity: 1,
       })

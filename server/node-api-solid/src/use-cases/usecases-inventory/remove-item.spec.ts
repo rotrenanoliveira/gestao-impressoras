@@ -16,7 +16,7 @@ describe('Remove inventory item', () => {
     const itemRegistered = await inventoryRepository.create({
       title: `item-title`,
       description: null,
-      deviceId: null,
+      device_id: null,
       location: 'it storage',
       quantity: 1,
     })

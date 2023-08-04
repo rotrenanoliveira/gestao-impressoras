@@ -16,7 +16,7 @@ describe('Fetch All items in inventory', () => {
       await inventoryRepository.create({
         title: `item-${i}`,
         description: null,
-        deviceId: null,
+        device_id: null,
         location: 'ti',
         quantity: 1,
       })

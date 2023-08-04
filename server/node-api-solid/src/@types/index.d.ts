@@ -41,7 +41,7 @@ declare type InventoryItemCreateInput = {
   title: string
   quantity: number
   location: string
-  deviceId: string | null
+  device_id: string | null
   description: string | null
 }
 

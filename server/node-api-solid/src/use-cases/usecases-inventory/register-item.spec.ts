@@ -18,7 +18,7 @@ describe('Register item in inventory', () => {
 
   it('should be able to register item in inventory', async () => {
     const { item } = await sut.execute({
-      deviceId: null,
+      device_id: null,
       title: 'dell keyboard',
       location: 'it storage',
       quantity: 1,
@@ -38,7 +38,7 @@ describe('Register item in inventory', () => {
   it('should not be able to register item in inventory with invalid device ID', async () => {
     await expect(() =>
       sut.execute({
-        deviceId: 'non-existent-device',
+        device_id: 'non-existent-device',
         title: 'printer black ink',
         location: 'storage',
         quantity: 1,

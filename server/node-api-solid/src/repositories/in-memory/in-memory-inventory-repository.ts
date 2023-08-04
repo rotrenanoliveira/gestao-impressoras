@@ -9,7 +9,7 @@ export class InMemoryInventoryRepository implements InventoryRepository {
   }
 
   async findManyByDeviceId(deviceId: string): Promise<InventoryItem[]> {
-    const items = this.items.filter((item) => item.deviceId === deviceId)
+    const items = this.items.filter((item) => item.device_id === deviceId)
 
     return items
   }
@@ -27,7 +27,7 @@ export class InMemoryInventoryRepository implements InventoryRepository {
   async create(data: InventoryItemCreateInput & { id?: string }): Promise<InventoryItem> {
     const item = {
       id: data.id ?? randomUUID(),
-      deviceId: data.deviceId,
+      device_id: data.device_id,
       title: data.title,
       quantity: data.quantity,
       location: data.location,

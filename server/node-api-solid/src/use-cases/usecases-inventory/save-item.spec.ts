@@ -17,7 +17,7 @@ describe('Save inventory item', () => {
     const itemRegistered = await inventoryRepository.create({
       title: `item-title`,
       description: null,
-      deviceId: null,
+      device_id: null,
       location: 'it storage',
       quantity: 1,
     })
@@ -31,7 +31,7 @@ describe('Save inventory item', () => {
     expect(item).toEqual(
       expect.objectContaining({
         description: null,
-        deviceId: null,
+        device_id: null,
         quantity: 1,
         title: 'dell mouse',
         location: 'storage',
@@ -43,7 +43,7 @@ describe('Save inventory item', () => {
     const itemRegistered = await inventoryRepository.create({
       title: `item-title`,
       description: null,
-      deviceId: null,
+      device_id: null,
       location: 'it storage',
       quantity: 1,
     })

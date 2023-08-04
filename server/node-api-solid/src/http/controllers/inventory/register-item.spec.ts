@@ -13,9 +13,9 @@ describe('Register item in inventory (E2E)', () => {
 
   it('should be able to register item in inventory', async () => {
     const registerItemResponse = await request(app.server).post('/inventory').send({
-      title: 'teclado dell',
+      title: 'dell keyboard',
       quantity: 1,
-      location: 'ti',
+      location: 'it storage',
       device_id: null,
       description: null,
     })
@@ -24,24 +24,40 @@ describe('Register item in inventory (E2E)', () => {
   })
 
   it('should be able to register item in inventory for a device', async () => {
-    const registerDeviceResponse = await request(app.server).post('/devices').send({
-      name: 'OKI 4172',
-      status: 'ok',
-      type: 'printer',
-      acquisition_type: 'bought',
-      description: 'Impressora localizado no PCP',
-    })
+    const registerDeviceResponse = await request(app.server)
+      .post('/devices')
+      .send({
+        status: 'ok',
+        supplier: 'OEF',
+        type: 'printer',
+        name: 'OKI 4172',
+        acquisition_type: 'rented',
+        contract_expiration: new Date('2023, 11, 01'),
+        rented_in: new Date('2020, 11, 01'),
+        description: null,
+        obs: null,
+      })
 
     const { device } = registerDeviceResponse.body
 
     const registerItemResponse = await request(app.server).post('/inventory').send({
-      title: 'teclado dell',
+      title: 'black ink',
       quantity: 1,
-      location: 'ti',
+      location: 'storage',
       device_id: device.id,
       description: null,
     })
 
     expect(registerItemResponse.status).toEqual(201)
+    expect(registerItemResponse.body.item).toEqual(
+      expect.objectContaining({
+        id: expect.any(String),
+        title: 'black ink',
+        quantity: 1,
+        location: 'storage',
+        device_id: device.id,
+        description: null,
+      }),
+    )
   })
 })

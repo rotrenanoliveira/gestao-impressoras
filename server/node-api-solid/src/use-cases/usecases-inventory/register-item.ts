@@ -9,7 +9,7 @@ export class RegisterItemInInventoryUseCase {
   ) {}
 
   async execute({
-    deviceId,
+    device_id: deviceId,
     title,
     location,
     quantity,
@@ -27,7 +27,7 @@ export class RegisterItemInInventoryUseCase {
       title,
       quantity,
       location,
-      deviceId,
+      device_id: deviceId,
       description,
     })
 
