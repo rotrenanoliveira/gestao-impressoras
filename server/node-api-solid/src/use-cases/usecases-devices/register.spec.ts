@@ -19,7 +19,7 @@ describe('Register Device Use Case', () => {
       type: 'printer',
       supplier: 'OEF',
       acquisition_type: 'BOUGHT',
-      description: 'Impressora localizado no PCP',
+      description: 'located at PCP',
       contract_expiration: null,
       rented_in: null,
       obs: null,
@@ -33,7 +33,7 @@ describe('Register Device Use Case', () => {
         status: 'OK',
         type: 'printer',
         acquisition_type: 'BOUGHT',
-        description: 'Impressora localizado no PCP',
+        description: 'located at PCP',
         supplier: 'OEF',
       }),
     )

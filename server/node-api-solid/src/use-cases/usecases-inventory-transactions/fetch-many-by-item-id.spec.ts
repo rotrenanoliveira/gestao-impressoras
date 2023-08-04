@@ -19,9 +19,9 @@ describe('Fetch inventory transactions by item id', () => {
     await inventoryRepository.create({
       id: 'item-id',
       deviceId: 'device-id',
-      title: 'tinta',
+      title: 'printer ink',
       quantity: 1,
-      location: 'almoxarifado',
+      location: 'storage',
       description: null,
     })
 

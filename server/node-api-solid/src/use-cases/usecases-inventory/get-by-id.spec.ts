@@ -16,7 +16,7 @@ describe('Get inventory item by id', () => {
       title: `item-title`,
       description: null,
       deviceId: null,
-      location: 'ti',
+      location: 'it storage',
       quantity: 1,
     })
 
@@ -29,7 +29,7 @@ describe('Get inventory item by id', () => {
         title: `item-title`,
         description: null,
         deviceId: null,
-        location: 'ti',
+        location: 'it storage',
         quantity: 1,
       }),
     )

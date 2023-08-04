@@ -18,13 +18,13 @@ describe('Save inventory item', () => {
       title: `item-title`,
       description: null,
       deviceId: null,
-      location: 'ti',
+      location: 'it storage',
       quantity: 1,
     })
 
     const { item } = await sut.execute(itemRegistered.id, {
-      location: 'almoxarifado',
-      title: 'mouse dell',
+      location: 'storage',
+      title: 'dell mouse',
     })
 
     expect(item.id).toEqual(itemRegistered.id)
@@ -33,8 +33,8 @@ describe('Save inventory item', () => {
         description: null,
         deviceId: null,
         quantity: 1,
-        title: 'mouse dell',
-        location: 'almoxarifado',
+        title: 'dell mouse',
+        location: 'storage',
       }),
     )
   })
@@ -44,7 +44,7 @@ describe('Save inventory item', () => {
       title: `item-title`,
       description: null,
       deviceId: null,
-      location: 'ti',
+      location: 'it storage',
       quantity: 1,
     })
 

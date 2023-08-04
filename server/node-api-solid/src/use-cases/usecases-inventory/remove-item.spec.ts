@@ -17,7 +17,7 @@ describe('Remove inventory item', () => {
       title: `item-title`,
       description: null,
       deviceId: null,
-      location: 'ti',
+      location: 'it storage',
       quantity: 1,
     })
 

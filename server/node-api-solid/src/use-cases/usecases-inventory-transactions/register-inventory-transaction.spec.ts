@@ -19,8 +19,8 @@ describe('Consume item in inventory', () => {
   it('should be able to insert item in inventory', async () => {
     const item = await inventoryRepository.create({
       deviceId: 'device-id',
-      title: 'tinta',
-      location: 'almoxarifado',
+      title: 'printer ink',
+      location: 'storage',
       quantity: 1,
       description: null,
     })
@@ -40,8 +40,8 @@ describe('Consume item in inventory', () => {
   it('should be able to consume item in inventory', async () => {
     const item = await inventoryRepository.create({
       deviceId: 'device-id',
-      title: 'tinta',
-      location: 'almoxarifado',
+      title: 'printer ink',
+      location: 'storage',
       quantity: 10,
       description: null,
     })
@@ -79,8 +79,8 @@ describe('Consume item in inventory', () => {
   it('should not be able to register a inventory transaction if the quantity consumed is more than quantity in inventory', async () => {
     const item = await inventoryRepository.create({
       deviceId: 'device-id',
-      title: 'tinta',
-      location: 'almoxarifado',
+      title: 'printer ink',
+      location: 'storage',
       quantity: 10,
       description: null,
     })

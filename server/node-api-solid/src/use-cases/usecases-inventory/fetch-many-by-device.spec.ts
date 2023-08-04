@@ -22,7 +22,7 @@ describe('Fetch many items by device', () => {
       type: 'printer',
       supplier: 'OEF',
       acquisition_type: 'BOUGHT',
-      description: 'Impressora localizado no PCP',
+      description: 'located at PCP',
       contract_expiration: null,
       rented_in: null,
       obs: null,
@@ -33,7 +33,7 @@ describe('Fetch many items by device', () => {
         title: `item-${i}`,
         description: null,
         deviceId: device.id,
-        location: 'ti',
+        location: 'it storage',
         quantity: 1,
       })
     }

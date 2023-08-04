@@ -19,16 +19,16 @@ describe('Register item in inventory', () => {
   it('should be able to register item in inventory', async () => {
     const { item } = await sut.execute({
       deviceId: null,
-      title: 'teclado',
-      location: 'ti',
+      title: 'dell keyboard',
+      location: 'it storage',
       quantity: 1,
       description: null,
     })
 
     expect(item).toEqual(
       expect.objectContaining({
-        title: 'teclado',
-        location: 'ti',
+        title: 'dell keyboard',
+        location: 'it storage',
         quantity: 1,
         description: null,
       }),
@@ -39,8 +39,8 @@ describe('Register item in inventory', () => {
     await expect(() =>
       sut.execute({
         deviceId: 'non-existent-device',
-        title: 'Tinta Preta',
-        location: 'almoxarifado',
+        title: 'printer black ink',
+        location: 'storage',
         quantity: 1,
         description: null,
       }),
