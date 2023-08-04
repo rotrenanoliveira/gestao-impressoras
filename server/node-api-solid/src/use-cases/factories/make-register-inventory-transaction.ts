@@ -1,6 +1,6 @@
 import { PrismaInventoryTransactionsRepository } from '@/repositories/prisma/prisma-inventory-transactions-repository'
 import { PrismaInventoryRepository } from '@/repositories/prisma/prisma-inventory-repository'
-import { RegisterInventoryTransactionUseCase } from '../register-inventory-transaction'
+import { RegisterInventoryTransactionUseCase } from '../usecases-inventory-transactions/register-inventory-transaction'
 
 export function makeRegisterInventoryTransaction() {
   const inventoryRepository = new PrismaInventoryRepository()

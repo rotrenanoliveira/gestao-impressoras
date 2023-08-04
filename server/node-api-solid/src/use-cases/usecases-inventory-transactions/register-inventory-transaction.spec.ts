@@ -1,15 +1,15 @@
-import { beforeEach, describe, expect, it } from 'vitest'
-
-import { InMemoryInventoryTransactionsRepository } from '@/repositories/in-memory/in-memory-inventory-transactions-repository'
 import { InMemoryInventoryRepository } from '@/repositories/in-memory/in-memory-inventory-repository'
+import { InMemoryInventoryTransactionsRepository } from '@/repositories/in-memory/in-memory-inventory-transactions-repository'
+import { beforeEach, describe, expect, it } from 'vitest'
+import { ResourceNotFound } from '../errors/resource-not-found'
 import { RegisterInventoryTransactionUseCase } from './register-inventory-transaction'
-import { ResourceNotFound } from './errors/resource-not-found'
+import { InvalidTransactionQuantityError } from '../errors/invalid-transaction-quantity'
 
 let inventoryRepository: InMemoryInventoryRepository
 let inventoryTransactionsRepository: InMemoryInventoryTransactionsRepository
 let sut: RegisterInventoryTransactionUseCase
 
-describe.skip('Consume item in inventory', () => {
+describe('Consume item in inventory', () => {
   beforeEach(() => {
     inventoryRepository = new InMemoryInventoryRepository()
     inventoryTransactionsRepository = new InMemoryInventoryTransactionsRepository()
@@ -18,7 +18,7 @@ describe.skip('Consume item in inventory', () => {
 
   it('should be able to insert item in inventory', async () => {
     const item = await inventoryRepository.create({
-      device_id: 'device-id',
+      deviceId: 'device-id',
       title: 'tinta',
       location: 'almoxarifado',
       quantity: 1,
@@ -28,7 +28,7 @@ describe.skip('Consume item in inventory', () => {
     const QUANTITY_TO_INSERT = 1
 
     await sut.execute({
-      item_id: item.id,
+      itemId: item.id,
       quantity: QUANTITY_TO_INSERT,
       operator: 'operator-name',
       transaction_type: 'INSERT',
@@ -39,7 +39,7 @@ describe.skip('Consume item in inventory', () => {
 
   it('should be able to consume item in inventory', async () => {
     const item = await inventoryRepository.create({
-      device_id: 'device-id',
+      deviceId: 'device-id',
       title: 'tinta',
       location: 'almoxarifado',
       quantity: 10,
@@ -49,7 +49,7 @@ describe.skip('Consume item in inventory', () => {
     const QUANTITY_TO_CONSUME = 1
 
     await sut.execute({
-      item_id: item.id,
+      itemId: item.id,
       operator: 'operator-name',
       quantity: QUANTITY_TO_CONSUME,
       transaction_type: 'REMOVE',
@@ -59,7 +59,7 @@ describe.skip('Consume item in inventory', () => {
 
     expect(inventoryTransactionsRepository.items[0]).toEqual(
       expect.objectContaining({
-        item_id: item.id,
+        itemId: item.id,
         operator: 'operator-name',
       }),
     )
@@ -68,7 +68,7 @@ describe.skip('Consume item in inventory', () => {
   it('should not be able to register a inventory transaction with invalid item ID', async () => {
     await expect(() =>
       sut.execute({
-        item_id: 'non-existent-item',
+        itemId: 'non-existent-item',
         operator: 'operator-name',
         quantity: 1,
         transaction_type: 'INSERT',
@@ -78,7 +78,7 @@ describe.skip('Consume item in inventory', () => {
 
   it('should not be able to register a inventory transaction if the quantity consumed is more than quantity in inventory', async () => {
     const item = await inventoryRepository.create({
-      device_id: 'device-id',
+      deviceId: 'device-id',
       title: 'tinta',
       location: 'almoxarifado',
       quantity: 10,
@@ -89,11 +89,11 @@ describe.skip('Consume item in inventory', () => {
 
     await expect(() =>
       sut.execute({
-        item_id: item.id,
+        itemId: item.id,
         operator: 'operator-name',
         quantity: QUANTITY_TO_CONSUME,
         transaction_type: 'REMOVE',
       }),
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(InvalidTransactionQuantityError)
   })
 })
