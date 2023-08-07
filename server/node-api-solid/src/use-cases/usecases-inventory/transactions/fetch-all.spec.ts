@@ -19,14 +19,14 @@ describe('Fetch all inventory transactions use case', () => {
       quantity: 10,
       title: 'keyboard',
       location: 'it storage',
-      deviceId: null,
+      device_id: null,
       description: null,
     })
 
     for (let id = 0; id < 5; id++) {
       await inventoryTransactionsRepository.create({
         quantity: 1,
-        itemId: item.id,
+        item_id: item.id,
         operator: 'operator-name',
         transaction_type: 'REMOVE',
       })
@@ -38,7 +38,7 @@ describe('Fetch all inventory transactions use case', () => {
     expect(transactions[0]).toEqual(
       expect.objectContaining({
         quantity: 1,
-        itemId: item.id,
+        item_id: item.id,
         operator: 'operator-name',
         transaction_type: 'REMOVE',
         item: {

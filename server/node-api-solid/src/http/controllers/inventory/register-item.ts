@@ -1,4 +1,4 @@
-import { makeRegisterItemInInventory } from '@/use-cases/factories/make-register-item-in-inventory'
+import { makeRegisterInventoryItem } from '@/use-cases/factories/inventory/make-register-item'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -13,7 +13,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
   const { title, quantity, location, device_id, description } = registerInventoryItemBodySchema.parse(request.body)
 
-  const registerItemUseCase = makeRegisterItemInInventory()
+  const registerItemUseCase = makeRegisterInventoryItem()
 
   const { item } = await registerItemUseCase.execute({
     title,

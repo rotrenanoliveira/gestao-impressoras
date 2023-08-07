@@ -52,7 +52,7 @@ declare type InventoryItem = {
 } & InventoryItemCreateInput
 
 declare type InventoryTransactionCreateInput = {
-  itemId: string
+  item_id: string
   operator: string
   quantity: number
   transaction_type: TRANSACTION_TYPE

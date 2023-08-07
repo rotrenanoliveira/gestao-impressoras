@@ -1,10 +1,10 @@
 import { InvalidTransactionQuantityError } from '@/use-cases/errors/invalid-transaction-quantity'
 import { ResourceNotFound } from '@/use-cases/errors/resource-not-found'
-import { makeRegisterInventoryTransaction } from '@/use-cases/factories/make-register-inventory-transaction'
+import { makeRegisterInventoryTransaction } from '@/use-cases/factories/inventory/transactions/make-register-inventory-transaction'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function registerInventoryTransaction(request: FastifyRequest, reply: FastifyReply) {
+export async function registerTransaction(request: FastifyRequest, reply: FastifyReply) {
   const registerInventoryTransactionParamsSchema = z.object({
     itemId: z.string().uuid(),
   })

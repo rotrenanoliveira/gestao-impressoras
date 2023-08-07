@@ -19,7 +19,7 @@ export class InMemoryInventoryTransactionsRepository implements InventoryTransac
 
   async findManyByItemId(itemId: string): Promise<InventoryTransaction[]> {
     const transactions = this.items
-      .filter((item) => item.itemId === itemId)
+      .filter((item) => item.item_id === itemId)
       .map((item) => {
         return {
           ...item,
@@ -35,7 +35,7 @@ export class InMemoryInventoryTransactionsRepository implements InventoryTransac
   async create(data: InventoryTransactionCreateInput): Promise<void> {
     const item = {
       id: randomUUID(),
-      itemId: data.itemId,
+      item_id: data.item_id,
       operator: data.operator,
       quantity: data.quantity,
       transaction_type: data.transaction_type,

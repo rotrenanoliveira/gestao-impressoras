@@ -18,7 +18,7 @@ describe('Fetch inventory transactions by item id', () => {
   it('should be able to fetch the list of transactions of item', async () => {
     await inventoryRepository.create({
       id: 'item-id',
-      deviceId: 'device-id',
+      device_id: 'device-id',
       title: 'printer ink',
       quantity: 1,
       location: 'storage',
@@ -27,7 +27,7 @@ describe('Fetch inventory transactions by item id', () => {
 
     for (let i = 1; i <= 5; i++) {
       await inventoryTransactionsRepository.create({
-        itemId: 'item-id',
+        item_id: 'item-id',
         operator: 'operator-name',
         quantity: 1,
         transaction_type: 'INSERT',

@@ -2,11 +2,8 @@ import { prisma } from '@/lib/prisma'
 import { InventoryTransactionsRepository } from '../inventory-transactions-repository'
 
 export class PrismaInventoryTransactionsRepository implements InventoryTransactionsRepository {
-  async findManyByItemId(item_id: string): Promise<InventoryTransaction[]> {
-    const transactionsRaw = await prisma.inventoryTransaction.findMany({
-      where: {
-        item_id,
-      },
+  async findMany(): Promise<InventoryTransaction[]> {
+    const transactions = await prisma.inventoryTransaction.findMany({
       include: {
         item: {
           select: {
@@ -16,16 +13,21 @@ export class PrismaInventoryTransactionsRepository implements InventoryTransacti
       },
     })
 
-    const transactions = transactionsRaw.map((transaction) => {
-      return {
-        id: transaction.id,
-        item_id: transaction.item_id,
-        operator: transaction.operator,
-        quantity: transaction.quantity,
-        transaction_type: transaction.transaction_type,
-        created_at: transaction.created_at,
-        title: transaction.item.title,
-      }
+    return transactions
+  }
+
+  async findManyByItemId(itemId: string): Promise<InventoryTransaction[]> {
+    const transactions = await prisma.inventoryTransaction.findMany({
+      where: {
+        item_id: itemId,
+      },
+      include: {
+        item: {
+          select: {
+            title: true,
+          },
+        },
+      },
     })
 
     return transactions

@@ -1,7 +1,7 @@
 import { InventoryTransactionsRepository } from '@/repositories/inventory-transactions-repository'
 import { InventoryRepository } from '@/repositories/inventory-repository'
-import { ResourceNotFound } from '../errors/resource-not-found'
-import { InvalidTransactionQuantityError } from '../errors/invalid-transaction-quantity'
+import { InvalidTransactionQuantityError } from '@/use-cases/errors/invalid-transaction-quantity'
+import { ResourceNotFound } from '@/use-cases/errors/resource-not-found'
 
 export class RegisterInventoryTransactionUseCase {
   constructor(
@@ -9,7 +9,12 @@ export class RegisterInventoryTransactionUseCase {
     private inventoryTransactionsRepository: InventoryTransactionsRepository,
   ) {}
 
-  async execute({ itemId, operator, quantity, transaction_type }: InventoryTransactionCreateInput): Promise<void> {
+  async execute({
+    item_id: itemId,
+    operator,
+    quantity,
+    transaction_type,
+  }: InventoryTransactionCreateInput): Promise<void> {
     const item = await this.inventoryRepository.findById(itemId)
 
     if (!item) {
@@ -21,7 +26,7 @@ export class RegisterInventoryTransactionUseCase {
     }
 
     await this.inventoryTransactionsRepository.create({
-      itemId,
+      item_id: itemId,
       operator,
       quantity,
       transaction_type,

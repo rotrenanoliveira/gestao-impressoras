@@ -4,6 +4,8 @@ import { getOne } from './get-one'
 import { register } from './register-item'
 import { remove } from './remove'
 import { save } from './save'
+import { registerTransaction } from './transactions/register'
+import { fetchManyTransactions } from './transactions/fetch-many'
 
 export async function inventoryRoutes(app: FastifyInstance) {
   // Inventory Routes
@@ -16,6 +18,6 @@ export async function inventoryRoutes(app: FastifyInstance) {
 
   app.delete('/inventory/:itemId', remove)
 
-  // app.post('/inventory/:itemId/transactions', registerInventoryTransaction)
-  // app.get('/inventory/:itemId/transactions', fetchInventoryTransactionByItem)
+  app.get('/inventory/transactions', fetchManyTransactions)
+  app.post('/inventory/:itemId/transactions', registerTransaction)
 }
