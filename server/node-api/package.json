@@ -16,7 +16,7 @@
     "test:watch": "vitest --dir src/use-cases",
     "test:e2e": "vitest run --dir src/http",
     "test:e2e:watch": "vitest --dir src/http",
-    "test:all": "vitest run"
+    "test:all": "vitest run --dir src"
   },
   "keywords": [],
   "author": "",
