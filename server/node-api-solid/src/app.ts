@@ -1,4 +1,5 @@
 import fastify from 'fastify'
+import cors from '@fastify/cors'
 import { ZodError } from 'zod'
 
 import { env } from './env'
@@ -8,6 +9,12 @@ import { inventoryRoutes } from './http/controllers/inventory/routes'
 import { ResourceNotFound } from './use-cases/errors/resource-not-found'
 
 export const app = fastify()
+
+app.register(cors, {
+  origin: (_, cb) => {
+    cb(null, true)
+  },
+})
 
 // Routes
 app.register(deviceRoutes)

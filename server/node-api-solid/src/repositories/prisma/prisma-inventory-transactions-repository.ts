@@ -4,6 +4,9 @@ import { InventoryTransactionsRepository } from '../inventory-transactions-repos
 export class PrismaInventoryTransactionsRepository implements InventoryTransactionsRepository {
   async findMany(): Promise<InventoryTransaction[]> {
     const transactions = await prisma.inventoryTransaction.findMany({
+      orderBy: {
+        created_at: 'desc',
+      },
       include: {
         item: {
           select: {
@@ -20,6 +23,9 @@ export class PrismaInventoryTransactionsRepository implements InventoryTransacti
     const transactions = await prisma.inventoryTransaction.findMany({
       where: {
         item_id: itemId,
+      },
+      orderBy: {
+        created_at: 'desc',
       },
       include: {
         item: {

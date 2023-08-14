@@ -21,7 +21,7 @@ export class RegisterInventoryTransactionUseCase {
       throw new ResourceNotFound('item')
     }
 
-    if (quantity > item.quantity) {
+    if (quantity > item.quantity && transaction_type === 'REMOVE') {
       throw new InvalidTransactionQuantityError()
     }
 
