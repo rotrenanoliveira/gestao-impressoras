@@ -1,0 +1,9 @@
+- [x] Cadastrar dispositivos e insumos que podem ou não estar ligados a um dispositivo
+- [ ] Cadastrar tipos de dispositivos
+- [ ] Cadastrar (e-mail) responsáveis (internamente) pelo dispositivo/tipo de dispositivo
+- [ ] Cadastrar licenças usadas pela empresa
+- [ ] Cadastrar lista de contatos relacionados a fornecedores dos dispositivos
+- [ ] Cadastrar possíveis ações para "acontecimentos" (ex. Enviar e-mail quando algo acontecer)
+- [ ] Implementar cronjob para poder realizar ações que foram cadastradas usando datas
+- [ ] Implementar acesso a ftp e sftp
+- [ ] Criar ação de backup permitindo a cópia de arquivos de um diretória até outro e podendo agendar quando será executado

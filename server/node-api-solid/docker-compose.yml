@@ -1,11 +1,11 @@
 version: '3'
 
 services:
-  node-api-solid-pg:
+  it-manager-pg:
     image: bitnami/postgresql
     ports:
       - 5432:5432
     environment:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker
-      - POSTGRESQL_DATABASE=apisolid
+      - POSTGRESQL_DATABASE=itmanager
