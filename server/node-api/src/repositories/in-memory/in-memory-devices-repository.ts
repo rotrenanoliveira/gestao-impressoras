@@ -1,19 +1,36 @@
 import { randomUUID } from 'node:crypto'
 import { DevicesRepository } from '../devices-repository'
 
+function getHydratedData(rawData: Partial<Device>) {
+  const data: Partial<Device> = {}
+
+  for (const key in rawData) {
+    switch (key) {
+      case 'status':
+        data.status = rawData[key]
+        break
+
+      case 'department':
+        data.department = rawData[key]
+        break
+
+      case 'name':
+        data.name = rawData[key]
+        break
+
+      default:
+        break
+    }
+  }
+
+  return data
+}
+
 export class InMemoryDevicesRepository implements DevicesRepository {
   public items: Device[] = []
 
-  async findMany(): Promise<Device[]> {
-    return this.items
-  }
-
-  async findManyByType(type: string): Promise<Device[]> {
-    return this.items.filter((item) => item.type === type)
-  }
-
   async findById(deviceId: string): Promise<Device | null> {
-    const device = this.items.find((item) => item.id === deviceId)
+    const device = this.items.find((device) => device.id === deviceId)
 
     if (!device) {
       return null
@@ -25,19 +42,9 @@ export class InMemoryDevicesRepository implements DevicesRepository {
   async create(data: DeviceCreateInput): Promise<Device> {
     const device: Device = {
       id: randomUUID(),
-      created_at: new Date(),
-      // NOT NULL
+      status: 'ok',
       name: data.name,
-      type: data.type,
-      supplier: data.supplier,
-      status: data.status,
-      // RENTED DEVICE PROPS
-      acquisition_type: data.acquisition_type,
-      rented_in: data.rented_in ?? null,
-      contract_expiration: data.contract_expiration ?? null,
-      // NULLABLE
-      description: data.description ?? null,
-      obs: data.obs ?? null,
+      department: data.department,
     }
 
     this.items.push(device)
@@ -45,32 +52,32 @@ export class InMemoryDevicesRepository implements DevicesRepository {
     return device
   }
 
-  async save(deviceId: string, data: Partial<Device>): Promise<Device | null> {
-    const deviceIndex = this.items.findIndex((item) => item.id === deviceId)
+  async save(deviceId: string, rawData: Partial<Device>): Promise<Device | null> {
+    const deviceIndex = this.items.findIndex((device) => device.id === deviceId)
 
     if (deviceIndex < 0) {
       return null
     }
 
-    const updatedDevice = {
-      ...this.items[deviceIndex],
+    const data = getHydratedData(rawData)
+    const currentDevice = this.items[deviceIndex]
+
+    this.items[deviceIndex] = {
+      ...currentDevice,
       ...data,
     }
 
-    this.items[deviceIndex] = updatedDevice
-
-    return updatedDevice
+    return this.items[deviceIndex]
   }
 
   async remove(deviceId: string): Promise<Device | null> {
-    const deviceIndex = this.items.findIndex((item) => item.id === deviceId)
+    const deviceIndex = this.items.findIndex((device) => device.id === deviceId)
 
     if (deviceIndex < 0) {
       return null
     }
 
     const device = this.items[deviceIndex]
-
     this.items.splice(deviceIndex, 1)
 
     return device
