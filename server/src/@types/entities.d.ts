@@ -16,12 +16,13 @@ declare interface Computer {
 
 declare interface Printer {
   id: string
+  ip: string
   deviceId: string
   name: string
   status: DeviceStatus
   rentedIn: Date | null
   expiresAt: Date | null
-  obs: Date | null
+  obs: string | null
 }
 
 declare interface PrinterInkStock {

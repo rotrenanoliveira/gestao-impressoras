@@ -1,5 +1,7 @@
 declare type DeviceStatus = 'ok' | 'warning' | 'danger'
 
+declare type TransactionType = 'insert' | 'remove'
+
 declare type StorageCapacity = {
   type: 'SSD' | 'HDD'
   capacity: number // in gigabytes
@@ -54,7 +56,7 @@ declare type PrinterInkStockSaveInput = {
 
 declare type InkStockTransactionCreateInput = {
   operator: string
-  type: 'insert' | 'remove'
+  type: TransactionType
   inkId: string
 }
 
