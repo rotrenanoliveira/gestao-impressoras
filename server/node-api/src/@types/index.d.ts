@@ -1,70 +1,67 @@
-const ACQUISITION_TYPE: { [x: string]: 'BOUGHT' | 'RENTED' } = {
-  BOUGHT: 'BOUGHT',
-  RENTED: 'RENTED',
+declare type DeviceStatus = 'ok' | 'warning' | 'danger'
+
+declare type StorageCapacity = {
+  type: 'SSD' | 'HDD'
+  capacity: number // in gigabytes
 }
 
-const DEVICE_STATUS: { [x: string]: 'OK' | 'WARNING' | 'DANGER' } = {
-  OK: 'OK',
-  WARNING: 'WARNING',
-  DANGER: 'DANGER',
+declare type ComputerSpecs = {
+  hostname: string
+  processor: string
+  storage: StorageCapacity
+  ram: string
+  so: string
+  office: string | null
 }
 
-const TRANSACTION_TYPE: { [x: string]: 'INSERT' | 'REMOVE' } = {
-  INSERT: 'INSERT',
-  REMOVE: 'REMOVE',
+declare type LicensePrice = {
+  value: number // always in cents (multiply value by 100)
+  currency: 'BRL' | 'USD' | 'EUR'
 }
-
-declare type ACQUISITION_TYPE = (typeof ACQUISITION_TYPE)[keyof typeof ACQUISITION_TYPE]
-declare type DEVICE_STATUS = (typeof DEVICE_STATUS)[keyof typeof DEVICE_STATUS]
-declare type TRANSACTION_TYPE = (typeof TRANSACTION_TYPE)[keyof typeof TRANSACTION_TYPE]
 
 declare type DeviceCreateInput = {
   name: string
-  type: string
-  supplier: string
-  status: DEVICE_STATUS
+  department: string
+}
 
-  acquisition_type: ACQUISITION_TYPE
-  rented_in: Date | null
-  contract_expiration: Date | null
+declare type ComputerCreateInput = {
+  deviceId: string
+  specs: ComputerSpecs
+  usedBy: string
+}
 
+declare type ComputerSaveInput = Partial<Omit<ComputerCreateInput, 'deviceId'>>
+
+declare type PrinterCreateInput = {
+  ip: string
+  deviceId: string
   obs: string | null
-  description: string | null
+  rentedIn: Date | null
+  expiresAt: Date | null
 }
 
-declare type Device = {
-  id: string
-  created_at: Date
-} & DeviceCreateInput
+declare type PrinterSaveInput = Partial<Omit<PrinterCreateInput, 'deviceId'>>
 
-declare type InventoryItemCreateInput = {
-  title: string
+declare type PrinterInkStockCreateInput = {
+  name: string
   quantity: number
-  location: string
-  device_id: string | null
-  description: string | null
+  printerId: string
 }
 
-declare type InventoryItem = {
-  id: string
-  created_at: Date
-  updated_at: Date
-} & InventoryItemCreateInput
+declare type PrinterInkStockSaveInput = {
+  name: string
+}
 
-declare type InventoryTransactionCreateInput = {
-  item_id: string
+declare type InkStockTransactionCreateInput = {
   operator: string
-  quantity: number
-  transaction_type: TRANSACTION_TYPE
+  type: 'insert' | 'remove'
+  inkId: string
 }
 
-declare type InventoryTransactionData = {
-  id: string
-  created_at: Date
-} & InventoryTransactionCreateInput
-
-declare type InventoryTransaction = {
-  item: {
-    title: string
-  }
-} & InventoryTransactionData
+declare type LicenseCreateInput = {
+  description: string
+  price: LicensePrice
+  obs: string | null
+  expiresAt: Date
+  initAt: Date
+}
