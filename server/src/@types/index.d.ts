@@ -67,3 +67,5 @@ declare type LicenseCreateInput = {
   expiresAt: Date
   initAt: Date
 }
+
+declare type LicenseSaveInput = Partial<LicenseCreateInput>
