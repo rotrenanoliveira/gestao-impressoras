@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import { DevicesRepository } from '../devices-repository'
+import { ResourceNotFound } from '@/use-cases/errors/resource-not-found'
 
 function getHydratedData(rawData: Partial<Device>) {
   const data: Partial<Device> = {}
@@ -52,11 +53,11 @@ export class InMemoryDevicesRepository implements DevicesRepository {
     return device
   }
 
-  async save(deviceId: string, rawData: Partial<Device>): Promise<Device | null> {
+  async save(deviceId: string, rawData: Partial<Device>): Promise<Device> {
     const deviceIndex = this.items.findIndex((device) => device.id === deviceId)
 
     if (deviceIndex < 0) {
-      return null
+      throw new ResourceNotFound('device')
     }
 
     const data = getHydratedData(rawData)
@@ -70,11 +71,11 @@ export class InMemoryDevicesRepository implements DevicesRepository {
     return this.items[deviceIndex]
   }
 
-  async remove(deviceId: string): Promise<Device | null> {
+  async remove(deviceId: string): Promise<Device> {
     const deviceIndex = this.items.findIndex((device) => device.id === deviceId)
 
     if (deviceIndex < 0) {
-      return null
+      throw new ResourceNotFound('device')
     }
 
     const device = this.items[deviceIndex]

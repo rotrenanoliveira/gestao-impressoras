@@ -15,8 +15,13 @@ describe('Remove printer use case', () => {
   })
 
   it('should be able to remove printer', async () => {
+    const { id: deviceId } = await devicesRepository.create({
+      name: 'printer',
+      department: 'IT',
+    })
+
     const { id: printerId } = await printersRepository.create({
-      deviceId: 'device-id',
+      deviceId: deviceId,
       ip: '0.0.0.1',
       rentedIn: new Date('2020, 10, 28'),
       expiresAt: new Date('2023, 10, 28'),

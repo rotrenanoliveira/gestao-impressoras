@@ -15,8 +15,13 @@ describe('Remove computer use case', () => {
   })
 
   it('should be able to remove computer', async () => {
+    const { id: deviceId } = await devicesRepository.create({
+      name: 'notebook',
+      department: 'IT',
+    })
+
     const { id: computerId } = await computersRepository.create({
-      deviceId: 'device-id',
+      deviceId: deviceId,
       usedBy: 'John Doe',
       specs: {} as ComputerSpecs,
     })
