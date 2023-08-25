@@ -1,6 +1,6 @@
 import { app } from '@/app'
 import { prisma } from '@/lib/prisma'
-import { createComputer } from '@/utils/create-computer'
+import { createComputer } from '@/utils/tests/create-computer'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import request from 'supertest'
 
