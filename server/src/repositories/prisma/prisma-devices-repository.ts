@@ -1,69 +1,77 @@
 import { prisma } from '@/lib/prisma'
 import { DevicesRepository } from '../devices-repository'
 
+function hydrateData(rawData: Partial<Device>) {
+  const data: Partial<DeviceSchema> = {}
+
+  for (const key in rawData) {
+    switch (key) {
+      case 'name':
+        data.name = rawData[key]
+        break
+
+      case 'department':
+        data.department = rawData[key]
+        break
+
+      case 'status':
+        data.status = rawData[key]
+        break
+
+      default:
+        break
+    }
+  }
+
+  return data
+}
+
 export class PrismaDevicesRepository implements DevicesRepository {
-  async findMany(): Promise<Device[]> {
-    const devices = await prisma.device.findMany()
-
-    return devices
-  }
-
-  async findManyByType(type: string): Promise<Device[]> {
-    const devices = await prisma.device.findMany({
-      where: {
-        type,
-      },
-    })
-
-    return devices
-  }
-
-  async findById(device_id: string): Promise<Device | null> {
-    const device = await prisma.device.findUnique({
-      where: {
-        id: device_id,
-      },
-    })
-
-    return device
+  private select = {
+    id: true,
+    name: true,
+    status: true,
+    department: true,
   }
 
   async create(data: DeviceCreateInput): Promise<Device> {
     const device = await prisma.device.create({
       data: {
         name: data.name,
-        type: data.type,
-        status: data.status,
-        supplier: data.supplier,
-        acquisition_type: data.acquisition_type,
-        contract_expiration: data.contract_expiration,
-        description: data.description,
-        rented_in: data.rented_in,
-        obs: data.obs,
+        department: data.department,
+        status: 'ok',
       },
+      select: { ...this.select },
     })
 
     return device
   }
 
-  async save(deviceId: string, data: Partial<Device>): Promise<Device | null> {
+  async findById(deviceId: string): Promise<Device | null> {
+    const device = await prisma.device.findUnique({
+      where: { id: deviceId },
+      select: { ...this.select },
+    })
+
+    return device
+  }
+
+  async save(deviceId: string, rawData: Partial<Device>): Promise<Device> {
+    const data = hydrateData(rawData)
+
     const device = await prisma.device.update({
-      where: {
-        id: deviceId,
-      },
-      data: {
-        ...data,
-      },
+      where: { id: deviceId },
+      data: { ...data },
+      select: { ...this.select },
     })
 
     return device
   }
 
-  async remove(deviceId: string): Promise<Device | null> {
+  async remove(deviceId: string): Promise<Device> {
     const device = await prisma.device.delete({
-      where: {
-        id: deviceId,
-      },
+      where: { id: deviceId },
+      select: { ...this.select },
     })
 
     return device

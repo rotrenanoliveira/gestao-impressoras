@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
@@ -95,4 +96,13 @@ model License {
   obs         String?
 
   @@map("licenses")
+}
+
+view ComputerInfo {
+  id        String        @unique
+  device_id String        @unique
+  name      String
+  used_by   String
+  status    DEVICE_STATUS
+  specs     Json
 }

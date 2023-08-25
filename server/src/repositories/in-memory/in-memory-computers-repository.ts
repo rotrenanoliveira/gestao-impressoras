@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import { ComputersRepository } from '../computers-repository'
+import { ResourceNotFound } from '@/use-cases/errors/resource-not-found'
 
 function hydrateData(rawData: Partial<Computer>) {
   const data: Partial<ComputerSchema> = {}
@@ -63,11 +64,11 @@ export class InMemoryComputersRepository implements ComputersRepository {
     return computer
   }
 
-  async save(computerId: string, rawData: ComputerSaveInput): Promise<Computer | null> {
+  async save(computerId: string, rawData: ComputerSaveInput): Promise<Computer> {
     const computerIndex = this.items.findIndex((pc) => pc.id === computerId)
 
     if (computerIndex < 0) {
-      return null
+      throw new ResourceNotFound('computer')
     }
 
     const data = hydrateData(rawData)
@@ -83,11 +84,11 @@ export class InMemoryComputersRepository implements ComputersRepository {
     return computer
   }
 
-  async remove(computerId: string): Promise<Computer | null> {
+  async remove(computerId: string): Promise<Computer> {
     const computerIndex = this.items.findIndex((pc) => pc.id === computerId)
 
     if (computerIndex < 0) {
-      return null
+      throw new ResourceNotFound('computer')
     }
 
     const { device_id: deviceId, used_by: usedBy, id, specs } = this.items[computerIndex]

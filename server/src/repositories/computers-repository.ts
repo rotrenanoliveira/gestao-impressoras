@@ -5,7 +5,7 @@ export interface ComputersRepository {
 
   findById(computerId: string): Promise<Computer | null>
 
-  save(computerId: string, rawData: Partial<ComputerSaveInput>): Promise<Computer | null>
+  save(computerId: string, rawData: ComputerSaveInput): Promise<Computer>
 
-  remove(computerId: string): Promise<Computer | null>
+  remove(computerId: string): Promise<Computer>
 }

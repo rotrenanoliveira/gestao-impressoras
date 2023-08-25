@@ -40,10 +40,6 @@ export class SaveComputerUseCase {
 
     const computer = await this.computersRepository.save(computerId, { ...data })
 
-    if (!computer) {
-      throw new Error('Failed to save computer')
-    }
-
     return {
       computer,
     }

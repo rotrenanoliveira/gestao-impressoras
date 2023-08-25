@@ -15,8 +15,8 @@ export class RemoveComputerUseCase {
       throw new ResourceNotFound('computer')
     }
 
-    await this.devicesRepository.remove(computer.deviceId)
     await this.computersRepository.remove(computerId)
+    await this.devicesRepository.remove(computer.deviceId)
 
     return
   }
