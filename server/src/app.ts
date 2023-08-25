@@ -1,11 +1,13 @@
 import fastify from 'fastify'
 import cors from '@fastify/cors'
-import { ZodError } from 'zod'
 
 import { env } from './env'
 
-import { computerRoutes } from './http/controllers/computers/route'
+import { ZodError } from 'zod'
 import { ResourceNotFound } from './use-cases/errors/resource-not-found'
+
+import { computerRoutes } from './http/controllers/computers/route'
+import { printerRoutes } from './http/controllers/printers/route'
 
 export const app = fastify()
 
@@ -17,6 +19,7 @@ app.register(cors, {
 
 // Routes
 app.register(computerRoutes)
+app.register(printerRoutes)
 
 // HANDLE GLOBAL ERRORS
 app.setErrorHandler((err, _, reply) => {

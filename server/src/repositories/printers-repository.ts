@@ -5,7 +5,7 @@ export interface PrintersRepository {
 
   findById(printerId: string): Promise<Printer | null>
 
-  save(printerId: string, rawData: Partial<PrinterSaveInput>): Promise<Printer | null>
+  save(printerId: string, rawData: PrinterSaveInput): Promise<Printer>
 
-  remove(printerId: string): Promise<Printer | null>
+  remove(printerId: string): Promise<Printer>
 }

@@ -106,3 +106,15 @@ view ComputerInfo {
   status    DEVICE_STATUS
   specs     Json
 }
+
+view PrinterInfo {
+  id         String        @unique
+  device_id  String        @unique
+  ip         String
+  name       String
+  department String
+  rented_in  DateTime?
+  expires_at DateTime?
+  obs        String?
+  status     DEVICE_STATUS
+}

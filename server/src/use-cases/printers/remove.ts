@@ -15,8 +15,8 @@ export class RemovePrinterUseCase {
       throw new ResourceNotFound('printer')
     }
 
-    await this.devicesRepository.remove(printer.deviceId)
     await this.printersRepository.remove(printerId)
+    await this.devicesRepository.remove(printer.deviceId)
 
     return
   }

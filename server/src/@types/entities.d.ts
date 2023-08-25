@@ -19,6 +19,7 @@ declare interface Printer {
   ip: string
   deviceId: string
   name: string
+  department: string
   status: DeviceStatus
   rentedIn: Date | null
   expiresAt: Date | null

@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import { PrintersRepository } from '../printers-repository'
+import { ResourceNotFound } from '@/use-cases/errors/resource-not-found'
 
 function hydrateData(rawData: Partial<Printer>) {
   const data: Partial<PrinterSchema> = {}
@@ -36,7 +37,7 @@ export class InMemoryPrintersRepository implements PrintersRepository {
   async findMany(): Promise<Printer[]> {
     const printers = this.items.map((printer) => {
       const { id, ip, device_id: deviceId, rented_in: rentedIn, expires_at: expiresAt, obs } = printer
-      return { id, ip, deviceId, rentedIn, expiresAt, obs, name: '', status: 'ok' as DeviceStatus }
+      return { id, ip, deviceId, rentedIn, expiresAt, obs, department: '', name: '', status: 'ok' as DeviceStatus }
     })
 
     return printers
@@ -50,9 +51,12 @@ export class InMemoryPrintersRepository implements PrintersRepository {
     }
 
     const { id, ip, device_id: deviceId, rented_in: rentedIn, expires_at: expiresAt, obs } = printerData
-    const printer = { id, ip, deviceId, rentedIn, expiresAt, obs, name: '', status: '' as DeviceStatus }
+    const printer = { id, ip, deviceId, rentedIn, expiresAt, obs, department: '', name: '', status: 'ok' }
 
-    return printer
+    return {
+      ...printer,
+      status: printer.status as DeviceStatus,
+    }
   }
 
   async create(data: PrinterCreateInput): Promise<Printer> {
@@ -68,19 +72,19 @@ export class InMemoryPrintersRepository implements PrintersRepository {
     this.items.push(savePrinter)
 
     const { id, ip, device_id: deviceId, rented_in: rentedIn, expires_at: expiresAt, obs } = savePrinter
-    const printer = { id, ip, deviceId, rentedIn, expiresAt, obs, name: '', status: '' as DeviceStatus }
+    const printer = { id, ip, deviceId, rentedIn, expiresAt, obs, department: '', name: '', status: 'ok' }
 
-    return printer
+    return {
+      ...printer,
+      status: printer.status as DeviceStatus,
+    }
   }
 
-  async save(
-    printerId: string,
-    rawData: Partial<Partial<Omit<PrinterCreateInput, 'deviceId'>>>,
-  ): Promise<Printer | null> {
+  async save(printerId: string, rawData: PrinterSaveInput): Promise<Printer> {
     const printerIndex = this.items.findIndex((printer) => printer.id === printerId)
 
     if (printerIndex < 0) {
-      return null
+      throw new ResourceNotFound('printer')
     }
 
     const data = hydrateData(rawData)
@@ -91,23 +95,29 @@ export class InMemoryPrintersRepository implements PrintersRepository {
     }
 
     const { id, ip, device_id: deviceId, rented_in: rentedIn, expires_at: expiresAt, obs } = this.items[printerIndex]
-    const printer = { id, ip, deviceId, rentedIn, expiresAt, obs, name: '', status: '' as DeviceStatus }
+    const printer = { id, ip, deviceId, rentedIn, expiresAt, obs, department: '', name: '', status: 'ok' }
 
-    return printer
+    return {
+      ...printer,
+      status: printer.status as DeviceStatus,
+    }
   }
 
-  async remove(printerId: string): Promise<Printer | null> {
+  async remove(printerId: string): Promise<Printer> {
     const printerIndex = this.items.findIndex((printer) => printer.id === printerId)
 
     if (printerIndex < 0) {
-      return null
+      throw new ResourceNotFound('printer')
     }
 
     const { id, ip, device_id: deviceId, rented_in: rentedIn, expires_at: expiresAt, obs } = this.items[printerIndex]
-    const printer = { id, ip, deviceId, rentedIn, expiresAt, obs, name: '', status: '' as DeviceStatus }
+    const printer = { id, ip, deviceId, rentedIn, expiresAt, obs, department: '', name: '', status: 'ok' }
 
     this.items.splice(printerIndex, 1)
 
-    return printer
+    return {
+      ...printer,
+      status: printer.status as DeviceStatus,
+    }
   }
 }

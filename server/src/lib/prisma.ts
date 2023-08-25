@@ -12,7 +12,14 @@ async function createView() {
     FROM "computers" c
     LEFT JOIN "devices" d ON d.id = c."device_id";
   `
-  console.log('View "computer_summary" created successfully.')
+
+  await prisma.$queryRaw`
+    CREATE VIEW "PrinterInfo" AS
+    SELECT p.id, device_id, ip, name, department, status, rented_in, expires_at, obs
+    FROM "printers" p
+    LEFT JOIN "devices" d ON d.id = p."device_id";
+  `
+  console.log('View was created successfully.')
 }
 
 createView()
