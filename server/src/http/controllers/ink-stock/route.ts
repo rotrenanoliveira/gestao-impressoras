@@ -12,7 +12,7 @@ export async function inkStockRoutes(app: FastifyInstance) {
   // Register Printer Ink
   app.post('/ink-stock', register)
 
-  app.patch('/ink-stock/:inkId', save)
+  app.put('/ink-stock/:inkId', save)
 
   app.delete('/ink-stock/:inkId', remove)
 }

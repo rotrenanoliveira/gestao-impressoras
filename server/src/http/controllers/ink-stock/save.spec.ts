@@ -15,7 +15,7 @@ describe('Save Ink (E2E)', () => {
   it('should be able to save ink', async () => {
     const { id: inkId } = await createPrinterInk()
 
-    const response = await request(app.server).patch(`/ink-stock/${inkId}`).send({
+    const response = await request(app.server).put(`/ink-stock/${inkId}`).send({
       name: 'blue ink',
     })
 
