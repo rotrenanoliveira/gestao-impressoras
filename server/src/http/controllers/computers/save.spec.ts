@@ -15,7 +15,7 @@ describe('Save Computer (E2E)', () => {
   it('should be able to save computer', async () => {
     const { id: computerId, device_id: deviceId } = await createComputer()
 
-    const response = await request(app.server).patch(`/computers/${computerId}`).send({
+    const response = await request(app.server).put(`/computers/${computerId}`).send({
       name: 'desktop',
       usedBy: 'jerry',
       status: 'warning',

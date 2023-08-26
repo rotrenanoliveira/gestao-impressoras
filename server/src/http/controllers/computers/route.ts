@@ -12,7 +12,7 @@ export async function computerRoutes(app: FastifyInstance) {
   // Register Computer
   app.post('/computers', register)
 
-  app.patch('/computers/:computerId', save)
+  app.put('/computers/:computerId', save)
 
   app.delete('/computers/:computerId', remove)
 }

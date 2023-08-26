@@ -1,7 +1,7 @@
 import { makeFetchManyComputersUseCase } from '@/use-cases/factories/computers/make-fetch-many-computers'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-export async function fetchMany(request: FastifyRequest, reply: FastifyReply) {
+export async function fetchMany(_: FastifyRequest, reply: FastifyReply) {
   const fetchManyUseCase = makeFetchManyComputersUseCase()
 
   const { computers } = await fetchManyUseCase.execute()
