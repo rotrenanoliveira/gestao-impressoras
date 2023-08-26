@@ -1,7 +1,7 @@
 import { makeFetchManyPrintersUseCase } from '@/use-cases/factories/printers/make-fetch-many-printers'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-export async function fetchMany(request: FastifyRequest, reply: FastifyReply) {
+export async function fetchMany(_: FastifyRequest, reply: FastifyReply) {
   const fetchManyUseCase = makeFetchManyPrintersUseCase()
 
   const { printers } = await fetchManyUseCase.execute()

@@ -15,7 +15,7 @@ describe('Save Printer (E2E)', () => {
   it('should be able to save printer', async () => {
     const { id: printerId, device_id: deviceId } = await createPrinter()
 
-    const response = await request(app.server).patch(`/printers/${printerId}`).send({
+    const response = await request(app.server).put(`/printers/${printerId}`).send({
       name: 'konica',
       ip: '10.0.0.1',
       status: 'warning',

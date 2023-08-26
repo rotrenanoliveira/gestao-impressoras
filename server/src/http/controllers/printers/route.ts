@@ -9,10 +9,10 @@ export async function printerRoutes(app: FastifyInstance) {
   app.get('/printers', fetchMany)
   app.get('/printers/:printerId', getOne)
 
-  // Register Computer
+  // Register Printer
   app.post('/printers', register)
 
-  app.patch('/printers/:printerId', save)
+  app.put('/printers/:printerId', save)
 
   app.delete('/printers/:printerId', remove)
 }
