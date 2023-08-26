@@ -126,3 +126,12 @@ view PrinterInkInfo {
   printer_name String
   quantity     Int
 }
+
+view InkStockTransactionInfo {
+  id         String           @unique
+  operator   String
+  ink_id     String
+  name       String
+  created_at DateTime
+  type       TRANSACTION_TYPE
+}

@@ -7,8 +7,9 @@ import { ZodError } from 'zod'
 import { ResourceNotFound } from './use-cases/errors/resource-not-found'
 
 import { computerRoutes } from './http/controllers/computers/route'
-import { printerRoutes } from './http/controllers/printers/route'
 import { inkStockRoutes } from './http/controllers/ink-stock/route'
+import { printerRoutes } from './http/controllers/printers/route'
+import { stockTransactionsRoutes } from './http/controllers/stock-transactions/route'
 
 export const app = fastify()
 
@@ -20,8 +21,9 @@ app.register(cors, {
 
 // Routes
 app.register(computerRoutes)
-app.register(printerRoutes)
 app.register(inkStockRoutes)
+app.register(printerRoutes)
+app.register(stockTransactionsRoutes)
 
 // HANDLE GLOBAL ERRORS
 app.setErrorHandler((err, _, reply) => {
