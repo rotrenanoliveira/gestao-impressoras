@@ -72,11 +72,11 @@ export class InMemoryPrinterInkStockRepository implements PrinterInkStockReposit
     return ink
   }
 
-  async stockTransaction(inkId: string, transaction: 'insert' | 'remove'): Promise<void | null> {
+  async stockTransaction(inkId: string, transaction: 'insert' | 'remove'): Promise<void> {
     const inkIndex = this.items.findIndex((ink) => ink.id === inkId)
 
     if (inkIndex < 0) {
-      return null
+      throw new ResourceNotFound('ink stock')
     }
 
     const { quantity: inkStockQuantity } = this.items[inkIndex]
@@ -90,11 +90,11 @@ export class InMemoryPrinterInkStockRepository implements PrinterInkStockReposit
     return
   }
 
-  async remove(inkId: string): Promise<PrinterInkStock | null> {
+  async remove(inkId: string): Promise<PrinterInkStock> {
     const inkIndex = this.items.findIndex((ink) => ink.id === inkId)
 
     if (inkIndex < 0) {
-      return null
+      throw new ResourceNotFound('ink stock')
     }
 
     const { id, name, quantity, printer_id } = this.items[inkIndex]

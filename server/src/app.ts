@@ -8,6 +8,7 @@ import { ResourceNotFound } from './use-cases/errors/resource-not-found'
 
 import { computerRoutes } from './http/controllers/computers/route'
 import { printerRoutes } from './http/controllers/printers/route'
+import { inkStockRoutes } from './http/controllers/ink-stock/route'
 
 export const app = fastify()
 
@@ -20,6 +21,7 @@ app.register(cors, {
 // Routes
 app.register(computerRoutes)
 app.register(printerRoutes)
+app.register(inkStockRoutes)
 
 // HANDLE GLOBAL ERRORS
 app.setErrorHandler((err, _, reply) => {

@@ -56,12 +56,12 @@ model Printer {
   device    Device @relation(fields: [device_id], references: [id])
   device_id String @unique
 
-  PriterInkStock PriterInkStock[]
+  PriterInkStock PrinterInkStock[]
 
   @@map("printers")
 }
 
-model PriterInkStock {
+model PrinterInkStock {
   id       String @id @unique @default(uuid())
   name     String
   quantity Int
@@ -80,7 +80,7 @@ model InkStockTransaction {
   type       TRANSACTION_TYPE
   created_at DateTime         @default(now())
 
-  ink_stock PriterInkStock @relation(fields: [ink_id], references: [id])
+  ink_stock PrinterInkStock @relation(fields: [ink_id], references: [id])
   ink_id    String
 
   @@map("stock-transactions")
@@ -117,4 +117,12 @@ view PrinterInfo {
   expires_at DateTime?
   obs        String?
   status     DEVICE_STATUS
+}
+
+view PrinterInkInfo {
+  id           String @unique
+  printer_id   String @unique
+  ink_name     String
+  printer_name String
+  quantity     Int
 }

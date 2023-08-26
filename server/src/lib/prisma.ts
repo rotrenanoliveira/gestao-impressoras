@@ -19,6 +19,15 @@ async function createView() {
     FROM "printers" p
     LEFT JOIN "devices" d ON d.id = p."device_id";
   `
+
+  await prisma.$queryRaw`
+    CREATE VIEW "PrinterInkInfo" AS
+    SELECT ink.id, ink.printer_id, ink.name AS ink_name, ink.quantity, d.name AS printer_name
+    FROM "ink-stock" ink
+    LEFT JOIN "printers" p ON p.id = ink.printer_id
+    LEFT JOIN "devices" d ON d.id = p.device_id;
+  `
+
   console.log('View was created successfully.')
 }
 

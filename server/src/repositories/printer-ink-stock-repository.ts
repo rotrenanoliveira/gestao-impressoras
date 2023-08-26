@@ -8,7 +8,7 @@ export interface PrinterInkStockRepository {
 
   save(inkId: string, data: PrinterInkStockSaveInput): Promise<PrinterInkStock>
 
-  stockTransaction(inkId: string, transaction: 'insert' | 'remove'): Promise<void | null>
+  stockTransaction(inkId: string, transaction: 'insert' | 'remove'): Promise<void>
 
-  remove(inkId: string): Promise<PrinterInkStock | null>
+  remove(inkId: string): Promise<PrinterInkStock>
 }
