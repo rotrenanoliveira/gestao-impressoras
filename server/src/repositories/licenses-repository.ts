@@ -7,5 +7,5 @@ export interface LicensesRepository {
 
   save(licenseId: string, rawData: LicenseSaveInput): Promise<License>
 
-  remove(licenseId: string): Promise<void | null>
+  remove(licenseId: string): Promise<void>
 }

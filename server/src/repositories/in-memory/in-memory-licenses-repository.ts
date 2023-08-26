@@ -116,11 +116,11 @@ export class InMemoryLicensesRepository implements LicensesRepository {
     return license
   }
 
-  async remove(licenseId: string): Promise<void | null> {
+  async remove(licenseId: string): Promise<void> {
     const licenseIndex = this.items.findIndex((license) => license.id === licenseId)
 
     if (licenseIndex < 0) {
-      return null
+      throw new ResourceNotFound('license')
     }
 
     this.items.splice(licenseIndex, 1)

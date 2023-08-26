@@ -8,6 +8,7 @@ import { ResourceNotFound } from './use-cases/errors/resource-not-found'
 
 import { computerRoutes } from './http/controllers/computers/route'
 import { inkStockRoutes } from './http/controllers/ink-stock/route'
+import { licenseRoutes } from './http/controllers/licenses/route'
 import { printerRoutes } from './http/controllers/printers/route'
 import { stockTransactionsRoutes } from './http/controllers/stock-transactions/route'
 
@@ -22,6 +23,7 @@ app.register(cors, {
 // Routes
 app.register(computerRoutes)
 app.register(inkStockRoutes)
+app.register(licenseRoutes)
 app.register(printerRoutes)
 app.register(stockTransactionsRoutes)
 
