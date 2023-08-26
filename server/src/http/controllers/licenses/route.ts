@@ -12,7 +12,7 @@ export async function licenseRoutes(app: FastifyInstance) {
   // Register License
   app.post('/licenses', register)
 
-  app.patch('/licenses/:licenseId', save)
+  app.put('/licenses/:licenseId', save)
 
   app.delete('/licenses/:licenseId', remove)
 }

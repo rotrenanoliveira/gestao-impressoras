@@ -16,7 +16,7 @@ describe('Save License (E2E)', () => {
     const { id: licenseId } = await createLicense()
 
     const response = await request(app.server)
-      .patch(`/licenses/${licenseId}`)
+      .put(`/licenses/${licenseId}`)
       .send({
         description: 'Office 365',
         obs: 'Microsoft partner',
