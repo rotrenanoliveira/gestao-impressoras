@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 
-import { Montserrat } from 'next/font/google'
+import { Manrope } from 'next/font/google'
 
 import { Sidebar } from '@/components/Sidebar'
 
@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   description: 'IT manager to small business',
 }
 
-const roboto = Montserrat({
+const manrope = Manrope({
   subsets: ['latin'],
-  weight: ['100', '300', '400', '500', '600', '700'],
+  weight: ['300', '400', '500', '700', '800'],
 })
 
 export default function RootLayout({
@@ -23,11 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.className} bg-[#f2f3f5] p-4 box-border w-screen h-screen lg:gap-2 lg:flex`}
+        className={`${manrope.className} bg-[#f2f3f5] p-4 box-border w-screen h-screen lg:gap-2 lg:flex`}
       >
         <Sidebar />
 
-        <main className="w-full h-full bg-white rounded-3xl">{children}</main>
+        <main className="w-full h-full bg-white rounded-3xl overflow-auto">
+          {children}
+        </main>
       </body>
     </html>
   )
