@@ -24,3 +24,15 @@ declare interface Computer {
   status: DeviceStatus
   specs: ComputerSpecs
 }
+
+declare interface Printer {
+  id: string
+  ip: string
+  deviceId: string
+  name: string
+  department: string
+  status: DeviceStatus
+  rentedIn: Date | null
+  expiresAt: Date | null
+  obs: string | null
+}
