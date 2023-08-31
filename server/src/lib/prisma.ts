@@ -8,7 +8,7 @@ export const prisma = new PrismaClient({
 async function createView() {
   await prisma.$queryRaw`
     CREATE OR REPLACE VIEW "ComputerInfo" AS
-    SELECT c.id, name, department, status, specs, used_by, device_id
+    SELECT c.id, name, status, specs, used_by, device_id, department
     FROM "computers" c
     LEFT JOIN "devices" d ON d.id = c."device_id";
   `
