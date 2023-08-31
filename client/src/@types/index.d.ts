@@ -20,6 +20,7 @@ declare interface Computer {
   name: string
   usedBy: string
   deviceId: string
+  department: string
   status: DeviceStatus
   specs: ComputerSpecs
 }
