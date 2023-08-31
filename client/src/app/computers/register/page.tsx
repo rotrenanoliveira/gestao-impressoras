@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { FormEvent } from 'react'
 
-export default function DeviceRegister() {
+export default function ComputerRegister() {
   const router = useRouter()
 
   async function handleNewComputer(event: FormEvent<HTMLFormElement>) {
@@ -43,9 +43,7 @@ export default function DeviceRegister() {
     console.log(response)
 
     if (response.status === 201) {
-      const response = await axios.post(`http://localhost:3000/api/revalidate?path=/computers`)
-
-      console.log(response)
+      await axios.post(`http://localhost:3000/api/revalidate?path=/computers`)
 
       router.refresh()
       router.replace(`/computers`)
