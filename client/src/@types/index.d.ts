@@ -6,6 +6,14 @@ declare type StorageCapacity = {
   type: 'SSD' | 'HDD'
   capacity: number // in gigabytes
 }
+declare type ComputerSpecs = {
+  hostname: string
+  processor: string
+  storage: StorageCapacity
+  ram: string
+  so: string
+  office: string | null
+}
 
 declare interface Computer {
   id: string

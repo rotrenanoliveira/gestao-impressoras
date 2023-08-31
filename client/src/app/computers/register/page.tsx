@@ -43,6 +43,10 @@ export default function DeviceRegister() {
     console.log(response)
 
     if (response.status === 201) {
+      const response = await axios.post(`http://localhost:3000/api/revalidate?path=/computers`)
+
+      console.log(response)
+
       router.refresh()
       router.replace(`/computers`)
     }
@@ -52,9 +56,7 @@ export default function DeviceRegister() {
     <main className="p-8">
       <header className="border-b-[1px] pb-6 border-b-zinc-300 mb-8">
         <h1 className="font-medium text-2xl">Computer</h1>
-        <span className="font-normal text-sm text-zinc-500">
-          Register new computer.
-        </span>
+        <span className="font-normal text-sm text-zinc-500">Register new computer.</span>
       </header>
 
       <form onSubmit={handleNewComputer} className="space-y-6">
@@ -69,9 +71,7 @@ export default function DeviceRegister() {
             className="border border-zinc-300 rounded-md px-3 py-1 h-9 placeholder:text-zinc-400 placeholder:text-sm"
             required
           />
-          <span className="text-xs text-zinc-500">
-            This is the model of the device.
-          </span>
+          <span className="text-xs text-zinc-500">This is the model of the device.</span>
         </div>
 
         <div className="flex flex-col space-y-2">
@@ -85,9 +85,7 @@ export default function DeviceRegister() {
             className="border border-zinc-300 rounded-md px-3 py-1 h-9 placeholder:text-zinc-400 placeholder:text-sm"
             required
           />
-          <span className="text-xs text-zinc-500">
-            The name of the user using the pc.
-          </span>
+          <span className="text-xs text-zinc-500">The name of the user using the pc.</span>
         </div>
 
         <div className="flex flex-col space-y-2">
@@ -101,9 +99,7 @@ export default function DeviceRegister() {
             className="border border-zinc-300 rounded-md px-3 py-1 h-9 placeholder:text-zinc-400 placeholder:text-sm"
             required
           />
-          <span className="text-xs text-zinc-500">
-            The department where is located this pc.
-          </span>
+          <span className="text-xs text-zinc-500">The department where is located this pc.</span>
         </div>
 
         <div className="border-b-[1px] pb-2 border-b-zinc-300">
@@ -121,9 +117,7 @@ export default function DeviceRegister() {
             className="border border-zinc-300 rounded-md px-3 py-1 h-9 placeholder:text-zinc-400 placeholder:text-sm"
             required
           />
-          <span className="text-xs text-zinc-500">
-            This will be the hostname of the computer.
-          </span>
+          <span className="text-xs text-zinc-500">This will be the hostname of the computer.</span>
         </div>
 
         <div className="flex flex-col space-y-2">
@@ -137,9 +131,7 @@ export default function DeviceRegister() {
             className="border border-zinc-300 rounded-md px-3 py-1 h-9 placeholder:text-zinc-400 placeholder:text-sm"
             required
           />
-          <span className="text-xs text-zinc-500">
-            The operational system of the computer.
-          </span>
+          <span className="text-xs text-zinc-500">The operational system of the computer.</span>
         </div>
 
         <div className="flex flex-col space-y-2">
@@ -154,9 +146,7 @@ export default function DeviceRegister() {
             className="border border-zinc-300 rounded-md px-3 py-1 h-9 placeholder:text-zinc-400 placeholder:text-sm"
             required
           />
-          <span className="text-xs text-zinc-500">
-            The amount of ram memory of the computer.
-          </span>
+          <span className="text-xs text-zinc-500">The amount of ram memory of the computer.</span>
         </div>
 
         <div className="flex flex-col space-y-2">
@@ -170,9 +160,7 @@ export default function DeviceRegister() {
             className="border border-zinc-300 rounded-md px-3 py-1 h-9 placeholder:text-zinc-400 placeholder:text-sm"
             required
           />
-          <span className="text-xs text-zinc-500">
-            The version of Microsoft Office.
-          </span>
+          <span className="text-xs text-zinc-500">The version of Microsoft Office.</span>
         </div>
 
         <div className="flex flex-col space-y-2">
@@ -186,9 +174,7 @@ export default function DeviceRegister() {
             className="border border-zinc-300 rounded-md px-3 py-1 h-9 placeholder:text-zinc-400 placeholder:text-sm"
             required
           />
-          <span className="text-xs text-zinc-500">
-            The processor of the computer.
-          </span>
+          <span className="text-xs text-zinc-500">The processor of the computer.</span>
         </div>
 
         <div className="flex flex-col space-y-2">
@@ -203,9 +189,7 @@ export default function DeviceRegister() {
             className="border border-zinc-300 rounded-md px-3 py-1 h-9 placeholder:text-zinc-400 placeholder:text-sm"
             required
           />
-          <span className="text-xs text-zinc-500">
-            The storage of the computer.
-          </span>
+          <span className="text-xs text-zinc-500">The storage of the computer.</span>
         </div>
 
         <button
