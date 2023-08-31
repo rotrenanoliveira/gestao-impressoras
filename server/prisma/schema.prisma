@@ -99,12 +99,13 @@ model License {
 }
 
 view ComputerInfo {
-  id        String        @unique
-  device_id String        @unique
-  name      String
-  used_by   String
-  status    DEVICE_STATUS
-  specs     Json
+  id         String        @unique
+  device_id  String        @unique
+  name       String
+  department String
+  used_by    String
+  status     DEVICE_STATUS
+  specs      Json
 }
 
 view PrinterInfo {

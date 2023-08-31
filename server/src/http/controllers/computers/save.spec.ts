@@ -29,6 +29,7 @@ describe('Save Computer (E2E)', () => {
         deviceId: deviceId,
         name: 'desktop',
         usedBy: 'jerry',
+        department: 'office',
         specs: expect.any(Object),
       }),
     )

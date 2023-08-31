@@ -55,6 +55,7 @@ export class PrismaComputersRepository implements ComputersRepository {
     status: true,
     usedBy: true,
     deviceId: true,
+    department: true,
   }
 
   async create(data: ComputerCreateInput): Promise<Computer> {

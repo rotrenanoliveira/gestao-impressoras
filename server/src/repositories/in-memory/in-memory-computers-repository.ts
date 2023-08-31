@@ -29,7 +29,7 @@ export class InMemoryComputersRepository implements ComputersRepository {
   async findMany(): Promise<Computer[]> {
     const computers = this.items.map((pc) => {
       const { device_id: deviceId, used_by: usedBy, id, specs } = pc
-      return { id, specs, usedBy, deviceId, name: '', status: 'ok' as DeviceStatus }
+      return { id, specs, usedBy, deviceId, name: '', department: '', status: 'ok' as DeviceStatus }
     })
 
     return computers
@@ -43,7 +43,7 @@ export class InMemoryComputersRepository implements ComputersRepository {
     }
 
     const { device_id: deviceId, used_by: usedBy, id, specs } = pc
-    const computer = { id, specs, usedBy, deviceId, name: '', status: 'ok' as DeviceStatus }
+    const computer = { id, specs, usedBy, deviceId, name: '', department: '', status: 'ok' as DeviceStatus }
 
     return computer
   }
@@ -59,7 +59,7 @@ export class InMemoryComputersRepository implements ComputersRepository {
     this.items.push(pc)
 
     const { device_id: deviceId, used_by: usedBy, id, specs } = pc
-    const computer = { id, specs, usedBy, deviceId, name: '', status: 'ok' as DeviceStatus }
+    const computer = { id, specs, usedBy, deviceId, name: '', department: '', status: 'ok' as DeviceStatus }
 
     return computer
   }
@@ -79,7 +79,7 @@ export class InMemoryComputersRepository implements ComputersRepository {
     }
 
     const { device_id: deviceId, used_by: usedBy, id, specs } = this.items[computerIndex]
-    const computer = { id, specs, usedBy, deviceId, name: '', status: '' as DeviceStatus }
+    const computer = { id, specs, usedBy, deviceId, name: '', department: '', status: 'ok' as DeviceStatus }
 
     return computer
   }
@@ -92,7 +92,7 @@ export class InMemoryComputersRepository implements ComputersRepository {
     }
 
     const { device_id: deviceId, used_by: usedBy, id, specs } = this.items[computerIndex]
-    const computer = { id, specs, usedBy, deviceId, name: '', status: '' as DeviceStatus }
+    const computer = { id, specs, usedBy, deviceId, name: '', department: '', status: 'ok' as DeviceStatus }
     this.items.splice(computerIndex, 1)
 
     return computer
