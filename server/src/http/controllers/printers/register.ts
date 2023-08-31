@@ -7,8 +7,8 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
     ip: z.string(),
     name: z.string(),
     department: z.string(),
-    rentedIn: z.coerce.date(),
-    expiresAt: z.coerce.date(),
+    rentedIn: z.coerce.date().nullable(),
+    expiresAt: z.coerce.date().nullable(),
     obs: z.string().nullable(),
   })
 
