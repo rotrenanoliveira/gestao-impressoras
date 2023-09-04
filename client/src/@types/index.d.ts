@@ -57,3 +57,20 @@ declare interface InkStockTransaction {
     name: string
   }
 }
+
+declare type LicensePrice = {
+  value: number // always in cents (multiply value by 100)
+  currency: 'BRL' | 'USD' | 'EUR'
+}
+
+declare type Currency = LicensePrice
+
+declare interface License {
+  id: string
+  initAt: Date
+  expiresAt: Date
+  createdAt: Date
+  description: string
+  price: LicensePrice
+  obs: string | null
+}

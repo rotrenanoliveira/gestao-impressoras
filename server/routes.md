@@ -30,6 +30,6 @@
   - DELETE:  /ink-stock/:inkId
 
 ### Printer Stock Transaction Routes
-  - GET:     /stock-transaction
-  - GET:     /stock-transaction?ink=inkId
-  - POST:    /stock-transaction
+  - GET:     /stock-transactions
+  - GET:     /stock-transactions?ink=inkId
+  - POST:    /stock-transactions
