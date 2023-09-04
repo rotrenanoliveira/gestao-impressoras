@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { FormEvent } from 'react'
 
-export default function ComputerRegister() {
+export default function Page() {
   const router = useRouter()
 
   async function handleNewPrinter(event: FormEvent<HTMLFormElement>) {

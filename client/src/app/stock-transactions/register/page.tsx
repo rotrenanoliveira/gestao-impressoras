@@ -7,6 +7,7 @@ import { FormEvent } from 'react'
 interface PageProps {
   searchParams?: {
     printer: string
+    ink: string
   }
 }
 
@@ -17,25 +18,27 @@ export default function Page({ searchParams }: PageProps) {
     return router.push('/printers')
   }
 
-  const handleNewPrinterInk = async (event: FormEvent<HTMLFormElement>) => {
+  const handleNewInkTransaction = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
 
-    const name = formData.get('name')
-    const quantity = formData.get('quantity')
+    const operator = formData.get('operator')
+    const transaction = formData.get('transaction')
 
-    const printerInkData = {
-      name,
-      quantity: Number(quantity),
-      printerId: searchParams.printer,
+    const stockTransactionData = {
+      operator,
+      transaction,
+      inkId: searchParams.ink,
     }
 
-    const response = await axios.post('http://0.0.0.0:3333/ink-stock', {
-      ...printerInkData,
+    // console.log(stockTransactionData)
+
+    const response = await axios.post('http://0.0.0.0:3333/stock-transactions', {
+      ...stockTransactionData,
     })
 
-    // console.log(response)
+    console.log(response)
 
     if (response.status === 201) {
       await axios.post(`http://localhost:3000/api/revalidate?path=/printers`)
@@ -48,36 +51,37 @@ export default function Page({ searchParams }: PageProps) {
   return (
     <main className="p-8">
       <header className="border-b-[1px] pb-6 border-b-zinc-300 mb-8">
-        <h1 className="font-medium text-2xl">Printer Ink</h1>
-        <span className="font-normal text-sm text-zinc-500">Register new printer ink.</span>
+        <h1 className="font-medium text-2xl">Printer Ink Transaction</h1>
+        <span className="font-normal text-sm text-zinc-500">Register new printer ink stock transaction.</span>
       </header>
 
-      <form onSubmit={handleNewPrinterInk} className="space-y-6">
+      <form onSubmit={handleNewInkTransaction} className="space-y-6">
         <div className="flex flex-col space-y-2">
-          <label htmlFor="name" className="font-medium text-sm">
-            Name
+          <label htmlFor="operator" className="font-medium text-sm">
+            Operator
           </label>
           <input
             type="text"
-            name="name"
-            placeholder="ink name"
+            name="operator"
+            placeholder="operator"
             className="border border-zinc-300 rounded-md px-3 py-1 h-9 placeholder:text-zinc-400 placeholder:text-sm"
             required
           />
-          <span className="text-xs text-zinc-500">This is the model of the device.</span>
+          <span className="text-xs text-zinc-500">The name of the operator.</span>
         </div>
 
         <div className="flex flex-col space-y-2">
-          <label htmlFor="quantity" className="font-medium text-sm">
-            Quantity
+          <label htmlFor="transaction" className="font-medium text-sm">
+            Transaction
           </label>
-          <input
-            type="number"
-            name="quantity"
-            placeholder="Quantity"
+
+          <select
+            name="transaction"
             className="border border-zinc-300 rounded-md px-3 py-1 h-9 placeholder:text-zinc-400 placeholder:text-sm"
-            required
-          />
+          >
+            <option value="insert">Insert</option>
+            <option value="remove">Remove</option>
+          </select>
           <span className="text-xs text-zinc-500">The department where is located this pc.</span>
         </div>
 

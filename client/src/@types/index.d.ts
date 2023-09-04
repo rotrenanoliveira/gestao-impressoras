@@ -36,3 +36,24 @@ declare interface Printer {
   expiresAt: Date | null
   obs: string | null
 }
+
+declare interface PrinterInk {
+  id: string
+  name: string
+  quantity: number
+  printer: {
+    id: string
+    name: string
+  }
+}
+
+declare interface InkStockTransaction {
+  id: string
+  operator: string
+  type: 'insert' | 'remove'
+  createdAt: Date
+  ink: {
+    id: string
+    name: string
+  }
+}
