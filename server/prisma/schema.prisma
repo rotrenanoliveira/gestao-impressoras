@@ -1,0 +1,138 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DEVICE_STATUS {
+  ok
+  warning
+  danger
+}
+
+enum TRANSACTION_TYPE {
+  insert
+  remove
+}
+
+model Device {
+  id         String        @id @unique @default(uuid())
+  name       String
+  status     DEVICE_STATUS
+  department String
+  created_at DateTime      @default(now())
+
+  Computer Computer?
+  Printer  Printer?
+
+  @@map("devices")
+}
+
+model Computer {
+  id      String @id @unique @default(uuid())
+  used_by String
+  specs   Json
+
+  device    Device @relation(fields: [device_id], references: [id])
+  device_id String @unique
+
+  @@map("computers")
+}
+
+model Printer {
+  id         String    @id @unique @default(uuid())
+  ip         String
+  obs        String?
+  rented_in  DateTime?
+  expires_at DateTime?
+
+  device    Device @relation(fields: [device_id], references: [id])
+  device_id String @unique
+
+  PriterInkStock PrinterInkStock[]
+
+  @@map("printers")
+}
+
+model PrinterInkStock {
+  id       String @id @unique @default(uuid())
+  name     String
+  quantity Int
+
+  printer    Printer @relation(fields: [printer_id], references: [id])
+  printer_id String
+
+  InkStockTransaction InkStockTransaction[]
+
+  @@map("ink-stock")
+}
+
+model InkStockTransaction {
+  id         String           @id @unique @default(uuid())
+  operator   String
+  type       TRANSACTION_TYPE
+  created_at DateTime         @default(now())
+
+  ink_stock PrinterInkStock @relation(fields: [ink_id], references: [id])
+  ink_id    String
+
+  @@map("stock-transactions")
+}
+
+model License {
+  id          String   @id @unique @default(uuid())
+  description String
+  init_at     DateTime
+  expires_at  DateTime
+  created_at  DateTime @default(now())
+  price       Json
+  obs         String?
+
+  @@map("licenses")
+}
+
+view ComputerInfo {
+  id         String        @unique
+  device_id  String        @unique
+  name       String
+  department String
+  used_by    String
+  status     DEVICE_STATUS
+  specs      Json
+}
+
+view PrinterInfo {
+  id         String        @unique
+  device_id  String        @unique
+  ip         String
+  name       String
+  department String
+  rented_in  DateTime?
+  expires_at DateTime?
+  obs        String?
+  status     DEVICE_STATUS
+}
+
+view PrinterInkInfo {
+  id           String @unique
+  printer_id   String @unique
+  ink_name     String
+  printer_name String
+  quantity     Int
+}
+
+view InkStockTransactionInfo {
+  id         String           @unique
+  operator   String
+  ink_id     String
+  name       String
+  created_at DateTime
+  type       TRANSACTION_TYPE
+}

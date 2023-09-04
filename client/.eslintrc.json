@@ -1,0 +1,26 @@
+{
+  "plugins": ["prettier"],
+  "extends": [
+    "eslint:recommended", 
+    "plugin:prettier/recommended",
+    "next/core-web-vitals",
+    "@rocketseat/eslint-config/next"
+  ],
+  "rules": {
+    "eol-last": "error",
+    "no-multiple-empty-lines": ["error",{"max": 1}],
+    
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 120,
+        "tabWidth": 2,
+        "singleQuote": true,
+        "trailingComma": "all",
+        "arrowParens": "always",
+        "semi": false,
+        "endOfLine": "auto"
+      }
+    ]
+  }
+}
