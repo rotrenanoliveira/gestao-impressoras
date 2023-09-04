@@ -2,17 +2,19 @@
 
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 
 interface UpdateLicenseProps {
   license: License
 }
 
 export function UpdateLicense({ license }: UpdateLicenseProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
 
   async function handleUpdateLicense(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setIsSubmitting(true)
 
     const formData = new FormData(event.currentTarget)
 
@@ -38,7 +40,7 @@ export function UpdateLicense({ license }: UpdateLicenseProps) {
       ...printerData,
     })
 
-    console.log(response)
+    setIsSubmitting(false)
 
     if (response.status === 200) {
       await axios.post(`http://localhost:3000/api/revalidate?path=/licenses`)
@@ -152,7 +154,8 @@ export function UpdateLicense({ license }: UpdateLicenseProps) {
 
         <button
           type="submit"
-          className="rounded-md bg-zinc-950 hover:bg-zinc-800 text-white px-4 py-2 text-sm font-medium"
+          disabled={isSubmitting}
+          className="rounded-md bg-zinc-950 hover:bg-zinc-800 text-white px-4 py-2 text-sm font-medium disabled:cursor-not-allowed"
         >
           Update
         </button>

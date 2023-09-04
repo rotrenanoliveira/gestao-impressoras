@@ -2,19 +2,21 @@
 
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 
 interface UpdateComputerProps {
   computer: Computer
 }
 
 export function UpdateComputer({ computer }: UpdateComputerProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
 
   const computerRam = Number(computer.specs.ram.split('GB')[0])
 
   async function handleNewComputer(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setIsSubmitting(true)
 
     const formData = new FormData(event.currentTarget)
 
@@ -46,7 +48,7 @@ export function UpdateComputer({ computer }: UpdateComputerProps) {
       ...computerData,
     })
 
-    console.log(response)
+    setIsSubmitting(false)
 
     if (response.status === 200) {
       await axios.post(`http://localhost:3000/api/revalidate?path=/computers`)
@@ -208,7 +210,8 @@ export function UpdateComputer({ computer }: UpdateComputerProps) {
 
         <button
           type="submit"
-          className="rounded-md bg-zinc-950 hover:bg-zinc-800 text-white px-4 py-2 text-sm font-medium"
+          disabled={isSubmitting}
+          className="rounded-md bg-zinc-950 hover:bg-zinc-800 text-white px-4 py-2 text-sm font-medium disabled:cursor-not-allowed"
         >
           Update
         </button>

@@ -2,13 +2,16 @@
 
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 
 export default function ComputerRegister() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const router = useRouter()
 
   async function handleNewComputer(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setIsSubmitting(true)
 
     const formData = new FormData(event.currentTarget)
 
@@ -40,7 +43,7 @@ export default function ComputerRegister() {
       ...computerData,
     })
 
-    console.log(response)
+    setIsSubmitting(false)
 
     if (response.status === 201) {
       await axios.post(`http://localhost:3000/api/revalidate?path=/computers`)
@@ -192,7 +195,8 @@ export default function ComputerRegister() {
 
         <button
           type="submit"
-          className="rounded-md bg-zinc-950 hover:bg-zinc-800 text-white px-4 py-2 text-sm font-medium"
+          disabled={isSubmitting}
+          className="rounded-md disabled:cursor-not-allowed bg-zinc-950 hover:bg-zinc-800 text-white px-4 py-2 text-sm font-medium"
         >
           Register
         </button>

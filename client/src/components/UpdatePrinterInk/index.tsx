@@ -2,17 +2,19 @@
 
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 
 interface UpdatePrinterInkProps {
   ink: PrinterInk
 }
 
 export function UpdatePrinterInk({ ink }: UpdatePrinterInkProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
 
   async function handleUpdatePrinter(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setIsSubmitting(true)
 
     const formData = new FormData(event.currentTarget)
 
@@ -26,7 +28,7 @@ export function UpdatePrinterInk({ ink }: UpdatePrinterInkProps) {
       ...printerData,
     })
 
-    console.log(response)
+    setIsSubmitting(false)
 
     if (response.status === 200) {
       await axios.post(`http://localhost:3000/api/revalidate?path=/ink-stock/${ink.id}`)
@@ -62,7 +64,8 @@ export function UpdatePrinterInk({ ink }: UpdatePrinterInkProps) {
 
         <button
           type="submit"
-          className="rounded-md bg-zinc-950 hover:bg-zinc-800 text-white px-4 py-2 text-sm font-medium"
+          disabled={isSubmitting}
+          className="rounded-md bg-zinc-950 hover:bg-zinc-800 text-white px-4 py-2 text-sm font-medium disabled:cursor-not-allowed"
         >
           Update
         </button>

@@ -2,13 +2,15 @@
 
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { FormEvent } from 'react'
+import { FormEvent, useState } from 'react'
 
 export default function Page() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
 
   async function handleNewLicense(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setIsSubmitting(true)
 
     const formData = new FormData(event.currentTarget)
 
@@ -34,7 +36,7 @@ export default function Page() {
       ...licenseData,
     })
 
-    console.log(response)
+    setIsSubmitting(false)
 
     if (response.status === 201) {
       await axios.post(`http://localhost:3000/api/revalidate?path=/licenses`)
@@ -138,7 +140,8 @@ export default function Page() {
 
         <button
           type="submit"
-          className="rounded-md bg-zinc-950 hover:bg-zinc-800 text-white px-4 py-2 text-sm font-medium"
+          disabled={isSubmitting}
+          className="rounded-md bg-zinc-950 disabled:cursor-not-allowed hover:bg-zinc-800 text-white px-4 py-2 text-sm font-medium"
         >
           Register
         </button>
