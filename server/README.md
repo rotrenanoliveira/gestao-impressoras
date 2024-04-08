@@ -1,4 +1,4 @@
-### Requisitos Funcionais
+### RF Requisitos Funcionais
 
 - [ ] O sistema deve permitir o cadastro de departamentos
 - [ ] O sistema deve permitir o cadastro de usuários
@@ -12,12 +12,12 @@
 - [ ] O sistema deve permitir o cadastro de contas de emails por departamento
 - [ ] O sistema deve permitir o cadastro de contas de emails por usuário para que o sistema envie e-mail por ele
 
-### Regras de negócios
+### RN Regras de negócios
 - [ ] Os cadastros poderão ser registrados manualmente e/ou através de uma planilha de excel.
 - [ ] O sistema deve avisar o/os administradores do sistema caso um contrato ou licença esteja perto do vencimento.
 - [ ] O sistema deverá ser copiado na mensagem que será enviada por uma conta padrão do sistema
 
-## RNFs (Requisitos não-funcionais)
+### RNFs (Requisitos não-funcionais)
 
 - [ ] A autenticação será via código de acesso e/ou magic link;
 - [ ] O usuário deve ser identificado por um JWT (Json Web Token);
