@@ -1,7 +1,7 @@
 ### RF Requisitos Funcionais
 
-- [ ] O sistema deve permitir o cadastro de departamentos
-- [ ] O sistema deve permitir o cadastro de usuários
+- [x] O sistema deve permitir o cadastro de departamentos
+- [x] O sistema deve permitir o cadastro de usuários
 - [ ] O sistema deve permitir o cadastro de licenças (licença, usuários de licença)
 - [ ] O sistema deve permitir o cadastro de contratos
 - [ ] O sistema deve permitir o cadastro de dispositivos (computador, impressora, dispositivos móveis)
@@ -15,7 +15,7 @@
 ### RN Regras de negócios
 - [ ] Os cadastros poderão ser registrados manualmente e/ou através de uma planilha de excel.
 - [ ] O sistema deve avisar o/os administradores do sistema caso um contrato ou licença esteja perto do vencimento.
-- [ ] O sistema deverá ser copiado na mensagem que será enviada por uma conta padrão do sistema
+- [ ] O sistema deverá copiar o usuário na mensagem que será enviada por uma conta padrão do sistema.
 
 ### RNFs (Requisitos não-funcionais)
 
