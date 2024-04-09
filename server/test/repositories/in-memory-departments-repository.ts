@@ -33,7 +33,9 @@ export class InMemoryDepartmentsRepository implements DepartmentsRepository {
   }
 
   async save(department: Department): Promise<void> {
-    this.items.push(department)
+    const departmentIndex = this.items.findIndex((_department) => _department.id === department.id)
+
+    this.items[departmentIndex] = department
   }
 
   async delete(id: string): Promise<void> {
