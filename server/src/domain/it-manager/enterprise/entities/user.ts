@@ -77,7 +77,25 @@ export class User extends Entity<UserProps> {
     this.props.updatedAt = new Date()
   }
 
-  static create(props: Optional<UserProps, 'createdAt' | 'status'>, id?: UniqueEntityID) {
+  /**
+   * Create a new User instance with the given properties.
+   *
+   *  @example
+   * ```typescript
+   * const user = User.create({
+   *    departmentId: new UniqueEntityID('7ea8f10a-403e-4025-a68d-ae04b85e49c5'),
+   *    ame: 'Joe Doe',
+   *    email: 'joedoe@example.com',
+   *    phone: Phone.format('11956136512'),
+   *    badge: '123456',
+   * })
+   * ```
+   *
+   * @param {Optional<UserProps, 'createdAt' | 'status'>} props - The properties for the new User instance.
+   * @param {UniqueEntityID} id - (Optional) The unique ID for the User instance.
+   * @return {User} The newly created User instance.
+   */
+  static create(props: Optional<UserProps, 'createdAt' | 'status'>, id?: UniqueEntityID): User {
     return new User(
       {
         ...props,
