@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@rotrenanoliveira/eslint-config": "1.0.0",
+    "dayjs": "1.11.10",
     "zod": "3.22.4"
   }
 }
