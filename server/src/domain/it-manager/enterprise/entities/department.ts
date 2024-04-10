@@ -49,7 +49,24 @@ export class Department extends Entity<DepartmentProps> {
     this.props.updatedAt = new Date()
   }
 
-  static create(props: Optional<DepartmentProps, 'createdAt' | 'slug'>, id?: UniqueEntityID) {
+  /**
+   * A function that creates a new Department instance.
+   *
+   * @example
+   * // Creating a new department with all properties
+   * const department = Department.create({
+   *   chiefId: new UniqueEntityID('chief-123'),
+   *   description: 'Marketing Department',
+   *   slug: Slug.create('marketing'),
+   *   email: 'marketing@company.com',
+   *   createdAt: new Date(),
+   * })
+   *
+   * @param {Optional<DepartmentProps, 'createdAt'>} props - The properties for the new Department
+   * @param {UniqueEntityID} id - Optional unique ID for the Department
+   * @return {Department} A new Department instance
+   */
+  static create(props: Optional<DepartmentProps, 'createdAt' | 'slug'>, id?: UniqueEntityID): Department {
     const department = new Department(
       {
         ...props,
