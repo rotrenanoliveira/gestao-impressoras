@@ -83,6 +83,14 @@ export class License extends Entity<LicenseProps> {
     return this.quantity * this.cost.value
   }
 
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
+  }
+
   private touch() {
     this.props.updatedAt = new Date()
   }

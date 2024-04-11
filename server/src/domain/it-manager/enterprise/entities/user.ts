@@ -73,6 +73,14 @@ export class User extends Entity<UserProps> {
     this.touch()
   }
 
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
+  }
+
   private touch() {
     this.props.updatedAt = new Date()
   }

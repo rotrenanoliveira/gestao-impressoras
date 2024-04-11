@@ -45,6 +45,14 @@ export class Department extends Entity<DepartmentProps> {
     this.touch()
   }
 
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
+  }
+
   private touch() {
     this.props.updatedAt = new Date()
   }
