@@ -16,8 +16,12 @@ describe('Fetch departments', () => {
       departmentsRepository.items.push(makeDepartment())
     }
 
-    const { departments } = await sut.execute()
+    const result = await sut.execute()
 
-    expect(departments).toHaveLength(3)
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.departments).toHaveLength(3)
+    }
   })
 })

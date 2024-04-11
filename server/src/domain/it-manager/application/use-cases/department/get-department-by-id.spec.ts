@@ -15,23 +15,35 @@ describe('Get department by id', () => {
     const newDepartment = makeDepartment()
     departmentsRepository.items.push(newDepartment)
 
-    const { department } = await sut.execute({
+    const result = await sut.execute({
       departmentId: newDepartment.id.toString(),
     })
 
-    expect(department).toEqual(
-      expect.objectContaining({
-        id: department.id,
-        description: department.description,
-      }),
-    )
+    expect(result.hasSucceeded()).toBe(true)
+
+    if (result.hasSucceeded()) {
+      expect(result.result.department).toEqual(
+        expect.objectContaining({
+          id: newDepartment.id,
+          description: newDepartment.description,
+        }),
+      )
+    }
   })
 
   it('should not be able to get department with wrong id', async () => {
-    await expect(
-      sut.execute({
-        departmentId: 'non-existent-id',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      departmentId: 'non-existent-id',
+    })
+
+    expect(result.hasFailed()).toBe(true)
+
+    if (result.hasFailed()) {
+      expect(result.reason).toEqual(
+        expect.objectContaining({
+          name: 'ResourceNotFound',
+        }),
+      )
+    }
   })
 })

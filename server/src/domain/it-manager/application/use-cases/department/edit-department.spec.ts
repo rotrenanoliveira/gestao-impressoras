@@ -17,30 +17,34 @@ describe('Edit department', () => {
     const newDepartment = makeDepartment()
     departmentsRepository.items.push(newDepartment)
     // execute test
-    const { department } = await sut.execute({
+    const result = await sut.execute({
       departmentId: newDepartment.id.toString(),
       description: 'Department 02',
       email: 'department-02@example.com',
       chiefId: 'chief-02',
     })
     // validate return
-    expect(department).toEqual(
-      expect.objectContaining({
-        description: 'Department 02',
-        email: 'department-02@example.com',
-        chiefId: new UniqueEntityID('chief-02'),
-      }),
-    )
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.department).toEqual(
+        expect.objectContaining({
+          description: 'Department 02',
+          email: 'department-02@example.com',
+          chiefId: new UniqueEntityID('chief-02'),
+        }),
+      )
+    }
   })
 
   it('should not be able to edit department with wrong ID', async () => {
-    await expect(
-      sut.execute({
-        departmentId: 'non-existent-id',
-        description: '',
-        chiefId: '',
-        email: null,
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      departmentId: 'non-existent-id',
+      description: '',
+      chiefId: '',
+      email: null,
+    })
+
+    expect(result.hasFailed()).toBeTruthy()
   })
 })

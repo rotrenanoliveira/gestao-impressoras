@@ -15,18 +15,19 @@ describe('Delete department', () => {
     const newDepartment = makeDepartment()
     departmentsRepository.items.push(newDepartment)
 
-    await sut.execute({
+    const result = await sut.execute({
       departmentId: newDepartment.id.toString(),
     })
 
+    expect(result.hasSucceeded()).toBeTruthy()
     expect(departmentsRepository.items.length).toBe(0)
   })
 
   it('should not be able to delete department with wrong id', async () => {
-    await expect(
-      sut.execute({
-        departmentId: 'non-existent-id',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      departmentId: 'non-existent-id',
+    })
+
+    expect(result.hasFailed()).toBeTruthy()
   })
 })
