@@ -18,23 +18,27 @@ describe('Get user by email', () => {
     })
     usersRepository.items.push(newUser)
 
-    const { user } = await sut.execute({
+    const result = await sut.execute({
       email: 'joedoe@example.com',
     })
 
-    expect(user).toEqual(
-      expect.objectContaining({
-        name: 'Joe Doe',
-        email: 'joedoe@example.com',
-      }),
-    )
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.user).toEqual(
+        expect.objectContaining({
+          name: 'Joe Doe',
+          email: 'joedoe@example.com',
+        }),
+      )
+    }
   })
 
   it('should not be able to edit user with wrong email', async () => {
-    await expect(
-      sut.execute({
-        email: 'non-existent-user',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      email: 'non-existent-user',
+    })
+
+    expect(result.hasFailed()).toBeTruthy()
   })
 })

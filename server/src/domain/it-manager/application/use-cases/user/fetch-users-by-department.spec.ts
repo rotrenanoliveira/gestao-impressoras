@@ -25,10 +25,14 @@ describe('Fetch users by department', () => {
       )
     }
 
-    const { users } = await sut.execute({
+    const result = await sut.execute({
       departmentId: 'department-id',
     })
 
-    expect(users).toHaveLength(3)
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.users).toHaveLength(3)
+    }
   })
 })

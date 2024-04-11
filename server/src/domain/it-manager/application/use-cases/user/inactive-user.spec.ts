@@ -15,23 +15,27 @@ describe('Inactive User', () => {
     const newUser = makeUser({})
     usersRepository.items.push(newUser)
 
-    const { user } = await sut.execute({
+    const result = await sut.execute({
       userId: newUser.id.toString(),
     })
 
-    expect(usersRepository.items[0]).toEqual(
-      expect.objectContaining({
-        id: user.id,
-        status: 'inactive',
-      }),
-    )
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.user).toEqual(
+        expect.objectContaining({
+          id: newUser.id,
+          status: 'inactive',
+        }),
+      )
+    }
   })
 
   it('should not be able to inactive user with wrong id', async () => {
-    await expect(
-      sut.execute({
-        userId: 'non-existent-user',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      userId: 'non-existent-user',
+    })
+
+    expect(result.hasFailed()).toBeTruthy()
   })
 })

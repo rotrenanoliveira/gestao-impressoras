@@ -1,6 +1,6 @@
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
-import { FetchUsersUseCase } from './fetch-users'
 import { makeUser } from 'test/factories/make-user'
+import { FetchUsersUseCase } from './fetch-users'
 
 let usersRepository: InMemoryUsersRepository
 let sut: FetchUsersUseCase
@@ -16,8 +16,12 @@ describe('Fetch users', () => {
       usersRepository.items.push(makeUser())
     }
 
-    const { users } = await sut.execute()
+    const result = await sut.execute()
 
-    expect(users).toHaveLength(5)
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.users).toHaveLength(5)
+    }
   })
 })

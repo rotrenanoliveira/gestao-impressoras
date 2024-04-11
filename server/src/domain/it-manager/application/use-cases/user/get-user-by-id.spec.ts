@@ -18,23 +18,27 @@ describe('Get user by id', () => {
     })
     usersRepository.items.push(newUser)
 
-    const { user } = await sut.execute({
+    const result = await sut.execute({
       userId: newUser.id.toString(),
     })
 
-    expect(user).toEqual(
-      expect.objectContaining({
-        name: 'Joe Doe',
-        email: 'joedoe@example.com',
-      }),
-    )
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.user).toEqual(
+        expect.objectContaining({
+          name: 'Joe Doe',
+          email: 'joedoe@example.com',
+        }),
+      )
+    }
   })
 
   it('should not be able to edit user with wrong id', async () => {
-    await expect(
-      sut.execute({
-        userId: 'non-existent-user',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      userId: 'non-existent-user',
+    })
+
+    expect(result.hasFailed()).toBeTruthy()
   })
 })

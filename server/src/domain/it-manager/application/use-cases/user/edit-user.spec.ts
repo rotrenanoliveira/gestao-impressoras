@@ -22,7 +22,7 @@ describe('Edit user', () => {
     const newUser = makeUser({})
     usersRepository.items.push(newUser)
 
-    const { user } = await sut.execute({
+    const result = await sut.execute({
       userId: newUser.id.toString(),
       departmentId: department.id.toString(),
       name: 'Joe Doe',
@@ -31,39 +31,43 @@ describe('Edit user', () => {
       badge: '123456',
     })
 
-    expect(usersRepository.items[0]).toEqual(
-      expect.objectContaining({
-        ...user,
-      }),
-    )
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(usersRepository.items[0]).toEqual(
+        expect.objectContaining({
+          ...result.result.user,
+        }),
+      )
+    }
   })
 
   it('should not be able to edit user with wrong department id', async () => {
-    await expect(
-      sut.execute({
-        userId: 'non-existent-user',
-        departmentId: 'non-existent-department',
-        name: 'Joe Doe',
-        email: 'joedoe@example.com',
-        phone: '(11) 94561-6549',
-        badge: '123456',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      userId: 'non-existent-user',
+      departmentId: 'non-existent-department',
+      name: 'Joe Doe',
+      email: 'joedoe@example.com',
+      phone: '(11) 94561-6549',
+      badge: '123456',
+    })
+
+    expect(result.hasFailed()).toBeTruthy()
   })
 
   it('should not be able to edit department with wrong user id', async () => {
     const department = makeDepartment()
     departmentsRepository.items.push(department)
 
-    await expect(
-      sut.execute({
-        userId: 'non-existent-user',
-        departmentId: department.id.toString(),
-        name: 'Joe Doe',
-        email: 'joedoe@example.com',
-        phone: '(11) 94561-6549',
-        badge: '123456',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      userId: 'non-existent-user',
+      departmentId: department.id.toString(),
+      name: 'Joe Doe',
+      email: 'joedoe@example.com',
+      phone: '(11) 94561-6549',
+      badge: '123456',
+    })
+
+    expect(result.hasFailed()).toBeTruthy()
   })
 })

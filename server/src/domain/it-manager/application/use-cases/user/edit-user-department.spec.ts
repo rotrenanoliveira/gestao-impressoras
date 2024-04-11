@@ -26,37 +26,41 @@ describe('Edit user department', () => {
 
     usersRepository.items.push(newUser)
 
-    const { user } = await sut.execute({
+    const result = await sut.execute({
       userId: newUser.id.toString(),
       departmentId: department.id.toString(),
     })
 
-    expect(user.departmentId).toEqual(department.id)
-    expect(usersRepository.items[0]).toEqual(
-      expect.objectContaining({
-        ...user,
-      }),
-    )
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.user.departmentId).toEqual(department.id)
+      expect(usersRepository.items[0]).toEqual(
+        expect.objectContaining({
+          ...result.result.user,
+        }),
+      )
+    }
   })
 
   it('should not be able to edit user department with wrong department id', async () => {
-    await expect(
-      sut.execute({
-        userId: 'non-existent-user',
-        departmentId: 'non-existent-department',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      userId: 'non-existent-user',
+      departmentId: 'non-existent-department',
+    })
+
+    expect(result.hasFailed()).toBeTruthy()
   })
 
   it('should not be able to edit user department with wrong user id', async () => {
     const department = makeDepartment()
     departmentsRepository.items.push(department)
 
-    await expect(
-      sut.execute({
-        userId: 'non-existent-user',
-        departmentId: department.id.toString(),
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      userId: 'non-existent-user',
+      departmentId: department.id.toString(),
+    })
+
+    expect(result.hasFailed()).toBeTruthy()
   })
 })
