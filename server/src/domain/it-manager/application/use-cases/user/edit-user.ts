@@ -1,6 +1,6 @@
 import { Either, failure, success } from '@/core/either'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { ResourceNotFound, ResourceNotFoundError } from '@/core/errors/resource-not-found'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found'
 import { User } from '@/domain/it-manager/enterprise/entities/user'
 import { Phone } from '@/domain/it-manager/enterprise/entities/value-objects/phone'
 import { DepartmentsRepository } from '../../repositories/departments-repositories'
@@ -34,13 +34,13 @@ export class EditUserUseCase {
     const department = await this.departmentsRepository.findById(departmentId)
 
     if (!department) {
-      return failure(ResourceNotFound(`Department with id ${departmentId} not found`))
+      return failure(new ResourceNotFoundError(`Department with id ${departmentId} not found`))
     }
 
     const user = await this.usersRepository.findById(userId)
 
     if (!user) {
-      return failure(ResourceNotFound(`User with id ${userId} not found`))
+      return failure(new ResourceNotFoundError(`User with id ${userId} not found`))
     }
 
     user.departmentId = new UniqueEntityID(departmentId)

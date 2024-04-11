@@ -1,7 +1,7 @@
 import { UseCase } from '@/core/use-cases/use-case'
 import { DepartmentsRepository } from '../../repositories/departments-repositories'
 import { Either, failure, success } from '@/core/either'
-import { ResourceNotFound, ResourceNotFoundError } from '@/core/errors/resource-not-found'
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found'
 
 interface DeleteDepartmentUseCaseProps {
   departmentId: string
@@ -16,7 +16,7 @@ export class DeleteDepartmentUseCase implements UseCase {
     const department = await this.departmentsRepository.findById(departmentId)
 
     if (!department) {
-      return failure(ResourceNotFound(`Department with id ${departmentId} not found`))
+      return failure(new ResourceNotFoundError(`Department with id ${departmentId} not found`))
     }
 
     await this.departmentsRepository.delete(departmentId)
