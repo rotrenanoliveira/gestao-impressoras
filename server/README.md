@@ -2,8 +2,8 @@
 
 - [x] O sistema deve permitir o cadastro de departamentos
 - [x] O sistema deve permitir o cadastro de usuários
-- [ ] O sistema deve permitir o cadastro de licenças (licença, usuários de licença)
-- [ ] O sistema deve permitir o cadastro de contratos
+- [x] O sistema deve permitir o cadastro de licenças (licença, usuários de licença)
+- [x] O sistema deve permitir o cadastro de contratos
 - [ ] O sistema deve permitir o cadastro de dispositivos (computador, impressora, dispositivos móveis)
 - [ ] O sistema deve permitir o cadastro de endereços de serviços
 - [ ] O sistema deve permitir o cadastro de estação de trabalho
