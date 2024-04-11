@@ -16,8 +16,12 @@ describe('Fetch licenses', () => {
       licensesRepository.items.push(makeLicense())
     }
 
-    const { licenses } = await sut.execute()
+    const result = await sut.execute()
 
-    expect(licenses).toHaveLength(5)
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.licenses).toHaveLength(5)
+    }
   })
 })

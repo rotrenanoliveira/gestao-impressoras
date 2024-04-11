@@ -15,10 +15,11 @@ describe('Delete license', () => {
     const newLicense = makeLicense()
     licensesRepository.items.push(newLicense)
 
-    await sut.execute({
+    const result = await sut.execute({
       licenseId: newLicense.id.toString(),
     })
 
+    expect(result.hasSucceeded()).toBeTruthy()
     expect(licensesRepository.items).toHaveLength(0)
   })
 })

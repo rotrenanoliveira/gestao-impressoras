@@ -19,27 +19,31 @@ describe('Edit license expire date', () => {
     const newLicense = makeLicense()
     licensesRepository.items.push(newLicense)
 
-    const { license } = await sut.execute({
+    const result = await sut.execute({
       licenseId: newLicense.id.toString(),
       expiresAt: futureDate,
     })
 
-    expect(license).toEqual(
-      expect.objectContaining({
-        expiresAt: futureDate,
-      }),
-    )
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.license).toEqual(
+        expect.objectContaining({
+          expiresAt: futureDate,
+        }),
+      )
+    }
   })
 
   it('should not be able to edit license with expire date in the pass', async () => {
     const license = makeLicense()
     licensesRepository.items.push(license)
 
-    await expect(
-      sut.execute({
-        licenseId: license.id.toString(),
-        expiresAt: faker.date.past(),
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      licenseId: license.id.toString(),
+      expiresAt: faker.date.past(),
+    })
+
+    expect(result.hasFailed()).toBeTruthy()
   })
 })

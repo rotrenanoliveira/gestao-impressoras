@@ -17,7 +17,7 @@ describe('Edit license', () => {
     const newLicense = makeLicense()
     licensesRepository.items.push(newLicense)
 
-    const { license } = await sut.execute({
+    const result = await sut.execute({
       licenseId: newLicense.id.toString(),
       name: 'office',
       quantity: 20,
@@ -30,12 +30,16 @@ describe('Edit license', () => {
       obs: '',
     })
 
-    expect(license).toEqual(
-      expect.objectContaining({
-        name: 'office',
-        quantity: 20,
-        partner: 'microsoft',
-      }),
-    )
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.license).toEqual(
+        expect.objectContaining({
+          name: 'office',
+          quantity: 20,
+          partner: 'microsoft',
+        }),
+      )
+    }
   })
 })

@@ -44,12 +44,6 @@ export class License extends Entity<LicenseProps> {
   }
 
   set expiresAt(expiresAt: Date | null) {
-    const daysUntilExpire = expiresAt !== null && dayjs(expiresAt).diff(new Date(), 'days')
-
-    if (daysUntilExpire && daysUntilExpire < 0) {
-      throw new Error('The expiration date must be in the future')
-    }
-
     this.props.expiresAt = expiresAt
     this.touch()
   }
@@ -68,10 +62,6 @@ export class License extends Entity<LicenseProps> {
   }
 
   set cost(cost: LicenseCost) {
-    if (cost.value <= 0) {
-      throw new Error('License cost value cannot be zero or negative.')
-    }
-
     this.props.cost = cost
     this.touch()
   }
@@ -117,16 +107,6 @@ export class License extends Entity<LicenseProps> {
    * @return {License} a new License instance
    */
   static create(props: Optional<LicenseProps, 'createdAt'>, id?: UniqueEntityID): License {
-    if (props.cost.value <= 0) {
-      throw new Error('License cost value cannot be zero or negative.')
-    }
-
-    const daysUntilExpire = props.expiresAt !== null && dayjs(props.expiresAt).diff(new Date(), 'days')
-
-    if (daysUntilExpire && daysUntilExpire < 0) {
-      throw new Error('The expiration date must be in the future')
-    }
-
     return new License(
       {
         ...props,

@@ -1,11 +1,6 @@
-export interface ResourceNotFoundError {
-  name: 'ResourceNotFound'
-  message: string
-}
-
-export function ResourceNotFound(message = 'Resource not found.'): ResourceNotFoundError {
-  return {
-    name: 'ResourceNotFound',
-    message,
+export class ResourceNotFoundError extends Error {
+  constructor(message = 'Resource not found.') {
+    super(message)
+    this.name = 'ResourceNotFound'
   }
 }

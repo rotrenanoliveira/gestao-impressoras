@@ -18,15 +18,19 @@ describe('Edit license quantity', () => {
 
     licensesRepository.items.push(newLicense)
 
-    const { license } = await sut.execute({
+    const result = await sut.execute({
       licenseId: newLicense.id.toString(),
       quantity: 50,
     })
 
-    expect(license).toEqual(
-      expect.objectContaining({
-        quantity: 50,
-      }),
-    )
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.license).toEqual(
+        expect.objectContaining({
+          quantity: 50,
+        }),
+      )
+    }
   })
 })

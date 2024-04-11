@@ -22,22 +22,26 @@ describe('Get license by id', () => {
       ),
     )
 
-    const { license } = await sut.execute({
+    const result = await sut.execute({
       licenseId: 'license-id',
     })
 
-    expect(license).toEqual(
-      expect.objectContaining({
-        name: 'chat-gpt',
-      }),
-    )
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.license).toEqual(
+        expect.objectContaining({
+          name: 'chat-gpt',
+        }),
+      )
+    }
   })
 
   it('should not be able to get a license with wrong id', async () => {
-    await expect(
-      sut.execute({
-        licenseId: 'non-existent-license',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      licenseId: 'non-existent-license',
+    })
+
+    expect(result.hasFailed()).toBeTruthy()
   })
 })

@@ -32,8 +32,12 @@ describe('Fetch licenses close to expire', () => {
       )
     }
 
-    const { licenses } = await sut.execute()
+    const result = await sut.execute()
 
-    expect(licenses).toHaveLength(3)
+    expect(result.hasSucceeded()).toBeTruthy()
+
+    if (result.hasSucceeded()) {
+      expect(result.result.licenses).toHaveLength(3)
+    }
   })
 })
