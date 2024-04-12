@@ -1,8 +1,8 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Computer, ComputerProps } from '@/domain/it-manager/enterprise/entities/computer'
+import { Printer, PrinterProps } from '@/domain/it-manager/enterprise/entities/printer'
 import { faker } from '@faker-js/faker'
 
-export function makeComputer(override: Partial<ComputerProps> = {}, id?: UniqueEntityID) {
+export function makePrinter(override: Partial<PrinterProps> = {}, id?: UniqueEntityID) {
   const device = {
     contractId: new UniqueEntityID(),
     serialNumber: faker.number.int().toString(),
@@ -13,18 +13,18 @@ export function makeComputer(override: Partial<ComputerProps> = {}, id?: UniqueE
     warrantyEndDate: faker.date.future(),
   }
 
-  const computer = Computer.create(
+  const printer = Printer.create(
     {
-      hostname: faker.internet.domainName(),
+      colorMode: 'black-and-white',
+      printingType: 'inkjet',
+      name: faker.commerce.productName(),
       ipAddress: faker.internet.ip(),
-      description: faker.commerce.productDescription(),
-      operatingSystem: 'Windows XP',
-      type: 'desktop',
+      obs: faker.lorem.words(10),
       ...device,
       ...override,
     },
     id,
   )
 
-  return computer
+  return printer
 }
