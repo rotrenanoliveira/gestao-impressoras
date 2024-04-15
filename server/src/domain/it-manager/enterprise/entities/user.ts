@@ -10,6 +10,7 @@ export interface UserProps {
   badge: string
   status: 'active' | 'inactive'
   departmentId: UniqueEntityID
+  workstationId: UniqueEntityID | null
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -70,6 +71,15 @@ export class User extends Entity<UserProps> {
 
   set departmentId(departmentId: UniqueEntityID) {
     this.props.departmentId = departmentId
+    this.touch()
+  }
+
+  get workstationId() {
+    return this.props.workstationId
+  }
+
+  set workstationId(workstationId: UniqueEntityID | null) {
+    this.props.workstationId = workstationId
     this.touch()
   }
 

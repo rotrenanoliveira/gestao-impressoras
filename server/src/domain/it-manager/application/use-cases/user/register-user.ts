@@ -8,6 +8,7 @@ import { UsersRepository } from '../../repositories/users-repository'
 
 interface RegisterUserUseCaseProps {
   departmentId: string
+  workstationId: string | null
   name: string
   email: string
   phone: string | null
@@ -24,6 +25,7 @@ export class RegisterUserUseCase {
 
   async execute({
     departmentId,
+    workstationId,
     name,
     email,
     phone,
@@ -39,6 +41,7 @@ export class RegisterUserUseCase {
 
     const user = User.create({
       departmentId: new UniqueEntityID(departmentId),
+      workstationId: workstationId ? new UniqueEntityID(workstationId) : null,
       phone: phoneNumber,
       email,
       badge,

@@ -5,6 +5,7 @@ export interface UsersRepository {
   findByEmail(email: string): Promise<User | null>
   findMany(): Promise<User[]>
   findManyByDepartment(departmentId: string): Promise<User[]>
+  findManyByWorkstation(workstationId: string): Promise<User[]>
 
   create(user: User): Promise<void>
   save(user: User): Promise<void>

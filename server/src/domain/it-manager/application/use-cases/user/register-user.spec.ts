@@ -25,6 +25,7 @@ describe('Register user', () => {
       email: 'joedoe@example.com',
       phone: '(11) 95613-6512',
       badge: '311311',
+      workstationId: null,
     })
 
     expect(result.hasSucceeded()).toBeTruthy()
@@ -49,6 +50,7 @@ describe('Register user', () => {
       email: 'joedoe@example.com',
       phone: '(11) 95613-6512',
       badge: '311311',
+      workstationId: null,
     })
 
     expect(result.hasFailed()).toBeTruthy()

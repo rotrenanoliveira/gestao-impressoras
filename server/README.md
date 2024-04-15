@@ -22,3 +22,5 @@
 - [ ] A autenticação será via código de acesso e/ou magic link;
 - [ ] O usuário deve ser identificado por um JWT (Json Web Token);
 - [ ] Os dados da aplicação precisam estar persistidos em um banco PostgresSQL;
+
+- Adicionar varios usuarios ao departamento

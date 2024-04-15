@@ -36,6 +36,12 @@ export class InMemoryUsersRepository implements UsersRepository {
     return users
   }
 
+  async findManyByWorkstation(workstationId: string): Promise<User[]> {
+    const users = this.items.filter((users) => users.workstationId?.toString() === workstationId)
+
+    return users
+  }
+
   async create(user: User): Promise<void> {
     this.items.push(user)
   }
