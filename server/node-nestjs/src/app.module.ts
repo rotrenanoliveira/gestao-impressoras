@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config'
 
 import { envSchema } from './infra/env/env'
 import { PrismaService } from './prisma/prisma.service'
+import { CreatedDepartmentController } from './infra/http/controllers/departments/create-departments.controller'
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { PrismaService } from './prisma/prisma.service'
       isGlobal: true,
     }),
   ],
-  controllers: [],
+  controllers: [CreatedDepartmentController],
   providers: [PrismaService],
 })
 export class AppModule {}
