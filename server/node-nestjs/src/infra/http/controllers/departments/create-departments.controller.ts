@@ -1,6 +1,6 @@
-import { Body, Controller, HttpCode, Post, UsePipes } from '@nestjs/common'
-import { PrismaService } from '@/prisma/prisma.service'
 import { z } from 'zod'
+import { Body, Controller, HttpCode, Post, UsePipes } from '@nestjs/common'
+import { PrismaService } from '@infra/prisma/prisma.service'
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipes'
 
 const createDepartmentBodySchema = z.object({
