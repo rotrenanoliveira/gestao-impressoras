@@ -1,0 +1,229 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum DATA_STATUS {
+  ACTIVE
+  INACTIVE
+}
+
+enum USER_LICENSE_TYPE {
+  USER
+  DEPARTMENT
+}
+
+enum CONTRACT_TYPE {
+  RENTAL
+  LOAN
+}
+
+enum COMPUTER_TYPE {
+  DESKTOP
+  NOTEBOOK
+  SERVER
+}
+
+enum PRINTER_COLORMODE {
+  BLACK_WHITE
+  COLOR
+}
+
+enum PRINTER_TECNOLOGY {
+  LASER
+  INKJET
+  DOT_MATRIX
+  THERMAL
+}
+
+model Department {
+  id          String   @id @default(uuid())
+  description String
+  email       String?
+  slug        String
+  chiefId     String?  @unique @map("chief_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  userLicenses UserLicense[]
+  workstations Workstation[]
+  users        User[]        @relation(name: "part-of")
+  chief        User?         @relation(name: "chief-on", fields: [chiefId], references: [id])
+
+  @@map("departments")
+}
+
+model User {
+  id            String      @id @default(uuid())
+  departmentId  String      @map("department_id")
+  name          String
+  email         String
+  badge         String
+  phone         String?
+  workstationId String?     @map("workstation_id")
+  status        DATA_STATUS @default(ACTIVE)
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+
+  workstation  Workstation?  @relation(fields: [workstationId], references: [id])
+  department   Department    @relation(name: "part-of", fields: [departmentId], references: [id])
+  chiefOn      Department?   @relation(name: "chief-on")
+  userLicenses UserLicense[]
+
+  @@map("users")
+}
+
+model License {
+  id        String    @id @default(uuid())
+  name      String
+  cost      String
+  quantity  Int
+  partner   String
+  expireAt  DateTime? @map("expires_at")
+  obs       String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  userLicenses UserLicense[]
+
+  @@map("licenses")
+}
+
+model UserLicense {
+  id           String            @id @default(uuid())
+  licenseId    String            @map("license_id")
+  departmentId String?           @map("department_id")
+  userId       String?           @map("user_id")
+  type         USER_LICENSE_TYPE
+  status       DATA_STATUS
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  license    License     @relation(fields: [licenseId], references: [id])
+  department Department? @relation(fields: [departmentId], references: [id])
+  user       User?       @relation(fields: [userId], references: [id])
+
+  @@map("user_licenses")
+}
+
+model Contract {
+  id            String        @id @default(uuid())
+  description   String
+  constactEmail String        @map("contact_email")
+  type          CONTRACT_TYPE
+  startAt       DateTime      @map("start_at")
+  endAt         DateTime?     @map("end_at")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  devices       Device[]
+  printers      Printer[]
+  computers     Computer[]
+  mobileDevices MobileDevice[]
+
+  @@map("contracts")
+}
+
+model Device {
+  id              String    @id @default(uuid())
+  serialNumber    String    @map("serial_number")
+  model           String
+  invoice         String
+  assetTag        String?   @map("asset_tag")
+  purchaseDate    DateTime  @map("purchase_date")
+  warrantyEndDate DateTime? @map("warranty_end_date")
+  contractId      String?   @map("contract_id")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  contract Contract? @relation(fields: [contractId], references: [id])
+
+  @@map("devices")
+}
+
+model Computer {
+  id              String        @id @default(uuid())
+  serialNumber    String        @map("serial_number")
+  model           String
+  invoice         String
+  hostname        String
+  ipAddress       String        @map("ip_address")
+  type            COMPUTER_TYPE
+  description     String
+  assetTag        String?       @map("asset_tag")
+  purchaseDate    DateTime      @map("purchase_date")
+  warrantyEndDate DateTime?     @map("warranty_end_date")
+  contractId      String?       @map("contract_id")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  contract    Contract?    @relation(fields: [contractId], references: [id])
+  workstation Workstation?
+
+  @@map("computers")
+}
+
+model Printer {
+  id              String            @id @default(uuid())
+  serialNumber    String            @map("serial_number")
+  model           String
+  invoice         String
+  name            String
+  obs             String?
+  ipAddress       String?           @map("ip_address")
+  assetTag        String?           @map("asset_tag")
+  purchaseDate    DateTime          @map("purchase_date")
+  warrantyEndDate DateTime?         @map("warranty_end_date")
+  contractId      String?           @map("contract_id")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+  colorModel      PRINTER_COLORMODE
+  printingType    PRINTER_TECNOLOGY
+
+  contract Contract? @relation(fields: [contractId], references: [id])
+
+  @@map("printer")
+}
+
+model MobileDevice {
+  id              String    @id @default(uuid())
+  serialNumber    String    @map("serial_number")
+  model           String
+  invoice         String
+  assetTag        String?   @map("asset_tag")
+  purchaseDate    DateTime  @map("purchase_date")
+  warrantyEndDate DateTime? @map("warranty_end_date")
+  contractId      String?   @map("contract_id")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  departmentId    String?   @map("deparment_id")
+  name            String
+  type            String
+  operatingSystem String
+  serviceCompany  String?   @map("service_company")
+  serviceNumber   String?   @map("service_number")
+
+  contract Contract? @relation(fields: [contractId], references: [id])
+
+  @@map("mobile_devices")
+}
+
+model Workstation {
+  id           String   @id @default(uuid())
+  tag          String
+  departmentId String   @map("deparment_id")
+  computerId   String?  @unique @map("computer_id")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  department Department @relation(fields: [departmentId], references: [id])
+  computer   Computer?  @relation(fields: [computerId], references: [id])
+
+  users User[]
+
+  @@map("workstations")
+}
