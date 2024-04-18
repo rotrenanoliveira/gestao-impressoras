@@ -1,7 +1,8 @@
-import { AppModule } from '@/infra/app.module'
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+
+import { AppModule } from '@/infra/app.module'
 
 describe('Register department (E2E)', () => {
   let app: INestApplication
@@ -24,5 +25,14 @@ describe('Register department (E2E)', () => {
     })
 
     expect(response.statusCode).toBe(201)
+    expect(response.body).toEqual({
+      department: {
+        id: expect.any(String),
+        description: 'Test',
+        email: 'test@example.com',
+        slug: 'test',
+        chiefId: null,
+      },
+    })
   })
 })

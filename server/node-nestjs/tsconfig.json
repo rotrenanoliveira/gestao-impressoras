@@ -20,7 +20,10 @@
     "noFallthroughCasesInSwitch": false,
     "types": ["vitest/globals"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@test/*": ["./test/*"],
+      "@infra/*": ["./src/infra/*"],
+      "@controllers/*": ["./src/infra/http/controllers/*"],
     }
   }
 }

@@ -1,7 +1,9 @@
+import { BadRequestException, Body, Controller, HttpCode, Post, UsePipes } from '@nestjs/common'
 import { z } from 'zod'
-import { Body, Controller, HttpCode, Post, UsePipes } from '@nestjs/common'
-import { PrismaService } from '@infra/prisma/prisma.service'
+
 import { ZodValidationPipe } from '../../pipes/zod-validation-pipes'
+import { DepartmentPresenter } from '../../presenters/department-presenter'
+import { CreateDepartmentUseCaseAdapter } from './adapters/create-department-adapter'
 
 const createDepartmentBodySchema = z.object({
   description: z.string(),
@@ -13,7 +15,7 @@ type CreateDepartmentBodySchema = z.infer<typeof createDepartmentBodySchema>
 
 @Controller('/departments')
 export class CreatedDepartmentController {
-  constructor(private prisma: PrismaService) {}
+  constructor(private createDepartment: CreateDepartmentUseCaseAdapter) {}
 
   @Post()
   @HttpCode(201)
@@ -21,13 +23,20 @@ export class CreatedDepartmentController {
   async handle(@Body() body: CreateDepartmentBodySchema) {
     const { description, email, chiefId } = body
 
-    await this.prisma.department.create({
-      data: {
-        description,
-        chiefId,
-        email,
-        slug: description.trim(),
-      },
+    const result = await this.createDepartment.execute({
+      description,
+      email,
+      chiefId,
     })
+
+    if (result.hasFailed()) {
+      throw new BadRequestException(result.reason)
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+
+    return {
+      department: DepartmentPresenter.toHttpResponse(result.result.department),
+    }
   }
 }
