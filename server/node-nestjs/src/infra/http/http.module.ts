@@ -11,9 +11,10 @@ import { DeleteDepartmentController } from './controllers/departments/delete-dep
 import { EditDepartmentController } from './controllers/departments/edit-department.controller'
 import { FetchDepartmentsController } from './controllers/departments/fetch-departments.controller'
 import { GetDepartmentBySlugController } from './controllers/departments/get-department-by-slug.controller'
+import { UserModule } from './controllers/users/user.module'
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, UserModule],
   controllers: [
     FetchDepartmentsController,
     GetDepartmentBySlugController,
