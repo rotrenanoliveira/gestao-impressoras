@@ -9,7 +9,7 @@ import { PrismaService } from '@/infra/database/prisma/prisma.service'
 export function makeDepartment(override: Partial<DepartmentProps> = {}, id?: UniqueEntityID) {
   const department = Department.create(
     {
-      description: faker.person.jobArea(),
+      description: faker.person.jobArea().concat(faker.lorem.words(3)),
       email: faker.internet.email(),
       chiefId: null,
       ...override,

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 
 import { DepartmentsRepository } from '@/domain/it-manager/application/repositories/departments-repository'
 import { LicensesRepository } from '@/domain/it-manager/application/repositories/licenses-repository'
+import { UserLicensesRepository } from '@/domain/it-manager/application/repositories/user-licenses-repository'
 import { UsersRepository } from '@/domain/it-manager/application/repositories/users-repository'
 
 import { PrismaService } from './prisma/prisma.service'
@@ -32,7 +33,10 @@ import { PrismaWorkstationsRepository } from './prisma/repositories/prisma-works
     },
     PrismaMobileDevicesRepository,
     PrismaPrintersRepository,
-    PrismaUserLicensesRepository,
+    {
+      provide: UserLicensesRepository,
+      useClass: PrismaUserLicensesRepository,
+    },
     {
       provide: UsersRepository,
       useClass: PrismaUsersRepository,
@@ -48,7 +52,7 @@ import { PrismaWorkstationsRepository } from './prisma/repositories/prisma-works
     LicensesRepository,
     PrismaMobileDevicesRepository,
     PrismaPrintersRepository,
-    PrismaUserLicensesRepository,
+    UserLicensesRepository,
     UsersRepository,
     PrismaWorkstationsRepository,
   ],
