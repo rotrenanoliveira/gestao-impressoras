@@ -33,8 +33,6 @@ export class CreatedDepartmentController {
       throw new BadRequestException(result.reason)
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
     return {
       department: DepartmentPresenter.toHttpResponse(result.result.department),
     }

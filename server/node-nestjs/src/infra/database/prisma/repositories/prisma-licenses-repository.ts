@@ -1,31 +1,76 @@
 import { Injectable } from '@nestjs/common'
+import dayjs from 'dayjs'
 
 import { LicensesRepository } from '@/domain/it-manager/application/repositories/licenses-repository'
 import { License } from '@/domain/it-manager/enterprise/entities/license'
 
+import { PrismaLicenseMapper } from '../mappers/prisma-license-mapper'
+import { PrismaService } from '../prisma.service'
+
 @Injectable()
 export class PrismaLicensesRepository implements LicensesRepository {
-  findById(licenseId: string): Promise<License | null> {
-    throw new Error('Method not implemented.')
+  constructor(private prisma: PrismaService) {}
+
+  async findById(licenseId: string): Promise<License | null> {
+    const license = await this.prisma.license.findUnique({
+      where: {
+        id: licenseId,
+      },
+    })
+
+    if (!license) {
+      return null
+    }
+
+    return PrismaLicenseMapper.toDomain(license)
   }
 
-  findMany(): Promise<License[]> {
-    throw new Error('Method not implemented.')
+  async findMany(): Promise<License[]> {
+    const licenses = await this.prisma.license.findMany()
+
+    return licenses.map(PrismaLicenseMapper.toDomain)
   }
 
-  findManyCloseToExpire(): Promise<License[]> {
-    throw new Error('Method not implemented.')
+  async findManyCloseToExpire(): Promise<License[]> {
+    const THIRTY_DAYS_TO_EXPIRE = dayjs().add(30, 'days').toDate()
+
+    const licenses = await this.prisma.license.findMany({
+      where: {
+        expiresAt: {
+          lte: THIRTY_DAYS_TO_EXPIRE,
+        },
+      },
+    })
+
+    return licenses.map(PrismaLicenseMapper.toDomain)
   }
 
-  create(license: License): Promise<void> {
-    throw new Error('Method not implemented.')
+  async create(license: License): Promise<void> {
+    const data = PrismaLicenseMapper.toPersistence(license)
+
+    await this.prisma.license.create({
+      data,
+    })
   }
 
-  save(license: License): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(license: License): Promise<void> {
+    const data = PrismaLicenseMapper.toPersistence(license)
+
+    await this.prisma.license.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    })
   }
 
-  delete(licenseId: string): Promise<void> {
-    throw new Error('Method not implemented.')
+  async delete(license: License): Promise<void> {
+    const data = PrismaLicenseMapper.toPersistence(license)
+
+    await this.prisma.license.delete({
+      where: {
+        id: data.id,
+      },
+    })
   }
 }
