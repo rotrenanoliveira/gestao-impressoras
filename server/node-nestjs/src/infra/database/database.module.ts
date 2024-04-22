@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 
+import { ComputersRepository } from '@/domain/it-manager/application/repositories/computers-repository'
 import { ContractsRepository } from '@/domain/it-manager/application/repositories/contracts-repository'
 import { DepartmentsRepository } from '@/domain/it-manager/application/repositories/departments-repository'
 import { DevicesRepository } from '@/domain/it-manager/application/repositories/devices-repository'
@@ -22,7 +23,10 @@ import { PrismaWorkstationsRepository } from './prisma/repositories/prisma-works
 @Module({
   providers: [
     PrismaService,
-    PrismaComputersRepository,
+    {
+      provide: ComputersRepository,
+      useClass: PrismaComputersRepository,
+    },
     {
       provide: ContractsRepository,
       useClass: PrismaContractsRepository,
@@ -53,7 +57,7 @@ import { PrismaWorkstationsRepository } from './prisma/repositories/prisma-works
   ],
   exports: [
     PrismaService,
-    PrismaComputersRepository,
+    ComputersRepository,
     ContractsRepository,
     DepartmentsRepository,
     DevicesRepository,

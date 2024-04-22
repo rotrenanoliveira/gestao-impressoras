@@ -34,7 +34,7 @@ describe('Active user (E2E)', () => {
     const userId = user.id.toString()
 
     const response = await request(app.getHttpServer()).patch(`/users/${userId}/active`).send()
-    // console.log(response)
+
     expect(response.statusCode).toBe(204)
   })
 })

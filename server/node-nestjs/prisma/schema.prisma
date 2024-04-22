@@ -111,14 +111,14 @@ model UserLicense {
 }
 
 model Contract {
-  id            String        @id @default(uuid())
-  description   String
-  constactEmail String        @map("contact_email")
-  type          CONTRACT_TYPE
-  startAt       DateTime      @map("start_at")
-  endAt         DateTime?     @map("end_at")
-  createdAt     DateTime      @default(now()) @map("created_at")
-  updatedAt     DateTime      @updatedAt @map("updated_at")
+  id           String        @id @default(uuid())
+  description  String
+  contactEmail String        @map("contact_email")
+  type         CONTRACT_TYPE
+  startAt      DateTime      @map("start_at")
+  endAt        DateTime?     @map("end_at")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
 
   devices       Device[]
   printers      Printer[]
@@ -156,6 +156,7 @@ model Computer {
   description     String
   assetTag        String?       @map("asset_tag")
   purchaseDate    DateTime      @map("purchase_date")
+  operatingSystem String        @map("operating_system")
   warrantyEndDate DateTime?     @map("warranty_end_date")
   contractId      String?       @map("contract_id")
   createdAt       DateTime      @default(now()) @map("created_at")
