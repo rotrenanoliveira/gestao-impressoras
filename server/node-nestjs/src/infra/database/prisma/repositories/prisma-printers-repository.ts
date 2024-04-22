@@ -3,25 +3,59 @@ import { Injectable } from '@nestjs/common'
 import { PrintersRepository } from '@/domain/it-manager/application/repositories/printers-repository'
 import { Printer } from '@/domain/it-manager/enterprise/entities/printer'
 
+import { PrismaPrinterMapper } from '../mappers/prisma-printer-mapper'
+import { PrismaService } from '../prisma.service'
+
 @Injectable()
 export class PrismaPrintersRepository implements PrintersRepository {
-  findById(printerId: string): Promise<Printer | null> {
-    throw new Error('Method not implemented.')
+  constructor(private prisma: PrismaService) {}
+
+  async findById(printerId: string): Promise<Printer | null> {
+    const printer = await this.prisma.printer.findUnique({
+      where: {
+        id: printerId,
+      },
+    })
+
+    if (!printer) {
+      return null
+    }
+
+    return PrismaPrinterMapper.toDomain(printer)
   }
 
-  findMany(): Promise<Printer[]> {
-    throw new Error('Method not implemented.')
+  async findMany(): Promise<Printer[]> {
+    const printers = await this.prisma.printer.findMany()
+
+    return printers.map(PrismaPrinterMapper.toDomain)
   }
 
-  create(printer: Printer): Promise<void> {
-    throw new Error('Method not implemented.')
+  async create(printer: Printer): Promise<void> {
+    const data = PrismaPrinterMapper.toPersistence(printer)
+
+    await this.prisma.printer.create({
+      data,
+    })
   }
 
-  save(printer: Printer): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(printer: Printer): Promise<void> {
+    const data = PrismaPrinterMapper.toPersistence(printer)
+
+    await this.prisma.printer.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    })
   }
 
-  delete(printerId: string): Promise<void> {
-    throw new Error('Method not implemented.')
+  async delete(printer: Printer): Promise<void> {
+    const data = PrismaPrinterMapper.toPersistence(printer)
+
+    await this.prisma.printer.delete({
+      where: {
+        id: data.id,
+      },
+    })
   }
 }

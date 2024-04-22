@@ -182,8 +182,8 @@ model Printer {
   contractId      String?           @map("contract_id")
   createdAt       DateTime          @default(now()) @map("created_at")
   updatedAt       DateTime          @updatedAt @map("updated_at")
-  colorModel      PRINTER_COLORMODE
-  printingType    PRINTER_TECNOLOGY
+  colorMode       PRINTER_COLORMODE @map("color_mode")
+  printingType    PRINTER_TECNOLOGY @map("printing_type")
 
   contract Contract? @relation(fields: [contractId], references: [id])
 
