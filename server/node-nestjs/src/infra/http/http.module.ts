@@ -10,6 +10,7 @@ import { MobileDeviceModule } from './controllers/mobile-devices/mobile-device.m
 import { PrinterModule } from './controllers/printers/printer.module'
 import { UserLicenseModule } from './controllers/user-licenses/user-license.module'
 import { UserModule } from './controllers/users/user.module'
+import { WorkstationModule } from './controllers/workstations/workstation.module'
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { UserModule } from './controllers/users/user.module'
     UserLicenseModule,
     UserModule,
     PrinterModule,
+    WorkstationModule,
   ],
 })
 export class HttpModule {}

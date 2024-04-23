@@ -9,6 +9,7 @@ import { MobileDevicesRepository } from '@/domain/it-manager/application/reposit
 import { PrintersRepository } from '@/domain/it-manager/application/repositories/printers-repository'
 import { UserLicensesRepository } from '@/domain/it-manager/application/repositories/user-licenses-repository'
 import { UsersRepository } from '@/domain/it-manager/application/repositories/users-repository'
+import { WorkstationsRepository } from '@/domain/it-manager/application/repositories/workstations-repository'
 
 import { PrismaService } from './prisma/prisma.service'
 import { PrismaComputersRepository } from './prisma/repositories/prisma-computer-repository'
@@ -61,7 +62,10 @@ import { PrismaWorkstationsRepository } from './prisma/repositories/prisma-works
       provide: UsersRepository,
       useClass: PrismaUsersRepository,
     },
-    PrismaWorkstationsRepository,
+    {
+      provide: WorkstationsRepository,
+      useClass: PrismaWorkstationsRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -74,7 +78,7 @@ import { PrismaWorkstationsRepository } from './prisma/repositories/prisma-works
     PrintersRepository,
     UserLicensesRepository,
     UsersRepository,
-    PrismaWorkstationsRepository,
+    WorkstationsRepository,
   ],
 })
 export class DatabaseModule {}

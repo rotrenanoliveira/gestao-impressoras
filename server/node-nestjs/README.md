@@ -24,3 +24,5 @@
 - [ ] Os dados da aplicação precisam estar persistidos em um banco PostgresSQL;
 
 - Adicionar varios usuarios ao departamento
+
+- Adicionar filter by slug na rota fetch workstations

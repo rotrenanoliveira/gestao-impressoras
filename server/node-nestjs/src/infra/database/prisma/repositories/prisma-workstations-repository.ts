@@ -3,29 +3,69 @@ import { Injectable } from '@nestjs/common'
 import { WorkstationsRepository } from '@/domain/it-manager/application/repositories/workstations-repository'
 import { Workstation } from '@/domain/it-manager/enterprise/entities/workstation'
 
+import { PrismaWorkstationMapper } from '../mappers/prisma-workstation-mapper'
+import { PrismaService } from '../prisma.service'
+
 @Injectable()
 export class PrismaWorkstationsRepository implements WorkstationsRepository {
-  findMany(): Promise<Workstation[]> {
-    throw new Error('Method not implemented.')
+  constructor(private prisma: PrismaService) {}
+
+  async findMany(): Promise<Workstation[]> {
+    const workstations = await this.prisma.workstation.findMany()
+
+    return workstations.map(PrismaWorkstationMapper.toDomain)
   }
 
-  findManyByDepartmentId(departmentId: string): Promise<Workstation[]> {
-    throw new Error('Method not implemented.')
+  async findManyByDepartmentId(departmentId: string): Promise<Workstation[]> {
+    const workstations = await this.prisma.workstation.findMany({
+      where: {
+        departmentId,
+      },
+    })
+
+    return workstations.map(PrismaWorkstationMapper.toDomain)
   }
 
-  findById(workstationId: string): Promise<Workstation | null> {
-    throw new Error('Method not implemented.')
+  async findById(workstationId: string): Promise<Workstation | null> {
+    const workstation = await this.prisma.workstation.findUnique({
+      where: {
+        id: workstationId,
+      },
+    })
+
+    if (!workstation) {
+      return null
+    }
+
+    return PrismaWorkstationMapper.toDomain(workstation)
   }
 
-  create(workstation: Workstation): Promise<void> {
-    throw new Error('Method not implemented.')
+  async create(workstation: Workstation): Promise<void> {
+    const data = PrismaWorkstationMapper.toPersistence(workstation)
+
+    await this.prisma.workstation.create({
+      data,
+    })
   }
 
-  save(workstation: Workstation): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(workstation: Workstation): Promise<void> {
+    const data = PrismaWorkstationMapper.toPersistence(workstation)
+
+    await this.prisma.workstation.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    })
   }
 
-  delete(workstationId: string): Promise<void> {
-    throw new Error('Method not implemented.')
+  async delete(workstation: Workstation): Promise<void> {
+    const data = PrismaWorkstationMapper.toPersistence(workstation)
+
+    await this.prisma.workstation.delete({
+      where: {
+        id: data.id,
+      },
+    })
   }
 }
