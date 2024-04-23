@@ -5,6 +5,7 @@ import { ContractsRepository } from '@/domain/it-manager/application/repositorie
 import { DepartmentsRepository } from '@/domain/it-manager/application/repositories/departments-repository'
 import { DevicesRepository } from '@/domain/it-manager/application/repositories/devices-repository'
 import { LicensesRepository } from '@/domain/it-manager/application/repositories/licenses-repository'
+import { MobileDevicesRepository } from '@/domain/it-manager/application/repositories/mobile-devices-repository'
 import { PrintersRepository } from '@/domain/it-manager/application/repositories/printers-repository'
 import { UserLicensesRepository } from '@/domain/it-manager/application/repositories/user-licenses-repository'
 import { UsersRepository } from '@/domain/it-manager/application/repositories/users-repository'
@@ -44,7 +45,10 @@ import { PrismaWorkstationsRepository } from './prisma/repositories/prisma-works
       provide: LicensesRepository,
       useClass: PrismaLicensesRepository,
     },
-    PrismaMobileDevicesRepository,
+    {
+      provide: MobileDevicesRepository,
+      useClass: PrismaMobileDevicesRepository,
+    },
     {
       provide: PrintersRepository,
       useClass: PrismaPrintersRepository,
@@ -66,7 +70,7 @@ import { PrismaWorkstationsRepository } from './prisma/repositories/prisma-works
     DepartmentsRepository,
     DevicesRepository,
     LicensesRepository,
-    PrismaMobileDevicesRepository,
+    MobileDevicesRepository,
     PrintersRepository,
     UserLicensesRepository,
     UsersRepository,

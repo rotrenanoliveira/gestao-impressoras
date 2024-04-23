@@ -6,6 +6,7 @@ import { ContractModule } from './controllers/contracts/contract.module'
 import { DepartmentModule } from './controllers/departments/department.module'
 import { DeviceModule } from './controllers/devices/device.module'
 import { LicenseModule } from './controllers/licenses/license.module'
+import { MobileDeviceModule } from './controllers/mobile-devices/mobile-device.module'
 import { PrinterModule } from './controllers/printers/printer.module'
 import { UserLicenseModule } from './controllers/user-licenses/user-license.module'
 import { UserModule } from './controllers/users/user.module'
@@ -18,6 +19,7 @@ import { UserModule } from './controllers/users/user.module'
     DepartmentModule,
     DeviceModule,
     LicenseModule,
+    MobileDeviceModule,
     UserLicenseModule,
     UserModule,
     PrinterModule,
