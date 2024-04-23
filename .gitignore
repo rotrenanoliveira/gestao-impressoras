@@ -1,5 +1,5 @@
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
 .idea
 .DS_Store
@@ -16,3 +16,6 @@ node_modules
 
 # Build
 build
+
+# Files
+archive

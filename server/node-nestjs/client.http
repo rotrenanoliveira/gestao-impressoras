@@ -1,0 +1,16 @@
+@baseUrl = http://localhost:3333
+
+
+# @name create_departments
+POST {{baseUrl}}/departments
+Content-Type: application/json
+
+{
+  "description": "Department 01",
+  "email": "department_01@example.com",
+  "chiefId": null
+}
+
+###
+
+#@name find_many_departments

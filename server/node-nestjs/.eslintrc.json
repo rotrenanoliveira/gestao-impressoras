@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "@rotrenanoliveira/eslint-config/node"
+  ],
+  "plugins": ["simple-import-sort"],
+  "rules": {
+    "no-useless-constructor": "off",
+    "no-new": "off",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
+  }
+}
