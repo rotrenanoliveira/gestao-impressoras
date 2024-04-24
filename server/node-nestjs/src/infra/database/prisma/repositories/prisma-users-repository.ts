@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
-import { UsersRepository } from '@/domain/it-manager/application/repositories/users-repository'
+import { UsersFilterParams, UsersRepository } from '@/domain/it-manager/application/repositories/users-repository'
 import { User } from '@/domain/it-manager/enterprise/entities/user'
 
 import { PrismaUserMapper } from '../mappers/prisma-user-mapper'
@@ -38,8 +38,14 @@ export class PrismaUsersRepository implements UsersRepository {
     return PrismaUserMapper.toDomain(user)
   }
 
-  async findMany(): Promise<User[]> {
+  async findMany(params: UsersFilterParams): Promise<User[]> {
     const users = await this.prisma.user.findMany({
+      where: {
+        email: params.email,
+        department: {
+          slug: params.department,
+        },
+      },
       orderBy: {
         name: 'asc',
       },

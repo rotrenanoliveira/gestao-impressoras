@@ -5,10 +5,9 @@
 - [x] O sistema deve permitir o cadastro de licenças (licença, usuários de licença)
 - [x] O sistema deve permitir o cadastro de contratos
 - [x] O sistema deve permitir o cadastro de dispositivos (computador, impressora, dispositivos móveis)
-- [ ] O sistema deve permitir o cadastro de endereços de serviços
 - [x] O sistema deve permitir o cadastro de estação de trabalho
+- [ ] O sistema deve permitir o cadastro de endereços de serviços
 - [ ] O sistema deve permitir o cadastro de ocorrências
-- [ ] O sistema deve permitir a liberação de certos endpoints (recursos) para departamentos selecionados
 - [ ] O sistema deve permitir o cadastro de contas de emails por departamento
 - [ ] O sistema deve permitir o cadastro de contas de emails por usuário para que o sistema envie e-mail por ele
 
@@ -23,6 +22,22 @@
 - [ ] O usuário deve ser identificado por um JWT (Json Web Token);
 - [ ] Os dados da aplicação precisam estar persistidos em um banco PostgresSQL;
 
-- Adicionar varios usuarios ao departamento
+### TODO
 
-- Adicionar filter by slug na rota fetch workstations
+- [x] Busca de departamentos por slug
+- [x] Busca de usuário por email e departamento
+- [ ] Busca de licenças por departamento
+- [ ] Busca de licenças por usuário
+- [ ] Busca de workstation por departamento
+- [ ] Trazer com o departamento o chefe (nome)
+- [ ] Trazer com o usuário o departamento (slug, description), se é chefe de algum departamento (description), workstation (tag), license (ID userLicense, name)
+- [ ] Trazer com a licença se é usada por departamento ou usuário e o nome ou descrição do usuário da licença
+- [ ] Trazer com o dispositivo o contrato (ID e description)
+- [ ] Trazer com o computador a workstation (tag) e departamento (slug, description)
+- [ ] Trazer com o a workstation os usuários (nome, email)
+- [ ] Adicionar e remover usuário de workstation
+- [ ] Adicionar e remover computador de workstation
+
+Pensar uma maneira de autenticar, já que não será realizada por usuário e sim via API Key... pois os usuários podem e vão autenticar o frontend para visualizar as informações mas a maneira que o frontend e o backend será integrado será via API Key
+
+Para as funções do frontend a autenticação será via RBAC

@@ -7,7 +7,7 @@ import request from 'supertest'
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
 
-describe('Fetch users (E2E)', () => {
+describe.only('Fetch users (E2E)', () => {
   let app: INestApplication
   let userFactory: UserFactory
   let departmentFactory: DepartmentFactory
@@ -25,7 +25,7 @@ describe('Fetch users (E2E)', () => {
     await app.init()
   })
 
-  test('[GET] /users/department/:departmentId', async () => {
+  test('[GET] /users', async () => {
     const department = await departmentFactory.makePrismaDepartment()
 
     for (let i = 0; i < 5; i++) {
@@ -34,7 +34,7 @@ describe('Fetch users (E2E)', () => {
       })
     }
 
-    const response = await request(app.getHttpServer()).get(`/users`).send()
+    const response = await request(app.getHttpServer()).get('/users').send()
 
     expect(response.statusCode).toBe(200)
     expect(response.body.users).toHaveLength(5)
