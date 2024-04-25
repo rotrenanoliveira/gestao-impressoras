@@ -1,16 +1,21 @@
 import { Department } from '@/domain/it-manager/enterprise/entities/department'
 
 export class DepartmentPresenter {
-  static toHttpResponse(department: Department) {
-    const chiefId = department.chiefId ? department.chiefId.toString() : null
+  static toHTTP(department: Department) {
+    const chief = !department.chief
+      ? null
+      : {
+          id: department.chief.id.toString(),
+          name: department.chief.name,
+        }
 
     return {
       id: department.id.toString(),
       description: department.description,
-      email: department.email,
       slug: department.slug.value,
+      email: department.email,
+      chief,
       updatedAt: department.updatedAt,
-      chiefId,
     }
   }
 }

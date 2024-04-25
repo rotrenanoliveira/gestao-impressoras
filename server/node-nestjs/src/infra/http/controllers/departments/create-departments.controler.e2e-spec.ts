@@ -19,20 +19,20 @@ describe('Register department (E2E)', () => {
 
   test('[POST] /departments', async () => {
     const response = await request(app.getHttpServer()).post('/departments').send({
-      description: 'Test',
-      email: 'test@example.com',
-      chiefId: null,
+      description: 'Product Design',
+      email: 'product.design@example.com',
     })
 
     expect(response.statusCode).toBe(201)
+
     expect(response.body).toEqual({
-      department: {
+      department: expect.objectContaining({
         id: expect.any(String),
-        description: 'Test',
-        email: 'test@example.com',
-        slug: 'test',
-        chiefId: null,
-      },
+        slug: 'product-design',
+        description: 'Product Design',
+        email: 'product.design@example.com',
+        chief: null,
+      }),
     })
   })
 })

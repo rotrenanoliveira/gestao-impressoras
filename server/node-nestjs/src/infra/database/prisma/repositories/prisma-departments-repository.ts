@@ -10,10 +10,23 @@ import { PrismaService } from '../prisma.service'
 export class PrismaDepartmentsRepository implements DepartmentsRepository {
   constructor(private prisma: PrismaService) {}
 
+  async findMany(): Promise<Department[]> {
+    const departments = await this.prisma.department.findMany({
+      include: {
+        chief: true,
+      },
+    })
+
+    return departments.map(PrismaDepartmentsMapper.toDomain)
+  }
+
   async findById(id: string): Promise<Department | null> {
     const department = await this.prisma.department.findUnique({
       where: {
         id,
+      },
+      include: {
+        chief: true,
       },
     })
 
@@ -29,6 +42,9 @@ export class PrismaDepartmentsRepository implements DepartmentsRepository {
       where: {
         slug,
       },
+      include: {
+        chief: true,
+      },
     })
 
     if (!department) {
@@ -36,12 +52,6 @@ export class PrismaDepartmentsRepository implements DepartmentsRepository {
     }
 
     return PrismaDepartmentsMapper.toDomain(department)
-  }
-
-  async findMany(): Promise<Department[]> {
-    const departments = await this.prisma.department.findMany()
-
-    return departments.map(PrismaDepartmentsMapper.toDomain)
   }
 
   async create(department: Department): Promise<void> {

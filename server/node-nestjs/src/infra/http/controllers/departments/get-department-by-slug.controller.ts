@@ -7,11 +7,11 @@ import { GetDepartmentBySlugUseCaseAdapter } from './adapters/get-department-by-
 
 @Controller('departments/:slug')
 export class GetDepartmentBySlugController {
-  constructor(private getDepartmentById: GetDepartmentBySlugUseCaseAdapter) {}
+  constructor(private getDepartmentBySlug: GetDepartmentBySlugUseCaseAdapter) {}
 
   @Get()
   async handle(@Param('slug') slug: string) {
-    const result = await this.getDepartmentById.execute({
+    const result = await this.getDepartmentBySlug.execute({
       slug,
     })
 
@@ -29,7 +29,7 @@ export class GetDepartmentBySlugController {
     const department = result.result.department
 
     return {
-      department: DepartmentPresenter.toHttpResponse(department),
+      department: DepartmentPresenter.toHTTP(department),
     }
   }
 }

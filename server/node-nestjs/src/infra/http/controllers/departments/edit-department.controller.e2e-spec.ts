@@ -22,16 +22,28 @@ describe('Edit department (E2E)', () => {
     await app.init()
   })
 
-  test('[PUT] /departments/:departmentId', async () => {
+  test('[PUT] /departments/:id', async () => {
     const department = await departmentFactory.makePrismaDepartment()
     const departmentId = department.id.toString()
 
     const response = await request(app.getHttpServer()).put(`/departments/${departmentId}`).send({
-      description: 'Test 2',
-      email: 'test2@example.com',
-      chiefId: null,
+      description: 'Product Design',
+      email: 'product.design@example.com',
     })
 
     expect(response.statusCode).toBe(204)
+
+    const departmentSlug = 'product-design'
+    const updateResponse = await request(app.getHttpServer()).get(`/departments/${departmentSlug}`).send()
+
+    expect(updateResponse.body).toEqual({
+      department: expect.objectContaining({
+        id: departmentId,
+        slug: 'product-design',
+        description: 'Product Design',
+        email: 'product.design@example.com',
+        chief: null,
+      }),
+    })
   })
 })

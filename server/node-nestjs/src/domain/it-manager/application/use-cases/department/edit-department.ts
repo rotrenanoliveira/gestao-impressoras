@@ -1,5 +1,4 @@
 import { Either, failure, success } from '@/core/either'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found'
 import { UseCase } from '@/core/use-cases/use-case'
 import { Department } from '@/domain/it-manager/enterprise/entities/department'
@@ -8,7 +7,6 @@ import { DepartmentsRepository } from '../../repositories/departments-repository
 
 interface EditDepartmentProps {
   departmentId: string
-  chiefId: string | null
   description: string
   email: string | null
 }
@@ -18,12 +16,7 @@ type EditDepartmentUseCaseResponse = Either<ResourceNotFoundError, { department:
 export class EditDepartmentUseCase implements UseCase {
   constructor(private departmentsRepository: DepartmentsRepository) {}
 
-  async execute({
-    departmentId,
-    chiefId,
-    description,
-    email,
-  }: EditDepartmentProps): Promise<EditDepartmentUseCaseResponse> {
+  async execute({ departmentId, description, email }: EditDepartmentProps): Promise<EditDepartmentUseCaseResponse> {
     const department = await this.departmentsRepository.findById(departmentId)
 
     if (!department) {
@@ -32,7 +25,6 @@ export class EditDepartmentUseCase implements UseCase {
 
     department.description = description
     department.email = email
-    department.chiefId = chiefId ? new UniqueEntityID(chiefId) : null
 
     await this.departmentsRepository.save(department)
 

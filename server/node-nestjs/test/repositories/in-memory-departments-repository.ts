@@ -4,6 +4,12 @@ import { Department } from '@/domain/it-manager/enterprise/entities/department'
 export class InMemoryDepartmentsRepository implements DepartmentsRepository {
   public items: Department[] = []
 
+  async findMany(): Promise<Department[]> {
+    const departments = this.items
+
+    return departments
+  }
+
   async findById(id: string): Promise<Department | null> {
     const department = this.items.find((department) => department.id.toString() === id)
 
@@ -22,10 +28,6 @@ export class InMemoryDepartmentsRepository implements DepartmentsRepository {
     }
 
     return department
-  }
-
-  async findMany(): Promise<Department[]> {
-    return this.items
   }
 
   async create(department: Department): Promise<void> {

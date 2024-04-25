@@ -8,7 +8,6 @@ import { CreateDepartmentUseCaseAdapter } from './adapters/create-department-ada
 const createDepartmentBodySchema = z.object({
   description: z.string(),
   email: z.string().email().nullable(),
-  chiefId: z.string().uuid().nullable(),
 })
 
 type CreateDepartmentBodySchema = z.infer<typeof createDepartmentBodySchema>
@@ -21,12 +20,11 @@ export class CreatedDepartmentController {
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(createDepartmentBodySchema))
   async handle(@Body() body: CreateDepartmentBodySchema) {
-    const { description, email, chiefId } = body
+    const { description, email } = body
 
     const result = await this.createDepartment.execute({
       description,
       email,
-      chiefId,
     })
 
     if (result.hasFailed()) {
@@ -34,7 +32,7 @@ export class CreatedDepartmentController {
     }
 
     return {
-      department: DepartmentPresenter.toHttpResponse(result.result.department),
+      department: DepartmentPresenter.toHTTP(result.result.department),
     }
   }
 }

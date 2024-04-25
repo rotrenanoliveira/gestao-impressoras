@@ -27,7 +27,7 @@
 - [x] Busca de departamentos por slug
 - [x] Busca de usuário por email e departamento
 - [x] Busca de workstation por departamento
-- [ ] Trazer com o departamento o chefe (nome)
+- [x] Trazer com o departamento o chefe (nome)
 - [ ] Trazer com o usuário o departamento (slug, description), se é chefe de algum departamento (description), workstation (tag), license (ID userLicense, name)
 - [ ] Trazer com a licença se é usada por departamento ou usuário e o nome ou descrição do usuário da licença
 - [ ] Trazer com o dispositivo o contrato (ID e description)
@@ -39,3 +39,29 @@
 Pensar uma maneira de autenticar, já que não será realizada por usuário e sim via API Key... pois os usuários podem e vão autenticar o frontend para visualizar as informações mas a maneira que o frontend e o backend será integrado será via API Key
 
 Para as funções do frontend a autenticação será via RBAC
+
+```ts
+export interface DepartmentProps {
+  description: string
+  slug: Slug
+  email: string | null
+  chiefId?: UniqueEntityID | null
+  chief?: User | null
+  createdAt: Date
+  updatedAt?: Date | null
+}
+```
+
+```ts
+export interface UserProps {
+  name: string
+  email: string
+  phone: Phone | null
+  badge: string
+  status: 'ACTIVE' | 'INACTIVE'
+  departmentId: UniqueEntityID
+  workstationId: UniqueEntityID | null
+  createdAt: Date
+  updatedAt?: Date | null
+}
+```

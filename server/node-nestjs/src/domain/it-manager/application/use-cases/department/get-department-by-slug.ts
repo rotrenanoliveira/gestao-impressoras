@@ -21,6 +21,8 @@ export class GetDepartmentBySlugUseCase implements UseCase {
       return failure(new ResourceNotFoundError(`Department with slug ${slug} not found`))
     }
 
-    return success({ department })
+    return success({
+      department,
+    })
   }
 }

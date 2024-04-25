@@ -7,7 +7,6 @@ import { EditDepartmentUseCaseAdapter } from './adapters/edit-department-adapter
 const editDepartmentBodySchema = z.object({
   description: z.string(),
   email: z.string().email().nullable(),
-  chiefId: z.string().uuid().nullable(),
 })
 
 type EditDepartmentBodySchema = z.infer<typeof editDepartmentBodySchema>
@@ -22,12 +21,11 @@ export class EditDepartmentController {
     @Body(new ZodValidationPipe(editDepartmentBodySchema)) body: EditDepartmentBodySchema,
     @Param('id') departmentId: string,
   ) {
-    const { description, email, chiefId } = body
+    const { description, email } = body
 
     const result = await this.editDepartment.execute({
       departmentId,
       description,
-      chiefId,
       email,
     })
 

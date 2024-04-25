@@ -1,6 +1,8 @@
 import { makeDepartment } from 'test/factories/make-department'
 import { InMemoryDepartmentsRepository } from 'test/repositories/in-memory-departments-repository'
 
+import { ResourceNotFoundError } from '@/core/errors/resource-not-found'
+
 import { GetDepartmentByIdUseCase } from './get-department-by-id'
 
 let departmentsRepository: InMemoryDepartmentsRepository
@@ -27,6 +29,10 @@ describe('Get department by id', () => {
         expect.objectContaining({
           id: newDepartment.id,
           description: newDepartment.description,
+          email: newDepartment.email,
+          slug: newDepartment.slug,
+          createdAt: newDepartment.createdAt,
+          updatedAt: newDepartment.updatedAt,
         }),
       )
     }
@@ -40,11 +46,7 @@ describe('Get department by id', () => {
     expect(result.hasFailed()).toBe(true)
 
     if (result.hasFailed()) {
-      expect(result.reason).toEqual(
-        expect.objectContaining({
-          name: 'ResourceNotFound',
-        }),
-      )
+      expect(result.reason).toBeInstanceOf(ResourceNotFoundError)
     }
   })
 })

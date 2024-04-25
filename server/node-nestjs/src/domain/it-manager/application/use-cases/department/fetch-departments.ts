@@ -12,6 +12,8 @@ export class FetchDepartmentsUseCase implements UseCase {
   async execute(): Promise<FetchDepartmentsUseCaseResponse> {
     const departments = await this.departmentsRepository.findMany()
 
-    return success({ departments })
+    return success({
+      departments,
+    })
   }
 }

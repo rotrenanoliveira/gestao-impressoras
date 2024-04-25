@@ -23,13 +23,13 @@ describe('Fetch departments (E2E)', () => {
   })
 
   test('[GET] /departments', async () => {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       await departmentFactory.makePrismaDepartment()
     }
 
     const response = await request(app.getHttpServer()).get('/departments')
 
     expect(response.statusCode).toBe(200)
-    expect(response.body.departments).toHaveLength(3)
+    expect(response.body.departments).toHaveLength(5)
   })
 })

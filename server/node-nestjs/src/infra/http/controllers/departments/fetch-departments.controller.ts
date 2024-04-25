@@ -16,7 +16,7 @@ export class FetchDepartmentsController {
       throw new BadRequestException(result.reason)
     }
     const response = result.result.departments
-    const departments = response.map(DepartmentPresenter.toHttpResponse)
+    const departments = response.map(DepartmentPresenter.toHTTP)
 
     return {
       departments,

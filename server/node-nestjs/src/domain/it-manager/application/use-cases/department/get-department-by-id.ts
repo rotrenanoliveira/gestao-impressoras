@@ -21,6 +21,8 @@ export class GetDepartmentByIdUseCase implements UseCase {
       return failure(new ResourceNotFoundError(`Department with id ${departmentId} not found`))
     }
 
-    return success({ department })
+    return success({
+      department,
+    })
   }
 }

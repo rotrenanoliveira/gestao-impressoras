@@ -2,13 +2,15 @@ import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
+import { User } from './user'
 import { Slug } from './value-objects/slug'
 
 export interface DepartmentProps {
-  chiefId?: UniqueEntityID | null
   description: string
   slug: Slug
   email: string | null
+  chiefId: UniqueEntityID | null
+  chief?: User | null
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -38,11 +40,19 @@ export class Department extends Entity<DepartmentProps> {
   }
 
   get chiefId() {
-    return this.props.chiefId
+    const chiefId = this.props.chief ? this.props.chief.id : null
+
+    return chiefId
   }
 
-  set chiefId(chiefId: UniqueEntityID | null | undefined) {
-    this.props.chiefId = chiefId
+  get chief() {
+    return this.props.chief
+  }
+
+  set chief(chief: User | null | undefined) {
+    this.props.chief = chief
+    this.props.chiefId = chief ? chief.id : null
+
     this.touch()
   }
 
@@ -64,7 +74,6 @@ export class Department extends Entity<DepartmentProps> {
    * @example
    * // Creating a new department with all properties
    * const department = Department.create({
-   *   chiefId: new UniqueEntityID('chief-123'),
    *   description: 'Marketing Department',
    *   slug: Slug.create('marketing'),
    *   email: 'marketing@company.com',
@@ -75,11 +84,12 @@ export class Department extends Entity<DepartmentProps> {
    * @param {UniqueEntityID} id - Optional unique ID for the Department
    * @return {Department} A new Department instance
    */
-  static create(props: Optional<DepartmentProps, 'createdAt' | 'slug'>, id?: UniqueEntityID): Department {
+  static create(props: Optional<DepartmentProps, 'slug' | 'chiefId' | 'createdAt'>, id?: UniqueEntityID): Department {
     const department = new Department(
       {
         ...props,
         slug: props.slug ?? Slug.createFromText(props.description),
+        chiefId: props.chiefId ?? null,
         createdAt: props.createdAt ?? new Date(),
       },
       id,

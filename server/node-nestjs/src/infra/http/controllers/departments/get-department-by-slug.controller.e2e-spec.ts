@@ -32,8 +32,11 @@ describe('Get department by slug (E2E)', () => {
 
     expect(response.body.department).toEqual(
       expect.objectContaining({
-        description: department.description,
+        id: department.id.toString(),
+        slug: departmentSlug,
         email: department.email,
+        description: department.description,
+        chief: null,
       }),
     )
   })

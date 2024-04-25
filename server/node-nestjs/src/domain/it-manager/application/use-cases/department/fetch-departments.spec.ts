@@ -13,7 +13,7 @@ describe('Fetch departments', () => {
   })
 
   it('should be able to fetch many departments', async () => {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       departmentsRepository.items.push(makeDepartment())
     }
 
@@ -22,7 +22,7 @@ describe('Fetch departments', () => {
     expect(result.hasSucceeded()).toBeTruthy()
 
     if (result.hasSucceeded()) {
-      expect(result.result.departments).toHaveLength(3)
+      expect(result.result.departments).toHaveLength(5)
     }
   })
 })
