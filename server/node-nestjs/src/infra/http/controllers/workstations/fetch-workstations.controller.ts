@@ -1,15 +1,25 @@
-import { BadRequestException, Controller, Get } from '@nestjs/common'
+import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
+import { z } from 'zod'
 
+import { ZodValidationPipe } from '../../pipes/zod-validation-pipes'
 import { WorkstationPresenter } from '../../presenters/workstation-presenter'
 import { FetchWorkstationsUseCaseAdapter } from './adapters/fetch-workstations-adapter'
+
+const fetchWorkstationsQuerySchema = z.object({
+  department: z.string().optional(),
+})
+
+type FetchWorkstationsQuerySchema = z.infer<typeof fetchWorkstationsQuerySchema>
 
 @Controller('/workstations')
 export class FetchWorkstationsController {
   constructor(private fetchWorkstations: FetchWorkstationsUseCaseAdapter) {}
 
   @Get()
-  async handle() {
-    const result = await this.fetchWorkstations.execute()
+  async handle(@Query(new ZodValidationPipe(fetchWorkstationsQuerySchema)) query: FetchWorkstationsQuerySchema) {
+    const result = await this.fetchWorkstations.execute({
+      ...query,
+    })
 
     if (result.hasFailed()) {
       throw new BadRequestException(result.reason)

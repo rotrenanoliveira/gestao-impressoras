@@ -26,9 +26,7 @@
 
 - [x] Busca de departamentos por slug
 - [x] Busca de usuário por email e departamento
-- [ ] Busca de licenças por departamento
-- [ ] Busca de licenças por usuário
-- [ ] Busca de workstation por departamento
+- [x] Busca de workstation por departamento
 - [ ] Trazer com o departamento o chefe (nome)
 - [ ] Trazer com o usuário o departamento (slug, description), se é chefe de algum departamento (description), workstation (tag), license (ID userLicense, name)
 - [ ] Trazer com a licença se é usada por departamento ou usuário e o nome ou descrição do usuário da licença

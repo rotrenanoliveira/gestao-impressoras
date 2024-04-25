@@ -1,10 +1,29 @@
-import { WorkstationsRepository } from '@/domain/it-manager/application/repositories/workstations-repository'
+import {
+  WorkstationsFilterParams,
+  WorkstationsRepository,
+} from '@/domain/it-manager/application/repositories/workstations-repository'
 import { Workstation } from '@/domain/it-manager/enterprise/entities/workstation'
 
+import { InMemoryDepartmentsRepository } from './in-memory-departments-repository'
+
 export class InMemoryWorkstationsRepository implements WorkstationsRepository {
+  constructor(private departmentsRepository: InMemoryDepartmentsRepository) {}
+
   public items: Workstation[] = []
 
-  async findMany(): Promise<Workstation[]> {
+  async findMany(params: WorkstationsFilterParams): Promise<Workstation[]> {
+    if (params.department) {
+      const department = await this.departmentsRepository.findBySlug(params.department)
+
+      if (!department) {
+        return []
+      }
+
+      const workstations = this.items.filter((workstation) => workstation.departmentId === department.id)
+
+      return workstations
+    }
+
     const workstations = this.items
 
     return workstations

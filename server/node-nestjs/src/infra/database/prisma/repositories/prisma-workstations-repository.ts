@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common'
 
-import { WorkstationsRepository } from '@/domain/it-manager/application/repositories/workstations-repository'
+import {
+  WorkstationsFilterParams,
+  WorkstationsRepository,
+} from '@/domain/it-manager/application/repositories/workstations-repository'
 import { Workstation } from '@/domain/it-manager/enterprise/entities/workstation'
 
 import { PrismaWorkstationMapper } from '../mappers/prisma-workstation-mapper'
@@ -10,8 +13,14 @@ import { PrismaService } from '../prisma.service'
 export class PrismaWorkstationsRepository implements WorkstationsRepository {
   constructor(private prisma: PrismaService) {}
 
-  async findMany(): Promise<Workstation[]> {
-    const workstations = await this.prisma.workstation.findMany()
+  async findMany(params: WorkstationsFilterParams): Promise<Workstation[]> {
+    const workstations = await this.prisma.workstation.findMany({
+      where: {
+        department: {
+          slug: params.department,
+        },
+      },
+    })
 
     return workstations.map(PrismaWorkstationMapper.toDomain)
   }
