@@ -1,28 +1,21 @@
 import { Either, success } from '@/core/either'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { UseCase } from '@/core/use-cases/use-case'
 
 import { Department } from '../../../enterprise/entities/department'
 import { DepartmentsRepository } from '../../repositories/departments-repository'
 
-interface RegisterDepartmentUseCaseProps {
+interface CreateDepartmentUseCaseProps {
   description: string
   email: string | null
-  chiefId: string | null
 }
 
-type RegisterDepartmentUseCaseResponse = Either<void, { department: Department }>
+type CreateDepartmentUseCaseResponse = Either<void, { department: Department }>
 
-export class RegisterDepartmentUseCase implements UseCase {
+export class CreateDepartmentUseCase implements UseCase {
   constructor(private departmentsRepository: DepartmentsRepository) {}
 
-  async execute({
-    description,
-    email,
-    chiefId,
-  }: RegisterDepartmentUseCaseProps): Promise<RegisterDepartmentUseCaseResponse> {
+  async execute({ description, email }: CreateDepartmentUseCaseProps): Promise<CreateDepartmentUseCaseResponse> {
     const department = Department.create({
-      chiefId: chiefId ? new UniqueEntityID(chiefId) : null,
       description,
       email,
     })

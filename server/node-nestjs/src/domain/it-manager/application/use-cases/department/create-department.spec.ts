@@ -1,24 +1,21 @@
 import { InMemoryDepartmentsRepository } from 'test/repositories/in-memory-departments-repository'
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-
 import { Slug } from '../../../enterprise/entities/value-objects/slug'
-import { RegisterDepartmentUseCase } from './register-department'
+import { CreateDepartmentUseCase } from './create-department'
 
 let departmentsRepository: InMemoryDepartmentsRepository
-let sut: RegisterDepartmentUseCase
+let sut: CreateDepartmentUseCase
 
-describe('Register department', () => {
+describe('Create department', () => {
   beforeEach(() => {
     departmentsRepository = new InMemoryDepartmentsRepository()
-    sut = new RegisterDepartmentUseCase(departmentsRepository)
+    sut = new CreateDepartmentUseCase(departmentsRepository)
   })
 
-  it('should be able to register department', async () => {
+  it('should be able to create department', async () => {
     const result = await sut.execute({
       description: 'Department 01',
       email: 'department@example.com',
-      chiefId: 'department-01',
     })
 
     expect(result.hasSucceeded()).toBe(true)
@@ -28,8 +25,8 @@ describe('Register department', () => {
         expect.objectContaining({
           description: 'Department 01',
           email: 'department@example.com',
-          chiefId: new UniqueEntityID('department-01'),
           slug: Slug.createFromText('Department 01'),
+          createdAt: expect.any(Date),
         }),
       )
     }
