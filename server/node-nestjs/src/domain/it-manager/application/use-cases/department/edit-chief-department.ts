@@ -1,8 +1,8 @@
 import { Either, failure, success } from '@/core/either'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found'
 import { UseCase } from '@/core/use-cases/use-case'
 import { Department } from '@/domain/it-manager/enterprise/entities/department'
-import { User } from '@/domain/it-manager/enterprise/entities/user'
 
 import { DepartmentsRepository } from '../../repositories/departments-repository'
 import { UsersRepository } from '../../repositories/users-repository'
@@ -30,19 +30,15 @@ export class EditChiefDepartmentUseCase implements UseCase {
       return failure(new ResourceNotFoundError(`Department with id ${departmentId} not found`))
     }
 
-    let user: User | null = null
-
     if (chiefId) {
       const userOnRepository = await this.usersRepository.findById(chiefId)
 
       if (!userOnRepository) {
         return failure(new ResourceNotFoundError(`User with id ${chiefId} not found`))
       }
-
-      user = userOnRepository
     }
 
-    department.chief = chiefId ? user : null
+    department.chiefId = chiefId ? new UniqueEntityID(chiefId) : null
 
     await this.departmentsRepository.save(department)
 

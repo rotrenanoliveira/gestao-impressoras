@@ -39,29 +39,3 @@
 Pensar uma maneira de autenticar, já que não será realizada por usuário e sim via API Key... pois os usuários podem e vão autenticar o frontend para visualizar as informações mas a maneira que o frontend e o backend será integrado será via API Key
 
 Para as funções do frontend a autenticação será via RBAC
-
-```ts
-export interface DepartmentProps {
-  description: string
-  slug: Slug
-  email: string | null
-  chiefId?: UniqueEntityID | null
-  chief?: User | null
-  createdAt: Date
-  updatedAt?: Date | null
-}
-```
-
-```ts
-export interface UserProps {
-  name: string
-  email: string
-  phone: Phone | null
-  badge: string
-  status: 'ACTIVE' | 'INACTIVE'
-  departmentId: UniqueEntityID
-  workstationId: UniqueEntityID | null
-  createdAt: Date
-  updatedAt?: Date | null
-}
-```

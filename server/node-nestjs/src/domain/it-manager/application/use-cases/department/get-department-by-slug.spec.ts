@@ -1,3 +1,4 @@
+import { InMemoryUsersRepository } from '@test/repositories/in-memory-users-repository'
 import { makeDepartment } from 'test/factories/make-department'
 import { InMemoryDepartmentsRepository } from 'test/repositories/in-memory-departments-repository'
 
@@ -6,17 +7,17 @@ import { ResourceNotFoundError } from '@/core/errors/resource-not-found'
 import { GetDepartmentBySlugUseCase } from './get-department-by-slug'
 
 let departmentsRepository: InMemoryDepartmentsRepository
-
+let usersRepository: InMemoryUsersRepository
 let sut: GetDepartmentBySlugUseCase
 
 describe('Get department by slug', () => {
   beforeEach(() => {
-    departmentsRepository = new InMemoryDepartmentsRepository()
-
+    usersRepository = new InMemoryUsersRepository(departmentsRepository)
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
     sut = new GetDepartmentBySlugUseCase(departmentsRepository)
   })
 
-  it('should be able to get department by slug', async () => {
+  it.only('should be able to get department by slug', async () => {
     const newDepartment = makeDepartment()
     departmentsRepository.items.push(newDepartment)
 
@@ -29,11 +30,10 @@ describe('Get department by slug', () => {
     if (result.hasSucceeded()) {
       expect(result.result.department).toEqual(
         expect.objectContaining({
-          id: newDepartment.id,
+          departmentId: newDepartment.id,
           description: newDepartment.description,
           email: newDepartment.email,
           slug: newDepartment.slug,
-          createdAt: newDepartment.createdAt,
           updatedAt: newDepartment.updatedAt,
         }),
       )

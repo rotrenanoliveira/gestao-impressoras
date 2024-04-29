@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common'
 
 import { DepartmentsRepository } from '@/domain/it-manager/application/repositories/departments-repository'
 import { Department } from '@/domain/it-manager/enterprise/entities/department'
+import { DepartmentWithChiefDetails } from '@/domain/it-manager/enterprise/entities/value-objects/department-with-chief-details'
 
+import { PrismaDepartmentWithChiefMapper } from '../mappers/prisma-department-with-chief-mapper'
 import { PrismaDepartmentsMapper } from '../mappers/prisma-departments-mapper'
 import { PrismaService } from '../prisma.service'
 
@@ -18,6 +20,21 @@ export class PrismaDepartmentsRepository implements DepartmentsRepository {
     })
 
     return departments.map(PrismaDepartmentsMapper.toDomain)
+  }
+
+  async findManyWithChiefs(): Promise<DepartmentWithChiefDetails[]> {
+    const departments = await this.prisma.department.findMany({
+      include: {
+        chief: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    })
+
+    return departments.map(PrismaDepartmentWithChiefMapper.toDomain)
   }
 
   async findById(id: string): Promise<Department | null> {
@@ -37,13 +54,18 @@ export class PrismaDepartmentsRepository implements DepartmentsRepository {
     return PrismaDepartmentsMapper.toDomain(department)
   }
 
-  async findBySlug(slug: string): Promise<Department | null> {
+  async findBySlug(slug: string): Promise<DepartmentWithChiefDetails | null> {
     const department = await this.prisma.department.findUnique({
       where: {
         slug,
       },
       include: {
-        chief: true,
+        chief: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     })
 
@@ -51,7 +73,7 @@ export class PrismaDepartmentsRepository implements DepartmentsRepository {
       return null
     }
 
-    return PrismaDepartmentsMapper.toDomain(department)
+    return PrismaDepartmentWithChiefMapper.toDomain(department)
   }
 
   async create(department: Department): Promise<void> {

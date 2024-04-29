@@ -31,7 +31,7 @@ describe('Register department (E2E)', () => {
         slug: 'product-design',
         description: 'Product Design',
         email: 'product.design@example.com',
-        chief: null,
+        chiefId: null,
       }),
     })
   })

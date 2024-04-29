@@ -2,7 +2,7 @@ import { BadRequestException, Controller, Get, NotFoundException, Param } from '
 
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found'
 
-import { DepartmentPresenter } from '../../presenters/department-presenter'
+import { DepartmentWithChiefPresenter } from '../../presenters/department-with-chief-presenter'
 import { GetDepartmentBySlugUseCaseAdapter } from './adapters/get-department-by-slug-adapter'
 
 @Controller('departments/:slug')
@@ -29,7 +29,7 @@ export class GetDepartmentBySlugController {
     const department = result.result.department
 
     return {
-      department: DepartmentPresenter.toHTTP(department),
+      department: DepartmentWithChiefPresenter.toHTTP(department),
     }
   }
 }

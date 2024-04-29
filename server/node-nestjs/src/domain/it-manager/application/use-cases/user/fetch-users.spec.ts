@@ -11,7 +11,7 @@ let sut: FetchUsersUseCase
 
 describe('Fetch users', () => {
   beforeEach(() => {
-    departmentsRepository = new InMemoryDepartmentsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
     usersRepository = new InMemoryUsersRepository(departmentsRepository)
     sut = new FetchUsersUseCase(usersRepository)
   })

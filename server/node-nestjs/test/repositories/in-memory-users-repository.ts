@@ -38,7 +38,7 @@ export class InMemoryUsersRepository implements UsersRepository {
       const departmentOnRepository = await this.departmentsRepository.findBySlug(department)
 
       const users = departmentOnRepository
-        ? this.items.filter((user) => user.departmentId === departmentOnRepository.id)
+        ? this.items.filter((user) => user.departmentId === departmentOnRepository.departmentId)
         : []
 
       return users
@@ -49,7 +49,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
       const users = departmentOnRepository
         ? this.items
-            .filter((user) => user.departmentId === departmentOnRepository.id)
+            .filter((user) => user.departmentId === departmentOnRepository.departmentId)
             .filter((user) => user.email === email)
         : []
 

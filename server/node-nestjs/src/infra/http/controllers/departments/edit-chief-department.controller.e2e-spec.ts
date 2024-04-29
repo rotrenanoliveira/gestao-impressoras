@@ -56,13 +56,13 @@ describe('Edit chief to department (E2E)', () => {
     expect(updateResponse.body).toEqual({
       department: expect.objectContaining({
         id: departmentId,
-        email: department.email,
-        slug: department.slug.value,
         description: department.description,
-        chief: {
+        slug: department.slug.value,
+        email: department.email,
+        chief: expect.objectContaining({
           id: newChief.id.toString(),
           name: newChief.name,
-        },
+        }),
         updatedAt: expect.any(String),
       }),
     })

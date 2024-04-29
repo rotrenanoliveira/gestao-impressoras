@@ -11,7 +11,7 @@ let sut: EditChiefDepartmentUseCase
 
 describe('Edit chief department', () => {
   beforeEach(() => {
-    departmentsRepository = new InMemoryDepartmentsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
     usersRepository = new InMemoryUsersRepository(departmentsRepository)
     sut = new EditChiefDepartmentUseCase(departmentsRepository, usersRepository)
   })
@@ -30,7 +30,6 @@ describe('Edit chief department', () => {
     const department = makeDepartment({
       description: 'Product Design',
       chiefId: pastChief.id,
-      chief: pastChief,
     })
 
     departmentsRepository.items.push(department)
@@ -44,9 +43,8 @@ describe('Edit chief department', () => {
     expect(result.hasSucceeded()).toBeTruthy()
 
     if (result.hasSucceeded()) {
-      const { chief: chiefOnDepartment, chiefId } = result.result.department
+      const { chiefId } = result.result.department
 
-      expect(chiefOnDepartment).toEqual(newChief)
       expect(chiefId).toEqual(newChief.id)
     }
   })
@@ -60,7 +58,6 @@ describe('Edit chief department', () => {
     const department = makeDepartment({
       description: 'Product Design',
       chiefId: chief.id,
-      chief,
     })
 
     departmentsRepository.items.push(department)
@@ -74,9 +71,8 @@ describe('Edit chief department', () => {
     expect(result.hasSucceeded()).toBeTruthy()
 
     if (result.hasSucceeded()) {
-      const { chief: chiefOnDepartment, chiefId } = result.result.department
+      const { chiefId } = result.result.department
 
-      expect(chiefOnDepartment).toBeNull()
       expect(chiefId).toBeNull()
     }
   })

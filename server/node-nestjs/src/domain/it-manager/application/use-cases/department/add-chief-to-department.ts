@@ -1,4 +1,5 @@
 import { Either, failure, success } from '@/core/either'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/core/errors/resource-not-found'
 import { UseCase } from '@/core/use-cases/use-case'
 import { Department } from '@/domain/it-manager/enterprise/entities/department'
@@ -33,7 +34,7 @@ export class AddChiefToDepartmentUseCase implements UseCase {
       return failure(new ResourceNotFoundError(`User with id ${chiefId} not found`))
     }
 
-    department.chief = user
+    department.chiefId = new UniqueEntityID(chiefId)
 
     await this.departmentsRepository.save(department)
 

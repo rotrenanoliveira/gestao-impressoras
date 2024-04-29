@@ -1,14 +1,17 @@
+import { InMemoryUsersRepository } from '@test/repositories/in-memory-users-repository'
 import { makeDepartment } from 'test/factories/make-department'
 import { InMemoryDepartmentsRepository } from 'test/repositories/in-memory-departments-repository'
 
 import { FetchDepartmentsUseCase } from './fetch-departments'
 
 let departmentsRepository: InMemoryDepartmentsRepository
+let usersRepository: InMemoryUsersRepository
 let sut: FetchDepartmentsUseCase
 
 describe('Fetch departments', () => {
   beforeEach(() => {
-    departmentsRepository = new InMemoryDepartmentsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
+    usersRepository = new InMemoryUsersRepository(departmentsRepository)
     sut = new FetchDepartmentsUseCase(departmentsRepository)
   })
 

@@ -14,7 +14,6 @@ export class PrismaDepartmentsMapper {
   static toDomain(raw: PrismaDepartmentWithChief): Department {
     const slug = Slug.create(raw.slug)
 
-    const chief = raw.chief ? PrismaUserMapper.toDomain(raw.chief) : null
     const chiefId = raw.chiefId ? new UniqueEntityID(raw.chiefId) : null
 
     return Department.create(
@@ -24,7 +23,6 @@ export class PrismaDepartmentsMapper {
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
         chiefId,
-        chief,
         slug,
       },
       new UniqueEntityID(raw.id),
@@ -32,7 +30,7 @@ export class PrismaDepartmentsMapper {
   }
 
   static toPersistence(department: Department): Prisma.DepartmentUncheckedCreateInput {
-    const chiefId = department.chief ? department.chief.id.toString() : null
+    const chiefId = department.chiefId ? department.chiefId.toString() : null
 
     return {
       id: department.id.toString(),

@@ -2,7 +2,6 @@ import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
-import { User } from './user'
 import { Slug } from './value-objects/slug'
 
 export interface DepartmentProps {
@@ -10,7 +9,6 @@ export interface DepartmentProps {
   slug: Slug
   email: string | null
   chiefId: UniqueEntityID | null
-  chief?: User | null
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -40,19 +38,13 @@ export class Department extends Entity<DepartmentProps> {
   }
 
   get chiefId() {
-    const chiefId = this.props.chief ? this.props.chief.id : null
+    const chiefId = this.props.chiefId
 
     return chiefId
   }
 
-  get chief() {
-    return this.props.chief
-  }
-
-  set chief(chief: User | null | undefined) {
-    this.props.chief = chief
-    this.props.chiefId = chief ? chief.id : null
-
+  set chiefId(chiefId: UniqueEntityID | null) {
+    this.props.chiefId = chiefId
     this.touch()
   }
 

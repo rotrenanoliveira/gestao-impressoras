@@ -11,7 +11,7 @@ let sut: AddChiefToDepartmentUseCase
 
 describe('Add chief to department', () => {
   beforeEach(() => {
-    departmentsRepository = new InMemoryDepartmentsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
     usersRepository = new InMemoryUsersRepository(departmentsRepository)
     sut = new AddChiefToDepartmentUseCase(departmentsRepository, usersRepository)
   })
@@ -38,10 +38,9 @@ describe('Add chief to department', () => {
 
     if (result.hasSucceeded()) {
       const departmentOnRepository = departmentsRepository.items.find((d) => d.id === department.id)
-      expect(departmentOnRepository?.chief).toEqual(chief)
+      expect(departmentOnRepository?.chiefId).toEqual(chief.id)
 
-      const { chief: departmentChief, chiefId } = result.result.department
-      expect(departmentChief).toEqual(chief)
+      const { chiefId } = result.result.department
       expect(chiefId).toEqual(chief.id)
     }
   })

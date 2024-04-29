@@ -19,7 +19,7 @@ export class InMemoryWorkstationsRepository implements WorkstationsRepository {
         return []
       }
 
-      const workstations = this.items.filter((workstation) => workstation.departmentId === department.id)
+      const workstations = this.items.filter((workstation) => workstation.departmentId === department.departmentId)
 
       return workstations
     }
