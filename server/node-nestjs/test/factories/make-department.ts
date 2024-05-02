@@ -12,7 +12,6 @@ export function makeDepartment(override: Partial<DepartmentProps> = {}, id?: Uni
       description: faker.person.jobArea().concat(faker.lorem.words(3)),
       email: faker.internet.email(),
       chiefId: null,
-      chief: null,
       ...override,
     },
     id,
