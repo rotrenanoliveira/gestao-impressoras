@@ -1,3 +1,4 @@
+import { InMemoryDepartmentsRepository } from '@test/repositories/in-memory-departments-repository'
 import { makeUser } from 'test/factories/make-user'
 import { makeWorkstation } from 'test/factories/make-workstation'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
@@ -5,14 +6,16 @@ import { InMemoryWorkstationsRepository } from 'test/repositories/in-memory-work
 
 import { FetchUsersByWorkstationUseCase } from './fetch-users-by-workstation'
 
+let departmentsRepository: InMemoryDepartmentsRepository
 let workstationsRepository: InMemoryWorkstationsRepository
 let usersRepository: InMemoryUsersRepository
 let sut: FetchUsersByWorkstationUseCase
 
 describe('Fetch users by workstation', () => {
   beforeEach(() => {
-    workstationsRepository = new InMemoryWorkstationsRepository()
-    usersRepository = new InMemoryUsersRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
+    workstationsRepository = new InMemoryWorkstationsRepository(departmentsRepository)
+    usersRepository = new InMemoryUsersRepository(departmentsRepository)
     sut = new FetchUsersByWorkstationUseCase(usersRepository)
   })
 

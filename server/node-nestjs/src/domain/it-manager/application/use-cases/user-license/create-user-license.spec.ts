@@ -20,8 +20,8 @@ describe('Register User License', () => {
   beforeEach(() => {
     usersLicensesRepository = new InMemoryUserLicensesRepository()
     licensesRepository = new InMemoryLicensesRepository()
-    usersRepository = new InMemoryUsersRepository()
-    departmentsRepository = new InMemoryDepartmentsRepository()
+    usersRepository = new InMemoryUsersRepository(departmentsRepository)
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
     sut = new CreateUserLicenseUseCase(
       usersLicensesRepository,
       licensesRepository,

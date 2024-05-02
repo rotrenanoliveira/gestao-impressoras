@@ -11,8 +11,8 @@ let sut: EditUserUseCase
 
 describe('Edit user', () => {
   beforeEach(() => {
-    usersRepository = new InMemoryUsersRepository()
-    departmentsRepository = new InMemoryDepartmentsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
+    usersRepository = new InMemoryUsersRepository(departmentsRepository)
     sut = new EditUserUseCase(usersRepository, departmentsRepository)
   })
 

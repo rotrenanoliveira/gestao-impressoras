@@ -1,3 +1,4 @@
+import { InMemoryUsersRepository } from '@test/repositories/in-memory-users-repository'
 import { makeComputer } from 'test/factories/make-computer'
 import { makeDepartment } from 'test/factories/make-department'
 import { InMemoryComputersRepository } from 'test/repositories/in-memory-computers-repository'
@@ -7,15 +8,16 @@ import { InMemoryWorkstationsRepository } from 'test/repositories/in-memory-work
 import { CreateWorkstationUseCase } from './create-workstation'
 
 let departmentsRepository: InMemoryDepartmentsRepository
+let usersRepository: InMemoryUsersRepository
 let computersRepository: InMemoryComputersRepository
 let workstationsRepository: InMemoryWorkstationsRepository
 let sut: CreateWorkstationUseCase
 
 describe('Register workstation', () => {
   beforeEach(() => {
-    departmentsRepository = new InMemoryDepartmentsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
     computersRepository = new InMemoryComputersRepository()
-    workstationsRepository = new InMemoryWorkstationsRepository()
+    workstationsRepository = new InMemoryWorkstationsRepository(departmentsRepository)
     sut = new CreateWorkstationUseCase(workstationsRepository, departmentsRepository, computersRepository)
   })
 

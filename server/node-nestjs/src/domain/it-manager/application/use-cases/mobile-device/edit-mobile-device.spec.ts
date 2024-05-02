@@ -1,3 +1,4 @@
+import { InMemoryUsersRepository } from '@test/repositories/in-memory-users-repository'
 import { makeContract } from 'test/factories/make-contract'
 import { makeDepartment } from 'test/factories/make-department'
 import { makeMobileDevice } from 'test/factories/make-mobile-device'
@@ -9,14 +10,16 @@ import { EditMobileDeviceUseCase } from './edit-mobile-device'
 
 let mobileDevicesRepository: InMemoryMobileDevicesRepository
 let contractsRepository: InMemoryContractsRepository
+let usersRepository: InMemoryUsersRepository
 let departmentsRepository: InMemoryDepartmentsRepository
 let sut: EditMobileDeviceUseCase
 
 describe('Register mobile device', () => {
   beforeEach(() => {
+    usersRepository = new InMemoryUsersRepository(departmentsRepository)
     mobileDevicesRepository = new InMemoryMobileDevicesRepository()
     contractsRepository = new InMemoryContractsRepository()
-    departmentsRepository = new InMemoryDepartmentsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
     sut = new EditMobileDeviceUseCase(mobileDevicesRepository, contractsRepository, departmentsRepository)
   })
 

@@ -1,14 +1,20 @@
+import { InMemoryDepartmentsRepository } from '@test/repositories/in-memory-departments-repository'
+import { InMemoryUsersRepository } from '@test/repositories/in-memory-users-repository'
 import { makeWorkstation } from 'test/factories/make-workstation'
 import { InMemoryWorkstationsRepository } from 'test/repositories/in-memory-workstations-repository'
 
 import { GetWorkstationByIdUseCase } from './get-workstation-by-id'
 
+let usersRepository: InMemoryUsersRepository
+let departmentsRepository: InMemoryDepartmentsRepository
 let workstationsRepository: InMemoryWorkstationsRepository
 let sut: GetWorkstationByIdUseCase
 
 describe('Get workstation by id', () => {
   beforeEach(() => {
-    workstationsRepository = new InMemoryWorkstationsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
+    workstationsRepository = new InMemoryWorkstationsRepository(departmentsRepository)
+    usersRepository = new InMemoryUsersRepository(departmentsRepository)
     sut = new GetWorkstationByIdUseCase(workstationsRepository)
   })
 

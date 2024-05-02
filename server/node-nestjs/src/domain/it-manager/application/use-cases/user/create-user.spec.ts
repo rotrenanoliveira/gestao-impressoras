@@ -11,8 +11,8 @@ let sut: CreateUserUseCase
 
 describe('Register user', () => {
   beforeEach(() => {
-    usersRepository = new InMemoryUsersRepository()
-    departmentsRepository = new InMemoryDepartmentsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
+    usersRepository = new InMemoryUsersRepository(departmentsRepository)
     sut = new CreateUserUseCase(usersRepository, departmentsRepository)
   })
 

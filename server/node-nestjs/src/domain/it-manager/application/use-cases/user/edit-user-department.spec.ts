@@ -7,14 +7,14 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 import { EditUserDepartmentUseCase } from './edit-user-department'
 
-let usersRepository: InMemoryUsersRepository
 let departmentsRepository: InMemoryDepartmentsRepository
+let usersRepository: InMemoryUsersRepository
 let sut: EditUserDepartmentUseCase
 
 describe('Edit user department', () => {
   beforeEach(() => {
-    usersRepository = new InMemoryUsersRepository()
-    departmentsRepository = new InMemoryDepartmentsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
+    usersRepository = new InMemoryUsersRepository(departmentsRepository)
     sut = new EditUserDepartmentUseCase(usersRepository, departmentsRepository)
   })
 

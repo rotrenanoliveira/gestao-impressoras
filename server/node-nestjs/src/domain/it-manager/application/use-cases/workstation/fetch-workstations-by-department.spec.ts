@@ -1,3 +1,5 @@
+import { InMemoryDepartmentsRepository } from '@test/repositories/in-memory-departments-repository'
+import { InMemoryUsersRepository } from '@test/repositories/in-memory-users-repository'
 import { makeDepartment } from 'test/factories/make-department'
 import { makeWorkstation } from 'test/factories/make-workstation'
 import { InMemoryWorkstationsRepository } from 'test/repositories/in-memory-workstations-repository'
@@ -6,12 +8,16 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 import { FetchWorkstationsByDepartmentUseCase } from './fetch-workstations-by-department'
 
+let departmentsRepository: InMemoryDepartmentsRepository
+let usersRepository: InMemoryUsersRepository
 let workstationsRepository: InMemoryWorkstationsRepository
 let sut: FetchWorkstationsByDepartmentUseCase
 
 describe('Fetch workstations by department', () => {
   beforeEach(() => {
-    workstationsRepository = new InMemoryWorkstationsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
+    usersRepository = new InMemoryUsersRepository(departmentsRepository)
+    workstationsRepository = new InMemoryWorkstationsRepository(departmentsRepository)
     sut = new FetchWorkstationsByDepartmentUseCase(workstationsRepository)
   })
 

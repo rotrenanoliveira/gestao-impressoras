@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import { InMemoryDepartmentsRepository } from '@test/repositories/in-memory-departments-repository'
 import { makeUser } from 'test/factories/make-user'
 import { makeWorkstation } from 'test/factories/make-workstation'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
@@ -7,13 +8,15 @@ import { InMemoryWorkstationsRepository } from 'test/repositories/in-memory-work
 import { AddUserToWorkstationUseCase } from './add-user-to-workstation'
 
 let usersRepository: InMemoryUsersRepository
+let departmentsRepository: InMemoryDepartmentsRepository
 let workstationsRepository: InMemoryWorkstationsRepository
 let sut: AddUserToWorkstationUseCase
 
 describe('Add user to workstation', () => {
   beforeEach(() => {
-    usersRepository = new InMemoryUsersRepository()
-    workstationsRepository = new InMemoryWorkstationsRepository()
+    departmentsRepository = new InMemoryDepartmentsRepository(usersRepository)
+    workstationsRepository = new InMemoryWorkstationsRepository(departmentsRepository)
+    usersRepository = new InMemoryUsersRepository(departmentsRepository)
     sut = new AddUserToWorkstationUseCase(usersRepository, workstationsRepository)
   })
 
