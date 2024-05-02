@@ -10,7 +10,6 @@ interface EditContractUseCaseProps {
   description: string
   type: 'rental' | 'loan'
   contactEmail: string
-  endAt: Date | null
 }
 
 type EditContractUseCaseResponse = Either<ResourceNotFoundError, { contract: Contract }>
@@ -23,7 +22,6 @@ export class EditContractUseCase implements UseCase {
     description,
     type,
     contactEmail,
-    endAt,
   }: EditContractUseCaseProps): Promise<EditContractUseCaseResponse> {
     const contract = await this.contractsRepository.findById(contractId)
 
@@ -34,7 +32,6 @@ export class EditContractUseCase implements UseCase {
     contract.description = description
     contract.type = type
     contract.contactEmail = contactEmail
-    contract.endAt = endAt
 
     await this.contractsRepository.save(contract)
 
